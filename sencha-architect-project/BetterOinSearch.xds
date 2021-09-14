@@ -12,7 +12,7 @@
         "generateArchitectVersion": false,
         "spacesToIndent": "tab",
         "lineEnding": "CRLF",
-        "genTimestamps": true,
+        "genTimestamps": false,
         "cacheBust": true,
         "installStatus": "Not Installed",
         "canvasControls": {

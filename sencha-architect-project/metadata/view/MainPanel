@@ -199,8 +199,6 @@
                                     "userConfig": {
                                         "fn": "onGridpanelSelectionChange",
                                         "implHandler": [
-                                            "console.log(selected);",
-                                            "",
                                             "let cat = selected[0].data.category;",
                                             "",
                                             "if(cat==='All'){ //1 = All",
@@ -295,6 +293,40 @@
                                     "codeClass": null,
                                     "name": "MyCheckboxSelectionModel",
                                     "designerId": "02058892-d5df-4782-97b7-77ae7ae4fa45"
+                                },
+                                {
+                                    "type": "basiceventbinding",
+                                    "reference": {
+                                        "name": "listeners",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "fn": "onGridpanelSelectionChange1",
+                                        "implHandler": [
+                                            "this.capabilityFilter = [];",
+                                            "",
+                                            "Ext.each(selected, function(sel){",
+                                            "\tthis.capabilityFilter.push({",
+                                            "\t\tproperty:sel.data.filter,",
+                                            "\t\tvalue:'YES',",
+                                            "\t\texactMatch:true",
+                                            "\t});",
+                                            "}, this);",
+                                            "",
+                                            "this.updateFilters();"
+                                        ],
+                                        "name": "selectionchange",
+                                        "scope": "me"
+                                    },
+                                    "configAlternates": {
+                                        "fn": "string",
+                                        "implHandler": "code",
+                                        "name": "string",
+                                        "scope": "string"
+                                    },
+                                    "name": "onGridpanelSelectionChange1",
+                                    "designerId": "4c75b669-f4a2-4c43-9aed-fcc7758d5dd0"
                                 }
                             ]
                         }
@@ -876,6 +908,7 @@
                                             },
                                             "codeClass": null,
                                             "userConfig": {
+                                                "dataIndex": "OIDC",
                                                 "text": "OIDC",
                                                 "userCls": [
                                                     "rotate-grid-headers"
@@ -885,10 +918,107 @@
                                             "configAlternates": {
                                                 "text": "string",
                                                 "width": "auto",
+                                                "dataIndex": "datafield",
                                                 "userCls": "typedarray"
                                             },
                                             "name": "MyColumn6",
-                                            "designerId": "de3109c3-4666-46e2-96dc-fbd8c919936a"
+                                            "designerId": "de3109c3-4666-46e2-96dc-fbd8c919936a",
+                                            "cn": [
+                                                {
+                                                    "type": "fixedfunction",
+                                                    "reference": {
+                                                        "name": "items",
+                                                        "type": "array"
+                                                    },
+                                                    "codeClass": null,
+                                                    "userConfig": {
+                                                        "designer|params": [
+                                                            "value",
+                                                            "metaData",
+                                                            "record",
+                                                            "rowIndex",
+                                                            "colIndex",
+                                                            "store",
+                                                            "view"
+                                                        ],
+                                                        "fn": "renderer",
+                                                        "implHandler": [
+                                                            "if(value==='YES'){",
+                                                            "\treturn String.fromCodePoint(0x2705);",
+                                                            "}",
+                                                            "return '';"
+                                                        ]
+                                                    },
+                                                    "configAlternates": {
+                                                        "designer|params": "typedarray",
+                                                        "fn": "string",
+                                                        "implHandler": "code"
+                                                    },
+                                                    "name": "renderer",
+                                                    "designerId": "d3c0ccda-d4bc-4f0a-9f5f-0e34096a933d"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "type": "Ext.grid.column.Column",
+                                            "reference": {
+                                                "name": "columns",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "dataIndex": "WSFED",
+                                                "exportRenderer": true,
+                                                "text": "WS Fed",
+                                                "userCls": [
+                                                    "rotate-grid-headers"
+                                                ],
+                                                "width": 50
+                                            },
+                                            "configAlternates": {
+                                                "text": "string",
+                                                "width": "auto",
+                                                "userCls": "typedarray",
+                                                "dataIndex": "datafield",
+                                                "exportRenderer": "boolean"
+                                            },
+                                            "name": "MyColumn36",
+                                            "designerId": "233f54b4-2d64-41ed-a5f5-d0f659e0d0cc",
+                                            "cn": [
+                                                {
+                                                    "type": "fixedfunction",
+                                                    "reference": {
+                                                        "name": "items",
+                                                        "type": "array"
+                                                    },
+                                                    "codeClass": null,
+                                                    "userConfig": {
+                                                        "designer|params": [
+                                                            "value",
+                                                            "metaData",
+                                                            "record",
+                                                            "rowIndex",
+                                                            "colIndex",
+                                                            "store",
+                                                            "view"
+                                                        ],
+                                                        "fn": "renderer",
+                                                        "implHandler": [
+                                                            "if(value==='YES'){",
+                                                            "\treturn String.fromCodePoint(0x2705);",
+                                                            "}",
+                                                            "return '';"
+                                                        ]
+                                                    },
+                                                    "configAlternates": {
+                                                        "designer|params": "typedarray",
+                                                        "fn": "string",
+                                                        "implHandler": "code"
+                                                    },
+                                                    "name": "renderer",
+                                                    "designerId": "6528fc4c-3b90-4fb7-a8fd-2992c5c93310"
+                                                }
+                                            ]
                                         }
                                     ]
                                 },
@@ -1628,6 +1758,222 @@
                                     "designerId": "35a629dd-901a-459c-9f82-e44e31c6c137"
                                 },
                                 {
+                                    "type": "Ext.grid.column.Column",
+                                    "reference": {
+                                        "name": "columns",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "dataIndex": "VerificationStatus",
+                                        "text": "Verification Status"
+                                    },
+                                    "configAlternates": {
+                                        "dataIndex": "datafield",
+                                        "text": "string"
+                                    },
+                                    "name": "MyColumn66",
+                                    "designerId": "ca42a20d-863b-4891-a22c-d88bdd1c696c"
+                                },
+                                {
+                                    "type": "Ext.grid.column.Column",
+                                    "reference": {
+                                        "name": "columns",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "dataIndex": "GroupPush",
+                                        "text": "Group Push"
+                                    },
+                                    "configAlternates": {
+                                        "dataIndex": "datafield",
+                                        "text": "string"
+                                    },
+                                    "name": "MyColumn67",
+                                    "designerId": "edae9ca6-fe82-4add-ae27-874349c1700e"
+                                },
+                                {
+                                    "type": "Ext.grid.column.Column",
+                                    "reference": {
+                                        "name": "columns",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "dataIndex": "GroupSync",
+                                        "text": "Group Sync"
+                                    },
+                                    "configAlternates": {
+                                        "dataIndex": "datafield",
+                                        "text": "string"
+                                    },
+                                    "name": "MyColumn68",
+                                    "designerId": "90034ea0-a164-4673-8a55-6a1613e82db2"
+                                },
+                                {
+                                    "type": "Ext.grid.column.Column",
+                                    "reference": {
+                                        "name": "columns",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "dataIndex": "ImportUserSchema",
+                                        "text": "Import User Schema"
+                                    },
+                                    "configAlternates": {
+                                        "dataIndex": "datafield",
+                                        "text": "string"
+                                    },
+                                    "name": "MyColumn69",
+                                    "designerId": "66b508b6-2a51-4942-a972-0aae160b66c6"
+                                },
+                                {
+                                    "type": "Ext.grid.column.Column",
+                                    "reference": {
+                                        "name": "columns",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "dataIndex": "ProfileMastering",
+                                        "text": "Profile Mastering"
+                                    },
+                                    "configAlternates": {
+                                        "dataIndex": "datafield",
+                                        "text": "string"
+                                    },
+                                    "name": "MyColumn70",
+                                    "designerId": "812bd8b4-3c9e-4d82-a81d-c25699926417"
+                                },
+                                {
+                                    "type": "Ext.grid.column.Column",
+                                    "reference": {
+                                        "name": "columns",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "dataIndex": "SCIM",
+                                        "text": "Scim"
+                                    },
+                                    "configAlternates": {
+                                        "dataIndex": "datafield",
+                                        "text": "string"
+                                    },
+                                    "name": "MyColumn71",
+                                    "designerId": "35a3d13e-bc0d-4f65-939d-81d22b93f9cb"
+                                },
+                                {
+                                    "type": "Ext.grid.column.Column",
+                                    "reference": {
+                                        "name": "columns",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "dataIndex": "IntegrationApp",
+                                        "text": "Integration App"
+                                    },
+                                    "configAlternates": {
+                                        "dataIndex": "datafield",
+                                        "text": "string"
+                                    },
+                                    "name": "MyColumn72",
+                                    "designerId": "415af435-db0f-4dec-aec9-92fe4b4b14e7"
+                                },
+                                {
+                                    "type": "Ext.grid.column.Column",
+                                    "reference": {
+                                        "name": "columns",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "dataIndex": "AppLinksJSON",
+                                        "text": "App Links Json"
+                                    },
+                                    "configAlternates": {
+                                        "dataIndex": "datafield",
+                                        "text": "string"
+                                    },
+                                    "name": "MyColumn73",
+                                    "designerId": "b9045260-fd8e-4021-a9e6-a46a6e0912d3"
+                                },
+                                {
+                                    "type": "Ext.grid.column.Column",
+                                    "reference": {
+                                        "name": "columns",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "dataIndex": "VersionCreatedDate",
+                                        "text": "Version Created Date"
+                                    },
+                                    "configAlternates": {
+                                        "dataIndex": "datafield",
+                                        "text": "string"
+                                    },
+                                    "name": "MyColumn74",
+                                    "designerId": "6336ab41-0e46-4622-bfb1-3e240b81b2c6"
+                                },
+                                {
+                                    "type": "Ext.grid.column.Column",
+                                    "reference": {
+                                        "name": "columns",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "dataIndex": "DeepLinkUrl",
+                                        "text": "Deep Link Url"
+                                    },
+                                    "configAlternates": {
+                                        "dataIndex": "datafield",
+                                        "text": "string"
+                                    },
+                                    "name": "MyColumn75",
+                                    "designerId": "5e541c9a-220c-4886-aaa2-6d97233a6ad8"
+                                },
+                                {
+                                    "type": "Ext.grid.column.Column",
+                                    "reference": {
+                                        "name": "columns",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "dataIndex": "AppCatalogDiscoverable",
+                                        "text": "App Catalog Discoverable"
+                                    },
+                                    "configAlternates": {
+                                        "dataIndex": "datafield",
+                                        "text": "string"
+                                    },
+                                    "name": "MyColumn76",
+                                    "designerId": "e92c9569-14a9-4887-a67a-a5808d20bb2e"
+                                },
+                                {
+                                    "type": "Ext.grid.column.Column",
+                                    "reference": {
+                                        "name": "columns",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "dataIndex": "SupportLevel",
+                                        "text": "Support Level"
+                                    },
+                                    "configAlternates": {
+                                        "dataIndex": "datafield",
+                                        "text": "string"
+                                    },
+                                    "name": "MyColumn77",
+                                    "designerId": "b7ed4a5c-2a3d-475e-8d45-c5ccb074c8eb"
+                                },
+                                {
                                     "type": "basiceventbinding",
                                     "reference": {
                                         "name": "listeners",
@@ -1734,7 +2080,7 @@
                                                     "this.queryById('myApps').saveDocumentAs({",
                                                     "     type: 'xlsx',",
                                                     "     title: 'My Apps',",
-                                                    "     fileName: 'My Apps.xlsx'",
+                                                    "     fileName: 'My_Apps_'+Ext.util.Format.date(new Date(), 'Y-m-d_g-ia')+'.xlsx'",
                                                     " });"
                                                 ],
                                                 "name": "click",
@@ -1782,31 +2128,8 @@
                                                     "this.queryById('myApps').saveDocumentAs({",
                                                     "     type: 'html',",
                                                     "     title: 'My Apps',",
-                                                    "     fileName: 'My Apps.html'",
-                                                    " });",
-                                                    "",
-                                                    "return;",
-                                                    "",
-                                                    "var printWindow = window.open('', 'PrintMyApps', 'location=1,toolbar=0,menubar=1,scrollbars=1');",
-                                                    "var now = new Date();",
-                                                    "",
-                                                    "printWindow.document.write('<!DOCTYPE html>\\r\\n<head>\\r\\n<title>Print Shop Floor</title>\\r\\n'",
-                                                    "                           +'<style type=\"text/css\" media=\"screen,print\">body, table, tr, td, h1, h2, h3 {font-family:arial;} td {border:1px solid black;} table { border-collapse:collapse; } table td { border:solid 1px #999; padding:4px; }</style>'",
-                                                    "                           +'\\r\\n<style type=\"text/css\" media=\"print\">.no-print {display:block;visibility:hidden;height:1px;width:1px;}</style>\\r\\n</head>\\r\\n'",
-                                                    "                           +'<div class=\"no-print\"><button onclick=\"window.print()\"><img src=\"/inc/img/silk_icons/printer.png\"> Print</button><button onclick=\"window.close()\"><img src=\"/inc/img/silk_icons/cross.png\"> Close</button><BR>\\r\\n</div><h2>'+workCenterComboValue+'</h2> '+Ext.util.Format.date(now,'n/j/Y g:ia')+'<BR>\\r\\n<BR>\\r\\n');",
-                                                    "var datatable = \"<table><tr><td>App</td><td>SSO SAML</td><td>Date</td>\" + flatBin + \"<td>Qty</td><td>Compl</td><td>To Go</td><td>Part</td></tr>\\r\\n\";",
-                                                    "var dateRenderer = Ext.util.Format.dateRenderer('n/j/Y');",
-                                                    "var partDescription;",
-                                                    "this.lookupViewModel().getStore('JobGridStore').each(function(rec){",
-                                                    "    partDescription = rec.data.partDescription == null ? '' : rec.data.partDescription;",
-                                                    "",
-                                                    "    datatable += \"<tr><td>\"+rec.data.job+\"</td><td>\"+rec.data.jobItemDescription+\"</td><td>\"+dateRenderer(rec.data.startDate)+\"</td>\" + flatBin + \"<td>\"+rec.data.operationQty+\"</td><td>\"+rec.data.completedQty+\"</td><td>\"+rec.data.toGoQty+\"</td><td>\"+rec.data.part+\"</td></tr>\\r\\n\";",
-                                                    "});",
-                                                    "datatable += \"</table>\";",
-                                                    "printWindow.document.write(datatable);",
-                                                    "printWindow.document.close();",
-                                                    "printWindow.focus();",
-                                                    "printWindow.print();"
+                                                    "     fileName: 'My_Apps_'+Ext.util.Format.date(new Date(), 'Y-m-d_g-ia')+'.html'",
+                                                    " });"
                                                 ],
                                                 "name": "click",
                                                 "scope": "me"
@@ -2114,6 +2437,7 @@
                                     },
                                     "codeClass": null,
                                     "userConfig": {
+                                        "dataIndex": "OIDC",
                                         "exportRenderer": true,
                                         "text": "OIDC",
                                         "userCls": [
@@ -2125,10 +2449,107 @@
                                         "text": "string",
                                         "width": "auto",
                                         "userCls": "typedarray",
+                                        "dataIndex": "datafield",
                                         "exportRenderer": "boolean"
                                     },
                                     "name": "MyColumn6",
-                                    "designerId": "a2e3b621-147c-4748-a405-83b2347dcafd"
+                                    "designerId": "a2e3b621-147c-4748-a405-83b2347dcafd",
+                                    "cn": [
+                                        {
+                                            "type": "fixedfunction",
+                                            "reference": {
+                                                "name": "items",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "designer|params": [
+                                                    "value",
+                                                    "metaData",
+                                                    "record",
+                                                    "rowIndex",
+                                                    "colIndex",
+                                                    "store",
+                                                    "view"
+                                                ],
+                                                "fn": "renderer",
+                                                "implHandler": [
+                                                    "if(value==='YES'){",
+                                                    "\treturn String.fromCodePoint(0x2705);",
+                                                    "}",
+                                                    "return '';"
+                                                ]
+                                            },
+                                            "configAlternates": {
+                                                "designer|params": "typedarray",
+                                                "fn": "string",
+                                                "implHandler": "code"
+                                            },
+                                            "name": "renderer",
+                                            "designerId": "4f40d14a-ec59-4e60-80c1-d5640cce943a"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "Ext.grid.column.Column",
+                                    "reference": {
+                                        "name": "columns",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "dataIndex": "WSFED",
+                                        "exportRenderer": true,
+                                        "text": "WS Fed",
+                                        "userCls": [
+                                            "rotate-grid-headers"
+                                        ],
+                                        "width": 50
+                                    },
+                                    "configAlternates": {
+                                        "text": "string",
+                                        "width": "auto",
+                                        "userCls": "typedarray",
+                                        "dataIndex": "datafield",
+                                        "exportRenderer": "boolean"
+                                    },
+                                    "name": "MyColumn35",
+                                    "designerId": "70212483-38dd-4b1a-9e60-9661e13c6113",
+                                    "cn": [
+                                        {
+                                            "type": "fixedfunction",
+                                            "reference": {
+                                                "name": "items",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "designer|params": [
+                                                    "value",
+                                                    "metaData",
+                                                    "record",
+                                                    "rowIndex",
+                                                    "colIndex",
+                                                    "store",
+                                                    "view"
+                                                ],
+                                                "fn": "renderer",
+                                                "implHandler": [
+                                                    "if(value==='YES'){",
+                                                    "\treturn String.fromCodePoint(0x2705);",
+                                                    "}",
+                                                    "return '';"
+                                                ]
+                                            },
+                                            "configAlternates": {
+                                                "designer|params": "typedarray",
+                                                "fn": "string",
+                                                "implHandler": "code"
+                                            },
+                                            "name": "renderer",
+                                            "designerId": "340a4beb-4f0d-4a29-b400-8328302c189e"
+                                        }
+                                    ]
                                 }
                             ]
                         },
@@ -2157,6 +2578,7 @@
                                     "codeClass": null,
                                     "userConfig": {
                                         "dataIndex": "PushNewUsers",
+                                        "exportRenderer": true,
                                         "text": "Create Users",
                                         "userCls": [
                                             "rotate-grid-headers"
@@ -2167,7 +2589,8 @@
                                         "dataIndex": "datafield",
                                         "text": "string",
                                         "userCls": "typedarray",
-                                        "width": "auto"
+                                        "width": "auto",
+                                        "exportRenderer": "boolean"
                                     },
                                     "name": "MyColumn24",
                                     "designerId": "8eb6e08f-a8fe-4fcc-af7f-1e4f7d8254f4",
@@ -2216,6 +2639,7 @@
                                     "codeClass": null,
                                     "userConfig": {
                                         "dataIndex": "PushPasswordUpdates",
+                                        "exportRenderer": true,
                                         "text": "Password",
                                         "userCls": [
                                             "rotate-grid-headers"
@@ -2226,7 +2650,8 @@
                                         "dataIndex": "datafield",
                                         "text": "string",
                                         "userCls": "typedarray",
-                                        "width": "auto"
+                                        "width": "auto",
+                                        "exportRenderer": "boolean"
                                     },
                                     "name": "MyColumn27",
                                     "designerId": "c09a6135-3ad2-42c9-8128-68702c6c765b",
@@ -2275,6 +2700,7 @@
                                     "codeClass": null,
                                     "userConfig": {
                                         "dataIndex": "PushUserDeactivation",
+                                        "exportRenderer": true,
                                         "text": "Deactivation",
                                         "userCls": [
                                             "rotate-grid-headers"
@@ -2285,7 +2711,8 @@
                                         "dataIndex": "datafield",
                                         "text": "string",
                                         "userCls": "typedarray",
-                                        "width": "auto"
+                                        "width": "auto",
+                                        "exportRenderer": "boolean"
                                     },
                                     "name": "MyColumn26",
                                     "designerId": "603ed933-db20-4e2e-bc16-55ff37a7c6a8",
@@ -2352,6 +2779,7 @@
                                     "codeClass": null,
                                     "userConfig": {
                                         "dataIndex": "ImportNewUsers",
+                                        "exportRenderer": true,
                                         "text": "Import Users",
                                         "userCls": [
                                             "rotate-grid-headers"
@@ -2362,7 +2790,8 @@
                                         "dataIndex": "datafield",
                                         "text": "string",
                                         "userCls": "typedarray",
-                                        "width": "auto"
+                                        "width": "auto",
+                                        "exportRenderer": "boolean"
                                     },
                                     "name": "MyColumn22",
                                     "designerId": "9fc5a002-1222-438d-b9b9-8c0fe863b2ec",
@@ -2411,6 +2840,7 @@
                                     "codeClass": null,
                                     "userConfig": {
                                         "dataIndex": "ImportProfileUpdates",
+                                        "exportRenderer": true,
                                         "text": "Profile Updates",
                                         "userCls": [
                                             "rotate-grid-headers"
@@ -2421,7 +2851,8 @@
                                         "dataIndex": "datafield",
                                         "text": "string",
                                         "userCls": "typedarray",
-                                        "width": "auto"
+                                        "width": "auto",
+                                        "exportRenderer": "boolean"
                                     },
                                     "name": "MyColumn23",
                                     "designerId": "54e029cf-262b-4688-9fe8-6938d8eb9623",
@@ -2470,6 +2901,7 @@
                                     "codeClass": null,
                                     "userConfig": {
                                         "dataIndex": "AutoConfirmImports",
+                                        "exportRenderer": true,
                                         "text": "Auto Confirm",
                                         "userCls": [
                                             "rotate-grid-headers"
@@ -2480,7 +2912,8 @@
                                         "dataIndex": "datafield",
                                         "text": "string",
                                         "userCls": "typedarray",
-                                        "width": "auto"
+                                        "width": "auto",
+                                        "exportRenderer": "boolean"
                                     },
                                     "name": "MyColumn29",
                                     "designerId": "0ee81532-d947-4cbe-9e9a-78f0f1017a72",
@@ -2529,6 +2962,7 @@
                                     "codeClass": null,
                                     "userConfig": {
                                         "dataIndex": "ReactivateUsers",
+                                        "exportRenderer": true,
                                         "text": "Reactivation",
                                         "userCls": [
                                             "rotate-grid-headers"
@@ -2539,7 +2973,8 @@
                                         "dataIndex": "datafield",
                                         "text": "string",
                                         "userCls": "typedarray",
-                                        "width": "auto"
+                                        "width": "auto",
+                                        "exportRenderer": "boolean"
                                     },
                                     "name": "MyColumn28",
                                     "designerId": "a4654532-b065-4599-bd8e-8625615e6baa",
@@ -2736,6 +3171,9 @@
                     "if(this.searchFilter !== null){",
                     "\tfilters.push(this.searchFilter);",
                     "}",
+                    "",
+                    "filters = filters.concat(this.capabilityFilter);",
+                    "",
                     "let store = this.getViewModel().getStore('oinAppStore');",
                     "",
                     "if(filters.length > 0){",
@@ -2766,6 +3204,7 @@
                 "implHandler": [
                     "this.categoryFilter = null;",
                     "this.searchFilter = null;",
+                    "this.capabilityFilter = null;",
                     "",
                     "let store = this.getViewModel().getStore('oinAppStore');",
                     "",

@@ -2,6 +2,13 @@
 
 class BetterOinSearch extends AgileBaseController {
 
+	function getCsvHeaders()
+	{
+		$fp = fopen('oin.csv', 'r');
+		$line = fgetcsv($fp);
+		echo join(',',$line);
+
+	}
 	function convertCsvToJson(){
 		$fp = fopen('oin.csv','r');
 		$data = [];
@@ -12,7 +19,7 @@ class BetterOinSearch extends AgileBaseController {
 				$col = trim($col);
 				$col = mb_convert_encoding($col, 'UTF-8', mb_detect_encoding($col, 'UTF-8, ISO-8859-1', true));
 			}
-			$data[] = $line; 
+			$data[] = $line;
 		}
 
 		if(false === $dataJson = json_encode($data, JSON_THROW_ON_ERROR)){
@@ -21,7 +28,7 @@ class BetterOinSearch extends AgileBaseController {
 
 		header('Content-Description: File Transfer');
 		header('Content-Type: application/octet-stream');
-		header('Content-Disposition: attachment; filename=oin.json'); 
+		header('Content-Disposition: attachment; filename=oin.json');
 		header('Content-Transfer-Encoding: binary');
 		header('Connection: Keep-Alive');
 		header('Expires: 0');
