@@ -866,7 +866,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 	onPanelRender: function(component, eOpts) {
 		this.categoryFilter = null;
 		this.searchFilter = null;
-		this.capabilityFilter = null;
+		this.capabilityFilter = [];
 
 		let store = this.getViewModel().getStore('oinAppStore');
 
