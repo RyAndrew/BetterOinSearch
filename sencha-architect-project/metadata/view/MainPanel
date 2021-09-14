@@ -372,7 +372,7 @@
                                 "container|align": "stretch",
                                 "height": 111,
                                 "layout": "hbox",
-                                "title": "Search Okta Integration Network"
+                                "title": "Search Okta Integration Network  <a href='https://docs.google.com/spreadsheets/d/1XQx4umhgmSQ21hkVqnitrJ7FTAbhpaXsks8vWAcOgIA/'>Source Data</a>"
                             },
                             "configAlternates": {
                                 "bodyPadding": "auto",
@@ -519,50 +519,6 @@
                                             },
                                             "name": "onButtonClick",
                                             "designerId": "841d263d-5fd7-423b-95c7-48b39d171ae1"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "type": "Ext.panel.Tool",
-                                    "reference": {
-                                        "name": "tools",
-                                        "type": "array"
-                                    },
-                                    "codeClass": null,
-                                    "userConfig": {
-                                        "iconCls": "x-fa fa-cog",
-                                        "tooltip": "Source Data"
-                                    },
-                                    "configAlternates": {
-                                        "iconCls": "string",
-                                        "tooltip": "string"
-                                    },
-                                    "name": "MyTool",
-                                    "designerId": "b706ed70-4508-444d-809d-fd643d1111b0",
-                                    "cn": [
-                                        {
-                                            "type": "basiceventbinding",
-                                            "reference": {
-                                                "name": "listeners",
-                                                "type": "array"
-                                            },
-                                            "codeClass": null,
-                                            "userConfig": {
-                                                "fn": "onToolClick",
-                                                "implHandler": [
-                                                    "window.open('https://docs.google.com/spreadsheets/d/1XQx4umhgmSQ21hkVqnitrJ7FTAbhpaXsks8vWAcOgIA/','_blank');"
-                                                ],
-                                                "name": "click",
-                                                "scope": "me"
-                                            },
-                                            "configAlternates": {
-                                                "fn": "string",
-                                                "implHandler": "code",
-                                                "name": "string",
-                                                "scope": "string"
-                                            },
-                                            "name": "onToolClick",
-                                            "designerId": "0572fe5a-5596-4cdc-8406-83474a42c499"
                                         }
                                     ]
                                 }

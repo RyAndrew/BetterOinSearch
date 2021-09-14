@@ -26,7 +26,6 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		'Ext.form.Panel',
 		'Ext.form.field.Text',
 		'Ext.button.Button',
-		'Ext.panel.Tool',
 		'Ext.toolbar.Toolbar',
 		'Ext.grid.plugin.Exporter'
 	],
@@ -129,7 +128,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 							xtype: 'form',
 							height: 111,
 							bodyPadding: 10,
-							title: 'Search Okta Integration Network',
+							title: 'Search Okta Integration Network  <a href=\'https://docs.google.com/spreadsheets/d/1XQx4umhgmSQ21hkVqnitrJ7FTAbhpaXsks8vWAcOgIA/\'>Source Data</a>',
 							layout: {
 								type: 'hbox',
 								align: 'stretch'
@@ -157,16 +156,6 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 									text: 'X',
 									listeners: {
 										click: 'onButtonClick'
-									}
-								}
-							],
-							tools: [
-								{
-									xtype: 'tool',
-									iconCls: 'x-fa fa-cog',
-									tooltip: 'Source Data',
-									listeners: {
-										click: 'onToolClick'
 									}
 								}
 							]
@@ -817,10 +806,6 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 	onButtonClick: function(button, e, eOpts) {
 		this.queryById('search').setValue('');
 		this.searchApps('');
-	},
-
-	onToolClick: function(tool, e, owner, eOpts) {
-		window.open('https://docs.google.com/spreadsheets/d/1XQx4umhgmSQ21hkVqnitrJ7FTAbhpaXsks8vWAcOgIA/','_blank');
 	},
 
 	onButtonClick1: function(button, e, eOpts) {
