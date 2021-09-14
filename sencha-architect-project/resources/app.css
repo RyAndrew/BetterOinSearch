@@ -1,0 +1,37 @@
+.rotate-grid-headers {
+	height:100px;
+}
+.rotate-grid-headers div.x-column-header-text {
+	overflow: visible;
+}
+.rotate-grid-headers span {
+	display: inline-block;
+	transform: rotate(290deg);
+	transform-origin: left;
+
+	/*
+	position: absolute;
+	left: 0px;
+	top: 35px;
+	*/
+}
+
+.rotate-grid-headers div.x-column-header-text {
+    bottom: 0px;
+    position: absolute;
+}
+
+
+
+
+
+
+
+.search-label span.x-form-item-label-inner {
+	font-size: 18px;
+	margin-top: 8px;
+}
+
+.force-grid-border {
+	border: 2px solid #5fa2dd;
+}

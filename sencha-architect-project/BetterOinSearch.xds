@@ -1,0 +1,57 @@
+{
+    "name": "BetterOinSearch",
+    "settings": {
+        "cmd": {
+            "license": "",
+            "cmdVersion": "",
+            "frameworkVersion": ""
+        },
+        "urlPrefixTemplate": "http://dev.local/",
+        "exportPath": "J:/Data/ApacheData/dev.local/BetterOinSearch",
+        "buildShouldOverwriteIndex": true,
+        "generateArchitectVersion": false,
+        "spacesToIndent": "tab",
+        "lineEnding": "CRLF",
+        "genTimestamps": true,
+        "cacheBust": true,
+        "installStatus": "Not Installed",
+        "canvasControls": {
+            "viewportSize": {
+                "name": "Auto Expand",
+                "builtIn": true,
+                "height": null,
+                "width": null
+            }
+        },
+        "sdkPath": "",
+        "urlPrefix": "http://dev.local/"
+    },
+    "xdsVersion": "4.2.9",
+    "xdsBuild": 443,
+    "schemaVersion": 1,
+    "upgradeVersion": 310000000001,
+    "framework": "ext73",
+    "viewOrderMap": {
+        "view": [
+            "79f3f913-02f7-4a07-8ef4-c3f24245093b",
+            "0202bb2a-4780-44c2-a06f-4de52c206d34",
+            "9f9c802f-7311-4f1e-8bd1-2b212c501096",
+            "d38c2cf0-9e53-498a-8521-da773f47156a",
+            "f565af02-a06d-4dc3-95d1-9c4c266bfbf2",
+            "8e77139f-bc05-4a61-ab7b-54ee0eb6e2c6"
+        ],
+        "store": [],
+        "controller": [],
+        "model": [],
+        "resource": [
+            "4d80c1b7-1ff0-4f6f-967d-1707814e911c",
+            "173a740e-293e-4e00-b40c-9a50fb2577d4",
+            "411b4672-d88b-46f3-b9e5-840211d05889",
+            "33f66dbf-2d8c-461c-b8e2-2af3a17f9d30",
+            "9797bc15-8bdf-4bcf-9032-76c97f68fcd5"
+        ],
+        "app": [
+            "application"
+        ]
+    }
+}

@@ -1,0 +1,18 @@
+{
+    "type": "cssresource",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "css_mdkbhhsz",
+        "url": "/js-lib/ext-7.3-latest/build/packages/exporter/build/classic/resources/exporter-all.css"
+    },
+    "configAlternates": {
+        "designer|userClassName": "string",
+        "url": "uri"
+    },
+    "name": "css2",
+    "designerId": "9797bc15-8bdf-4bcf-9032-76c97f68fcd5"
+}

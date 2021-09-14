@@ -1,0 +1,20 @@
+{
+    "type": "jsresource",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "js_aaxr72ep",
+        "includeInBundle": true,
+        "url": "/js-lib/ext-7.3-latest/build/packages/exporter/build/classic/exporter.js"
+    },
+    "configAlternates": {
+        "designer|userClassName": "string",
+        "includeInBundle": "boolean",
+        "url": "uri"
+    },
+    "name": "js1",
+    "designerId": "33f66dbf-2d8c-461c-b8e2-2af3a17f9d30"
+}
