@@ -103,7 +103,7 @@
                         "userCls": [
                             "force-grid-border"
                         ],
-                        "width": 273
+                        "width": 235
                     },
                     "configAlternates": {
                         "width": "auto",
@@ -149,7 +149,7 @@
                                     "userConfig": {
                                         "dataIndex": "categoryLabel",
                                         "text": "Category",
-                                        "width": 183
+                                        "width": 155
                                     },
                                     "configAlternates": {
                                         "dataIndex": "datafield",
@@ -160,23 +160,27 @@
                                     "designerId": "c2011165-6523-4b25-8bd8-38ee740ec9ac"
                                 },
                                 {
-                                    "type": "Ext.grid.column.Column",
+                                    "type": "Ext.grid.column.Number",
                                     "reference": {
                                         "name": "columns",
                                         "type": "array"
                                     },
                                     "codeClass": null,
                                     "userConfig": {
+                                        "align": "end",
                                         "dataIndex": "count",
                                         "flex": 1,
+                                        "format": "0,0",
                                         "text": "Count"
                                     },
                                     "configAlternates": {
                                         "dataIndex": "datafield",
                                         "text": "string",
-                                        "flex": "number"
+                                        "flex": "number",
+                                        "align": "string",
+                                        "format": "string"
                                     },
-                                    "name": "MyColumn33",
+                                    "name": "MyNumberColumn",
                                     "designerId": "4661783b-3d79-4b6e-b7a2-5e220612d873"
                                 },
                                 {
@@ -236,7 +240,7 @@
                             "codeClass": null,
                             "userConfig": {
                                 "bodyBorder": true,
-                                "height": 304,
+                                "height": 245,
                                 "hideHeaders": true,
                                 "store": [
                                     "{oinCapabilities}"

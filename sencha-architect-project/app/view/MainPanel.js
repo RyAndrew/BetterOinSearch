@@ -20,7 +20,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 	requires: [
 		'BetterOinSearch.view.MainPanelViewModel',
 		'Ext.grid.Panel',
-		'Ext.grid.column.Column',
+		'Ext.grid.column.Number',
 		'Ext.view.Table',
 		'Ext.selection.CheckboxModel',
 		'Ext.form.Panel',
@@ -56,7 +56,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 				{
 					xtype: 'container',
 					userCls: 'force-grid-border',
-					width: 273,
+					width: 235,
 					layout: {
 						type: 'vbox',
 						align: 'stretch'
@@ -73,15 +73,17 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 							columns: [
 								{
 									xtype: 'gridcolumn',
-									width: 183,
+									width: 155,
 									dataIndex: 'categoryLabel',
 									text: 'Category'
 								},
 								{
-									xtype: 'gridcolumn',
+									xtype: 'numbercolumn',
 									flex: 1,
+									align: 'end',
 									dataIndex: 'count',
-									text: 'Count'
+									text: 'Count',
+									format: '0,0'
 								}
 							],
 							listeners: {
@@ -90,7 +92,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 						},
 						{
 							xtype: 'gridpanel',
-							height: 304,
+							height: 245,
 							bodyBorder: true,
 							title: 'Capabilities',
 							hideHeaders: true,
