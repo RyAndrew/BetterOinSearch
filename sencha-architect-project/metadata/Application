@@ -6,6 +6,9 @@
     },
     "codeClass": null,
     "userConfig": {
+        "models": [
+            "OinModel"
+        ],
         "name": "BetterOinSearch",
         "views": [
             "MyViewport",
@@ -14,7 +17,8 @@
     },
     "configAlternates": {
         "name": "string",
-        "views": "typedarray"
+        "views": "typedarray",
+        "models": "typedarray"
     },
     "name": "Application",
     "designerId": "application"

@@ -35,3 +35,19 @@
 .force-grid-border {
 	border: 2px solid #5fa2dd;
 }
+
+
+a.x-tab.tab-with-border {
+	border: 1px solid #5fa2dd !important;
+	
+	border-style: solid solid none solid !important;
+}
+
+.x-keyboard-mode a.x-tab-focus.x-tab-active.x-tab-default.x-tab-selected.tab-with-border,
+.x-keyboard-mode a.x-tab-focus.x-tab-active.x-tab-default.tab-with-border,
+a.x-tab.tab-with-border.x-tab-active {
+	background-color: #dadada;
+	border: 1px solid #5fa2dd !important;
+	
+	border-style: solid solid none solid !important;
+}

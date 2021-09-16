@@ -19,11 +19,11 @@ Ext.define('BetterOinSearch.view.MainPanelViewModel', {
 
 	requires: [
 		'Ext.data.Store',
+		'Ext.data.field.Field',
 		'Ext.util.Sorter',
-		'Ext.data.field.Integer',
 		'Ext.data.proxy.Ajax',
 		'Ext.data.reader.Array',
-		'Ext.data.proxy.Memory'
+		'Ext.data.proxy.LocalStorage'
 	],
 
 	stores: {
@@ -77,129 +77,7 @@ Ext.define('BetterOinSearch.view.MainPanelViewModel', {
 			]
 		},
 		oinAppStore: {
-			fields: [
-				{
-					name: 'Name'
-				},
-				{
-					name: 'DisplayName'
-				},
-				{
-					name: 'Website'
-				},
-				{
-					name: 'LogoImage'
-				},
-				{
-					name: 'Description'
-				},
-				{
-					name: 'AppCategory'
-				},
-				{
-					name: 'AppCategoryLabel'
-				},
-				{
-					name: 'Custom'
-				},
-				{
-					name: 'SecurePasswordStore'
-				},
-				{
-					name: 'SAML_2_0'
-				},
-				{
-					name: 'SAML_1_1'
-				},
-				{
-					name: 'BookMark'
-				},
-				{
-					name: 'BrowserPlugin'
-				},
-				{
-					name: 'AutoLogin'
-				},
-				{
-					name: 'BasicAuth'
-				},
-				{
-					name: 'ImportNewUsers'
-				},
-				{
-					name: 'ImportProfileUpdates'
-				},
-				{
-					name: 'PushNewUsers'
-				},
-				{
-					name: 'PushProfileUpdates'
-				},
-				{
-					name: 'PushUserDeactivation'
-				},
-				{
-					name: 'PushPasswordUpdates'
-				},
-				{
-					name: 'ReactivateUsers'
-				},
-				{
-					name: 'AutoConfirmImports'
-				},
-				{
-					type: 'int',
-					name: 'Ranking'
-				},
-				{
-					name: 'OMM'
-				},
-				{
-					name: 'Version'
-				},
-				{
-					name: 'WSFED'
-				},
-				{
-					name: 'OIDC'
-				},
-				{
-					name: 'VerificationStatus'
-				},
-				{
-					name: 'GroupPush'
-				},
-				{
-					name: 'GroupSync'
-				},
-				{
-					name: 'ImportUserSchema'
-				},
-				{
-					name: 'ProfileMastering'
-				},
-				{
-					name: 'SCIM'
-				},
-				{
-					name: 'IntegrationApp'
-				},
-				{
-					name: 'AppLinksJSON'
-				},
-				{
-					name: 'VersionCreatedDate'
-				},
-				{
-					name: 'DeepLinkUrl'
-				},
-				{
-					name: 'AppCatalogDiscoverable'
-				},
-				{
-					name: 'SupportLevel'
-				}
-			],
+			model: 'BetterOinSearch.model.OinModel',
 			proxy: {
 				type: 'ajax',
 				url: '/BetterOinSearch/oin.json',
@@ -209,132 +87,10 @@ Ext.define('BetterOinSearch.view.MainPanelViewModel', {
 			}
 		},
 		myApps: {
-			fields: [
-				{
-					name: 'Name'
-				},
-				{
-					name: 'DisplayName'
-				},
-				{
-					name: 'Website'
-				},
-				{
-					name: 'LogoImage'
-				},
-				{
-					name: 'Description'
-				},
-				{
-					name: 'AppCategory'
-				},
-				{
-					name: 'AppCategoryLabel'
-				},
-				{
-					name: 'Custom'
-				},
-				{
-					name: 'SecurePasswordStore'
-				},
-				{
-					name: 'SAML_2_0'
-				},
-				{
-					name: 'SAML_1_1'
-				},
-				{
-					name: 'BookMark'
-				},
-				{
-					name: 'BrowserPlugin'
-				},
-				{
-					name: 'AutoLogin'
-				},
-				{
-					name: 'BasicAuth'
-				},
-				{
-					name: 'ImportNewUsers'
-				},
-				{
-					name: 'ImportProfileUpdates'
-				},
-				{
-					name: 'PushNewUsers'
-				},
-				{
-					name: 'PushProfileUpdates'
-				},
-				{
-					name: 'PushUserDeactivation'
-				},
-				{
-					name: 'PushPasswordUpdates'
-				},
-				{
-					name: 'ReactivateUsers'
-				},
-				{
-					name: 'AutoConfirmImports'
-				},
-				{
-					name: 'Ranking'
-				},
-				{
-					name: 'OMM'
-				},
-				{
-					name: 'Version'
-				},
-				{
-					name: 'WSFED'
-				},
-				{
-					name: 'OIDC'
-				},
-				{
-					name: 'VerificationStatus'
-				},
-				{
-					name: 'GroupPush'
-				},
-				{
-					name: 'GroupSync'
-				},
-				{
-					name: 'ImportUserSchema'
-				},
-				{
-					name: 'ProfileMastering'
-				},
-				{
-					name: 'SCIM'
-				},
-				{
-					name: 'IntegrationApp'
-				},
-				{
-					name: 'AppLinksJSON'
-				},
-				{
-					name: 'VersionCreatedDate'
-				},
-				{
-					name: 'DeepLinkUrl'
-				},
-				{
-					name: 'AppCatalogDiscoverable'
-				},
-				{
-					name: 'SupportLevel'
-				}
-			]
-		},
-		myModels: {
+			model: 'BetterOinSearch.model.OinModel',
 			proxy: {
-				type: 'memory'
+				type: 'localstorage',
+				id: 'myapps21916'
 			}
 		}
 	}

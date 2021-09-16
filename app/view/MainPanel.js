@@ -23,9 +23,10 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		'Ext.grid.column.Number',
 		'Ext.view.Table',
 		'Ext.selection.CheckboxModel',
+		'Ext.tab.Panel',
 		'Ext.form.Panel',
 		'Ext.form.field.Text',
-		'Ext.button.Button',
+		'Ext.tab.Tab',
 		'Ext.toolbar.Toolbar',
 		'Ext.grid.plugin.Exporter'
 	],
@@ -65,7 +66,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 							xtype: 'gridpanel',
 							flex: 1,
 							bodyBorder: true,
-							title: 'Categories',
+							title: '<i class="fas fa-filter"></i> Categories',
 							bind: {
 								store: '{oinCategoryStore}'
 							},
@@ -91,9 +92,9 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 						},
 						{
 							xtype: 'gridpanel',
-							height: 245,
+							height: 350,
 							bodyBorder: true,
-							title: 'Capabilities',
+							title: '<i class="fas fa-filter"></i> Capabilities',
 							hideHeaders: true,
 							bind: {
 								store: '{oinCapabilities}'
@@ -116,57 +117,447 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 					]
 				},
 				{
-					xtype: 'container',
+					xtype: 'tabpanel',
+					border: false,
 					flex: 1,
-					userCls: 'force-grid-border',
-					layout: {
-						type: 'vbox',
-						align: 'stretch'
-					},
+					width: 100,
+					bodyBorder: false,
+					activeTab: 0,
+					plain: true,
 					items: [
 						{
-							xtype: 'form',
-							height: 111,
-							bodyPadding: 10,
-							title: 'Search Okta Integration Network  <a href=\'https://docs.google.com/spreadsheets/d/1XQx4umhgmSQ21hkVqnitrJ7FTAbhpaXsks8vWAcOgIA/\'>Source Data</a>',
+							xtype: 'panel',
+							userCls: 'force-grid-border',
+							bodyBorder: true,
+							title: '<i class="fas fa-search"></i> Search OIN',
 							layout: {
-								type: 'hbox',
+								type: 'vbox',
 								align: 'stretch'
 							},
 							items: [
 								{
-									xtype: 'textfield',
-									itemId: 'search',
-									userCls: 'search-label',
-									width: 383,
-									fieldLabel: '',
-									labelAlign: 'right',
-									emptyText: 'Search',
-									enableKeyEvents: true,
-									listeners: {
-										keyup: 'onTextfieldKeyup',
-										render: 'onSearchRender'
-									}
+									xtype: 'form',
+									height: 47,
+									margin: '10 0 0 10',
+									layout: 'hbox',
+									items: [
+										{
+											xtype: 'container',
+											width: 435,
+											layout: {
+												type: 'hbox',
+												align: 'stretch'
+											},
+											items: [
+												{
+													xtype: 'textfield',
+													itemId: 'search',
+													userCls: 'search-label',
+													width: 383,
+													fieldLabel: '',
+													labelAlign: 'right',
+													emptyText: 'Search',
+													enableKeyEvents: true,
+													listeners: {
+														keyup: 'onTextfieldKeyup',
+														render: 'onSearchRender'
+													}
+												},
+												{
+													xtype: 'button',
+													hidden: true,
+													itemId: 'clearButton',
+													margin: '0 0 0 10',
+													text: 'X',
+													listeners: {
+														click: 'onButtonClick'
+													}
+												}
+											]
+										},
+										{
+											xtype: 'container',
+											flex: 1,
+											html: '&nbsp;'
+										},
+										{
+											xtype: 'container',
+											html: '<a href=\'https://docs.google.com/spreadsheets/d/1XQx4umhgmSQ21hkVqnitrJ7FTAbhpaXsks8vWAcOgIA/\'>Source Data</a>',
+											margin: '0 10 0 0'
+										}
+									]
 								},
 								{
-									xtype: 'button',
-									hidden: true,
-									itemId: 'clearButton',
-									margin: '0 0 0 10',
-									text: 'X',
+									xtype: 'gridpanel',
+									flex: 1,
+									itemId: 'oinAppGrid',
+									title: '',
+									bind: {
+										store: '{oinAppStore}'
+									},
+									dockedItems: [
+										{
+											xtype: 'toolbar',
+											dock: 'top',
+											items: [
+												{
+													xtype: 'button',
+													text: '<i class="far fa-plus-square"></i> Add to My Apps',
+													listeners: {
+														click: 'onButtonClick1'
+													}
+												}
+											]
+										}
+									],
+									columns: [
+										{
+											xtype: 'gridcolumn',
+											renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+												return '<img src="https://ok3static.oktacdn.com'+value+'" height="34" />';
+											},
+											width: 145,
+											dataIndex: 'LogoImage',
+											text: 'Logo'
+										},
+										{
+											xtype: 'gridcolumn',
+											renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+												if(record.data.Website !== ''){
+													return '<a href="'+record.data.Website+'" target="_blank">'+value+'</a>';
+												}
+												return value;
+											},
+											width: 157,
+											dataIndex: 'DisplayName',
+											text: 'Name'
+										},
+										{
+											xtype: 'gridcolumn',
+											text: 'SSO',
+											columns: [
+												{
+													xtype: 'gridcolumn',
+													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+														if(value==='YES'){
+
+															return String.fromCodePoint(0x2705);
+															//return '&#x2705;';
+															//return '<img src="/inc/img/silk_icons/tick.png">';
+														}
+														return '';
+													},
+													userCls: 'rotate-grid-headers',
+													width: 50,
+													dataIndex: 'AutoLogin',
+													text: 'SWA'
+												},
+												{
+													xtype: 'gridcolumn',
+													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+														if(record.data['SAML_2_0'] === 'YES' || record.data['SAML_1_1'] === 'YES'){
+															return String.fromCodePoint(0x2705);
+														}
+													},
+													userCls: 'rotate-grid-headers',
+													width: 50,
+													dataIndex: 'SAML_2_0',
+													text: 'SAML'
+												},
+												{
+													xtype: 'gridcolumn',
+													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+														if(value==='YES'){
+															return String.fromCodePoint(0x2705);
+														}
+														return '';
+													},
+													userCls: 'rotate-grid-headers',
+													width: 50,
+													dataIndex: 'OIDC',
+													text: 'OIDC'
+												},
+												{
+													xtype: 'gridcolumn',
+													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+														if(value==='YES'){
+															return String.fromCodePoint(0x2705);
+														}
+														return '';
+													},
+													userCls: 'rotate-grid-headers',
+													width: 50,
+													dataIndex: 'WSFED',
+													exportRenderer: true,
+													text: 'WS Fed'
+												}
+											]
+										},
+										{
+											xtype: 'gridcolumn',
+											text: 'Provisioning',
+											columns: [
+												{
+													xtype: 'gridcolumn',
+													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+														if(value==='YES'){
+															return String.fromCodePoint(0x2705);
+														}
+														return '';
+													},
+													userCls: 'rotate-grid-headers',
+													width: 50,
+													dataIndex: 'PushNewUsers',
+													text: 'Create Users'
+												},
+												{
+													xtype: 'gridcolumn',
+													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+														if(value==='YES'){
+															return String.fromCodePoint(0x2705);
+														}
+														return '';
+													},
+													userCls: 'rotate-grid-headers',
+													width: 50,
+													dataIndex: 'PushPasswordUpdates',
+													text: 'Password'
+												},
+												{
+													xtype: 'gridcolumn',
+													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+														if(value==='YES'){
+															return String.fromCodePoint(0x2705);
+														}
+														return '';
+													},
+													userCls: 'rotate-grid-headers',
+													width: 50,
+													dataIndex: 'PushUserDeactivation',
+													text: 'Deactivation'
+												}
+											]
+										},
+										{
+											xtype: 'gridcolumn',
+											text: 'Importing',
+											columns: [
+												{
+													xtype: 'gridcolumn',
+													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+														if(value==='YES'){
+															return String.fromCodePoint(0x2705);
+														}
+														return '';
+													},
+													userCls: 'rotate-grid-headers',
+													width: 50,
+													dataIndex: 'ImportNewUsers',
+													text: 'Import Users'
+												},
+												{
+													xtype: 'gridcolumn',
+													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+														if(value==='YES'){
+															return String.fromCodePoint(0x2705);
+														}
+														return '';
+													},
+													userCls: 'rotate-grid-headers',
+													width: 50,
+													dataIndex: 'ImportProfileUpdates',
+													text: 'Profile Updates'
+												},
+												{
+													xtype: 'gridcolumn',
+													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+														if(value==='YES'){
+															return String.fromCodePoint(0x2705);
+														}
+														return '';
+													},
+													userCls: 'rotate-grid-headers',
+													width: 50,
+													dataIndex: 'AutoConfirmImports',
+													text: 'Auto Confirm'
+												},
+												{
+													xtype: 'gridcolumn',
+													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+														if(value==='YES'){
+															return String.fromCodePoint(0x2705);
+														}
+														return '';
+													},
+													userCls: 'rotate-grid-headers',
+													width: 50,
+													dataIndex: 'ReactivateUsers',
+													text: 'Reactivation'
+												}
+											]
+										},
+										{
+											xtype: 'gridcolumn',
+											width: 275,
+											dataIndex: 'Description',
+											text: 'Description'
+										},
+										{
+											xtype: 'gridcolumn',
+											dataIndex: 'AppCategoryLabel',
+											text: 'App Category Label'
+										},
+										{
+											xtype: 'gridcolumn',
+											dataIndex: 'Custom',
+											text: 'Custom'
+										},
+										{
+											xtype: 'gridcolumn',
+											dataIndex: 'SecurePasswordStore',
+											text: 'Secure Password Store'
+										},
+										{
+											xtype: 'gridcolumn',
+											dataIndex: 'SAML_2_0',
+											text: 'Saml 2 0'
+										},
+										{
+											xtype: 'gridcolumn',
+											dataIndex: 'SAML_1_1',
+											text: 'Saml 1 1'
+										},
+										{
+											xtype: 'gridcolumn',
+											dataIndex: 'BookMark',
+											text: 'Book Mark'
+										},
+										{
+											xtype: 'gridcolumn',
+											dataIndex: 'BrowserPlugin',
+											text: 'Browser Plugin'
+										},
+										{
+											xtype: 'gridcolumn',
+											dataIndex: 'BasicAuth',
+											text: 'Basic Auth'
+										},
+										{
+											xtype: 'gridcolumn',
+											dataIndex: 'PushProfileUpdates',
+											text: 'Push Profile Updates'
+										},
+										{
+											xtype: 'gridcolumn',
+											dataIndex: 'Ranking',
+											text: 'Ranking'
+										},
+										{
+											xtype: 'gridcolumn',
+											dataIndex: 'OMM',
+											text: 'Omm'
+										},
+										{
+											xtype: 'gridcolumn',
+											dataIndex: 'Name',
+											text: 'Name'
+										},
+										{
+											xtype: 'gridcolumn',
+											dataIndex: 'Website',
+											text: 'Website'
+										},
+										{
+											xtype: 'gridcolumn',
+											dataIndex: 'Version',
+											text: 'Version'
+										},
+										{
+											xtype: 'gridcolumn',
+											dataIndex: 'VerificationStatus',
+											text: 'Verification Status'
+										},
+										{
+											xtype: 'gridcolumn',
+											dataIndex: 'GroupPush',
+											text: 'Group Push'
+										},
+										{
+											xtype: 'gridcolumn',
+											dataIndex: 'GroupSync',
+											text: 'Group Sync'
+										},
+										{
+											xtype: 'gridcolumn',
+											dataIndex: 'ImportUserSchema',
+											text: 'Import User Schema'
+										},
+										{
+											xtype: 'gridcolumn',
+											dataIndex: 'ProfileMastering',
+											text: 'Profile Mastering'
+										},
+										{
+											xtype: 'gridcolumn',
+											dataIndex: 'SCIM',
+											text: 'Scim'
+										},
+										{
+											xtype: 'gridcolumn',
+											dataIndex: 'IntegrationApp',
+											text: 'Integration App'
+										},
+										{
+											xtype: 'gridcolumn',
+											dataIndex: 'AppLinksJSON',
+											text: 'App Links Json'
+										},
+										{
+											xtype: 'gridcolumn',
+											dataIndex: 'VersionCreatedDate',
+											text: 'Version Created Date'
+										},
+										{
+											xtype: 'gridcolumn',
+											dataIndex: 'DeepLinkUrl',
+											text: 'Deep Link Url'
+										},
+										{
+											xtype: 'gridcolumn',
+											dataIndex: 'AppCatalogDiscoverable',
+											text: 'App Catalog Discoverable'
+										},
+										{
+											xtype: 'gridcolumn',
+											dataIndex: 'SupportLevel',
+											text: 'Support Level'
+										}
+									],
+									viewConfig: {
+										width: 742
+									},
 									listeners: {
-										click: 'onButtonClick'
+										rowdblclick: 'onOinAppGridRowDblClick'
 									}
 								}
-							]
+							],
+							tabConfig: {
+								xtype: 'tab',
+								margin: '0 0 0 5',
+								userCls: 'tab-with-border',
+								width: 125
+							}
 						},
 						{
 							xtype: 'gridpanel',
-							flex: 1,
-							itemId: 'oinAppGrid',
-							title: '',
+							itemId: 'myApps',
+							resizable: true,
+							resizeHandles: 'w',
+							userCls: 'force-grid-border',
+							width: 400,
+							title: '<i class="fas fa-clipboard-list"></i> My Apps (0)',
 							bind: {
-								store: '{oinAppStore}'
+								store: '{myApps}'
 							},
 							dockedItems: [
 								{
@@ -175,9 +566,31 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 									items: [
 										{
 											xtype: 'button',
-											text: 'Add to My Apps',
+											text: '<i class="far fa-file-excel"></i> Export',
 											listeners: {
-												click: 'onButtonClick1'
+												click: 'onButtonClick2'
+											}
+										},
+										{
+											xtype: 'button',
+											text: '<i class="fas fa-print"></i> Print',
+											listeners: {
+												click: 'onButtonClick3'
+											}
+										},
+										{
+											xtype: 'button',
+											text: '<i class="far fa-minus-square"></i> Remove',
+											listeners: {
+												click: 'onButtonClick11'
+											}
+										},
+										{
+											xtype: 'button',
+											margin: '0 0 0 30',
+											text: '<i class="far fa-trash-alt"></i> Remove All',
+											listeners: {
+												click: 'onButtonClick111'
 											}
 										}
 									]
@@ -191,16 +604,11 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 									},
 									width: 145,
 									dataIndex: 'LogoImage',
+									ignoreExport: true,
 									text: 'Logo'
 								},
 								{
 									xtype: 'gridcolumn',
-									renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-										if(record.data.Website !== ''){
-											return '<a href="'+record.data.Website+'" target="_blank">'+value+'</a>';
-										}
-										return value;
-									},
 									width: 157,
 									dataIndex: 'DisplayName',
 									text: 'Name'
@@ -213,16 +621,14 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 											xtype: 'gridcolumn',
 											renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
 												if(value==='YES'){
-
 													return String.fromCodePoint(0x2705);
-													//return '&#x2705;';
-													//return '<img src="/inc/img/silk_icons/tick.png">';
 												}
 												return '';
 											},
 											userCls: 'rotate-grid-headers',
 											width: 50,
 											dataIndex: 'AutoLogin',
+											exportRenderer: true,
 											text: 'SWA'
 										},
 										{
@@ -235,6 +641,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 											userCls: 'rotate-grid-headers',
 											width: 50,
 											dataIndex: 'SAML_2_0',
+											exportRenderer: true,
 											text: 'SAML'
 										},
 										{
@@ -248,6 +655,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 											userCls: 'rotate-grid-headers',
 											width: 50,
 											dataIndex: 'OIDC',
+											exportRenderer: true,
 											text: 'OIDC'
 										},
 										{
@@ -281,6 +689,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 											userCls: 'rotate-grid-headers',
 											width: 50,
 											dataIndex: 'PushNewUsers',
+											exportRenderer: true,
 											text: 'Create Users'
 										},
 										{
@@ -294,6 +703,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 											userCls: 'rotate-grid-headers',
 											width: 50,
 											dataIndex: 'PushPasswordUpdates',
+											exportRenderer: true,
 											text: 'Password'
 										},
 										{
@@ -307,6 +717,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 											userCls: 'rotate-grid-headers',
 											width: 50,
 											dataIndex: 'PushUserDeactivation',
+											exportRenderer: true,
 											text: 'Deactivation'
 										}
 									]
@@ -326,6 +737,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 											userCls: 'rotate-grid-headers',
 											width: 50,
 											dataIndex: 'ImportNewUsers',
+											exportRenderer: true,
 											text: 'Import Users'
 										},
 										{
@@ -339,6 +751,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 											userCls: 'rotate-grid-headers',
 											width: 50,
 											dataIndex: 'ImportProfileUpdates',
+											exportRenderer: true,
 											text: 'Profile Updates'
 										},
 										{
@@ -352,6 +765,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 											userCls: 'rotate-grid-headers',
 											width: 50,
 											dataIndex: 'AutoConfirmImports',
+											exportRenderer: true,
 											text: 'Auto Confirm'
 										},
 										{
@@ -365,387 +779,30 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 											userCls: 'rotate-grid-headers',
 											width: 50,
 											dataIndex: 'ReactivateUsers',
+											exportRenderer: true,
 											text: 'Reactivation'
 										}
 									]
 								},
 								{
 									xtype: 'gridcolumn',
+									width: 275,
 									dataIndex: 'Description',
 									text: 'Description'
-								},
-								{
-									xtype: 'gridcolumn',
-									dataIndex: 'AppCategoryLabel',
-									text: 'App Category Label'
-								},
-								{
-									xtype: 'gridcolumn',
-									dataIndex: 'Custom',
-									text: 'Custom'
-								},
-								{
-									xtype: 'gridcolumn',
-									dataIndex: 'SecurePasswordStore',
-									text: 'Secure Password Store'
-								},
-								{
-									xtype: 'gridcolumn',
-									dataIndex: 'SAML_2_0',
-									text: 'Saml 2 0'
-								},
-								{
-									xtype: 'gridcolumn',
-									dataIndex: 'SAML_1_1',
-									text: 'Saml 1 1'
-								},
-								{
-									xtype: 'gridcolumn',
-									dataIndex: 'BookMark',
-									text: 'Book Mark'
-								},
-								{
-									xtype: 'gridcolumn',
-									dataIndex: 'BrowserPlugin',
-									text: 'Browser Plugin'
-								},
-								{
-									xtype: 'gridcolumn',
-									dataIndex: 'BasicAuth',
-									text: 'Basic Auth'
-								},
-								{
-									xtype: 'gridcolumn',
-									dataIndex: 'PushProfileUpdates',
-									text: 'Push Profile Updates'
-								},
-								{
-									xtype: 'gridcolumn',
-									dataIndex: 'Ranking',
-									text: 'Ranking'
-								},
-								{
-									xtype: 'gridcolumn',
-									dataIndex: 'OMM',
-									text: 'Omm'
-								},
-								{
-									xtype: 'gridcolumn',
-									dataIndex: 'Name',
-									text: 'Name'
-								},
-								{
-									xtype: 'gridcolumn',
-									dataIndex: 'Website',
-									text: 'Website'
-								},
-								{
-									xtype: 'gridcolumn',
-									dataIndex: 'Version',
-									text: 'Version'
-								},
-								{
-									xtype: 'gridcolumn',
-									dataIndex: 'VerificationStatus',
-									text: 'Verification Status'
-								},
-								{
-									xtype: 'gridcolumn',
-									dataIndex: 'GroupPush',
-									text: 'Group Push'
-								},
-								{
-									xtype: 'gridcolumn',
-									dataIndex: 'GroupSync',
-									text: 'Group Sync'
-								},
-								{
-									xtype: 'gridcolumn',
-									dataIndex: 'ImportUserSchema',
-									text: 'Import User Schema'
-								},
-								{
-									xtype: 'gridcolumn',
-									dataIndex: 'ProfileMastering',
-									text: 'Profile Mastering'
-								},
-								{
-									xtype: 'gridcolumn',
-									dataIndex: 'SCIM',
-									text: 'Scim'
-								},
-								{
-									xtype: 'gridcolumn',
-									dataIndex: 'IntegrationApp',
-									text: 'Integration App'
-								},
-								{
-									xtype: 'gridcolumn',
-									dataIndex: 'AppLinksJSON',
-									text: 'App Links Json'
-								},
-								{
-									xtype: 'gridcolumn',
-									dataIndex: 'VersionCreatedDate',
-									text: 'Version Created Date'
-								},
-								{
-									xtype: 'gridcolumn',
-									dataIndex: 'DeepLinkUrl',
-									text: 'Deep Link Url'
-								},
-								{
-									xtype: 'gridcolumn',
-									dataIndex: 'AppCatalogDiscoverable',
-									text: 'App Catalog Discoverable'
-								},
-								{
-									xtype: 'gridcolumn',
-									dataIndex: 'SupportLevel',
-									text: 'Support Level'
 								}
 							],
-							viewConfig: {
-								width: 742
-							},
-							listeners: {
-								rowdblclick: 'onOinAppGridRowDblClick'
+							plugins: [
+								{
+									ptype: 'gridexporter'
+								}
+							],
+							tabConfig: {
+								xtype: 'tab',
+								dock: 'left',
+								margin: '0 0 0 10',
+								userCls: 'tab-with-border',
+								width: 128
 							}
-						}
-					]
-				},
-				{
-					xtype: 'gridpanel',
-					itemId: 'myApps',
-					resizable: true,
-					resizeHandles: 'w',
-					userCls: 'force-grid-border',
-					width: 400,
-					title: 'My Apps',
-					bind: {
-						store: '{myApps}'
-					},
-					dockedItems: [
-						{
-							xtype: 'toolbar',
-							dock: 'top',
-							items: [
-								{
-									xtype: 'button',
-									text: 'Export',
-									listeners: {
-										click: 'onButtonClick2'
-									}
-								},
-								{
-									xtype: 'button',
-									text: 'Print',
-									listeners: {
-										click: 'onButtonClick3'
-									}
-								},
-								{
-									xtype: 'button',
-									text: 'Remove',
-									listeners: {
-										click: 'onButtonClick11'
-									}
-								}
-							]
-						}
-					],
-					columns: [
-						{
-							xtype: 'gridcolumn',
-							renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-								return '<img src="https://ok3static.oktacdn.com'+value+'" height="34" />';
-							},
-							width: 145,
-							dataIndex: 'LogoImage',
-							ignoreExport: true,
-							text: 'Logo'
-						},
-						{
-							xtype: 'gridcolumn',
-							width: 157,
-							dataIndex: 'DisplayName',
-							text: 'Name'
-						},
-						{
-							xtype: 'gridcolumn',
-							text: 'SSO',
-							columns: [
-								{
-									xtype: 'gridcolumn',
-									renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-										if(value==='YES'){
-											return String.fromCodePoint(0x2705);
-										}
-										return '';
-									},
-									userCls: 'rotate-grid-headers',
-									width: 50,
-									dataIndex: 'AutoLogin',
-									exportRenderer: true,
-									text: 'SWA'
-								},
-								{
-									xtype: 'gridcolumn',
-									renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-										if(record.data['SAML_2_0'] === 'YES' || record.data['SAML_1_1'] === 'YES'){
-											return String.fromCodePoint(0x2705);
-										}
-									},
-									userCls: 'rotate-grid-headers',
-									width: 50,
-									dataIndex: 'SAML_2_0',
-									exportRenderer: true,
-									text: 'SAML'
-								},
-								{
-									xtype: 'gridcolumn',
-									renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-										if(value==='YES'){
-											return String.fromCodePoint(0x2705);
-										}
-										return '';
-									},
-									userCls: 'rotate-grid-headers',
-									width: 50,
-									dataIndex: 'OIDC',
-									exportRenderer: true,
-									text: 'OIDC'
-								},
-								{
-									xtype: 'gridcolumn',
-									renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-										if(value==='YES'){
-											return String.fromCodePoint(0x2705);
-										}
-										return '';
-									},
-									userCls: 'rotate-grid-headers',
-									width: 50,
-									dataIndex: 'WSFED',
-									exportRenderer: true,
-									text: 'WS Fed'
-								}
-							]
-						},
-						{
-							xtype: 'gridcolumn',
-							text: 'Provisioning',
-							columns: [
-								{
-									xtype: 'gridcolumn',
-									renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-										if(value==='YES'){
-											return String.fromCodePoint(0x2705);
-										}
-										return '';
-									},
-									userCls: 'rotate-grid-headers',
-									width: 50,
-									dataIndex: 'PushNewUsers',
-									exportRenderer: true,
-									text: 'Create Users'
-								},
-								{
-									xtype: 'gridcolumn',
-									renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-										if(value==='YES'){
-											return String.fromCodePoint(0x2705);
-										}
-										return '';
-									},
-									userCls: 'rotate-grid-headers',
-									width: 50,
-									dataIndex: 'PushPasswordUpdates',
-									exportRenderer: true,
-									text: 'Password'
-								},
-								{
-									xtype: 'gridcolumn',
-									renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-										if(value==='YES'){
-											return String.fromCodePoint(0x2705);
-										}
-										return '';
-									},
-									userCls: 'rotate-grid-headers',
-									width: 50,
-									dataIndex: 'PushUserDeactivation',
-									exportRenderer: true,
-									text: 'Deactivation'
-								}
-							]
-						},
-						{
-							xtype: 'gridcolumn',
-							text: 'Importing',
-							columns: [
-								{
-									xtype: 'gridcolumn',
-									renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-										if(value==='YES'){
-											return String.fromCodePoint(0x2705);
-										}
-										return '';
-									},
-									userCls: 'rotate-grid-headers',
-									width: 50,
-									dataIndex: 'ImportNewUsers',
-									exportRenderer: true,
-									text: 'Import Users'
-								},
-								{
-									xtype: 'gridcolumn',
-									renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-										if(value==='YES'){
-											return String.fromCodePoint(0x2705);
-										}
-										return '';
-									},
-									userCls: 'rotate-grid-headers',
-									width: 50,
-									dataIndex: 'ImportProfileUpdates',
-									exportRenderer: true,
-									text: 'Profile Updates'
-								},
-								{
-									xtype: 'gridcolumn',
-									renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-										if(value==='YES'){
-											return String.fromCodePoint(0x2705);
-										}
-										return '';
-									},
-									userCls: 'rotate-grid-headers',
-									width: 50,
-									dataIndex: 'AutoConfirmImports',
-									exportRenderer: true,
-									text: 'Auto Confirm'
-								},
-								{
-									xtype: 'gridcolumn',
-									renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-										if(value==='YES'){
-											return String.fromCodePoint(0x2705);
-										}
-										return '';
-									},
-									userCls: 'rotate-grid-headers',
-									width: 50,
-									dataIndex: 'ReactivateUsers',
-									exportRenderer: true,
-									text: 'Reactivation'
-								}
-							]
-						}
-					],
-					plugins: [
-						{
-							ptype: 'gridexporter'
 						}
 					]
 				}
@@ -753,7 +810,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		}
 	],
 	listeners: {
-		render: 'onPanelRender'
+		afterrender: 'onPanelAfterRender'
 	},
 
 	onGridpanelSelectionChange: function(model, selected, eOpts) {
@@ -810,17 +867,18 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 
 	onButtonClick1: function(button, e, eOpts) {
 		let sel = this.queryById('oinAppGrid').getSelectionModel().getSelection();
-		console.log(sel);
+
 		if(sel.length < 1){
 			Ext.Msg.alert(' ','Please select an app!');
 			return;
 		}
 
-		this.getViewModel().getStore('myApps').add(sel[0].clone());
+		this.addAppToMyApps(sel[0]);
+
 	},
 
 	onOinAppGridRowDblClick: function(tableview, record, element, rowIndex, e, eOpts) {
-		this.getViewModel().getStore('myApps').add(record.clone());
+		this.addAppToMyApps(record);
 	},
 
 	onButtonClick2: function(button, e, eOpts) {
@@ -841,7 +899,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 
 	onButtonClick11: function(button, e, eOpts) {
 		let sel = this.queryById('myApps').getSelectionModel().getSelection();
-		console.log(sel);
+
 		if(sel.length < 1){
 			Ext.Msg.alert(' ','Please select an app!');
 			return;
@@ -850,11 +908,23 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		this.getViewModel().getStore('myApps').remove(sel[0]);
 	},
 
-	onPanelRender: function(component, eOpts) {
+	onButtonClick111: function(button, e, eOpts) {
+		let store = this.getViewModel().getStore('myApps');
+		store.removeAll();
+		store.sync();
+	},
+
+	onPanelAfterRender: function(component, eOpts) {
 		this.categoryFilter = null;
 		this.searchFilter = null;
 		this.capabilityFilter = [];
 
+		//load my apps
+		let myAppStore = this.getViewModel().getStore('myApps');
+		myAppStore.on('datachanged',this.updateMyAppCount, this);
+		myAppStore.load();
+
+		//load oin apps
 		let store = this.getViewModel().getStore('oinAppStore');
 
 		var fields = store.getModel().getFields();
@@ -874,9 +944,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		}, this);
 
 		store.on('load',this.loadApps,this);
-
 		store.sort('Ranking','ASC');
-
 		store.load();
 	},
 
@@ -900,6 +968,23 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 			scope:this,
 			//mask:grid
 		});
+	},
+
+	addAppToMyApps: function(record) {
+		let store = this.getViewModel().getStore('myApps');
+
+		let existing = store.find('Name', record.get('Name'),0,false);
+
+		if(existing > -1){
+			return;
+		}
+
+		let rec = record.clone();
+		rec.phantom = true;
+
+		store.add(rec);
+
+		store.sync();
 	},
 
 	searchApps: function(searchText) {
@@ -934,32 +1019,25 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 	},
 
 	loadApps: function(store, records) {
-		console.log('loadApps',arguments);
-
 		let groups = {
 			'All':{
-				//catNo: 1,
 				category:'All',
 				categoryLabel:'All',
 				count:records.length
 			}
 		};
-		//let catNo = 2;
+
 		Ext.each(records,function(rec){
 
 			let cat = rec.get('AppCategory');
-			//let cat = btoa(catLabel);
 
-			//console.log(cat);
-			//console.log(groups[cat]);
 			if(!groups[cat]){
 				groups[cat] = {
 					count:1,
 					category:cat,
-					categoryLabel:rec.get('AppCategoryLabel'),
-					//catNo: catNo
+					categoryLabel:rec.get('AppCategoryLabel')
 				};
-				//rec.set('AppCategory',++catNo);
+
 				rec.commit();
 			}else{
 				groups[cat].count++;
@@ -995,6 +1073,10 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 			store.clearFilter();
 		}
 
+	},
+
+	updateMyAppCount: function(store) {
+		this.queryById('myApps').setTitle('<i class="fas fa-clipboard-list"></i> My Apps ('+store.getCount()+')');
 	}
 
 });
