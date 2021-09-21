@@ -182,8 +182,17 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 										},
 										{
 											xtype: 'container',
-											html: '<a href=\'https://docs.google.com/spreadsheets/d/1XQx4umhgmSQ21hkVqnitrJ7FTAbhpaXsks8vWAcOgIA/\'>Source Data</a>',
-											margin: '0 10 0 0'
+											itemId: 'lastUpdate',
+											margin: '8 0 0 0'
+										},
+										{
+											xtype: 'button',
+											itemId: 'updateButton',
+											margin: '0 10 0 10',
+											text: 'Refresh',
+											listeners: {
+												click: 'onButtonClick4'
+											}
 										}
 									]
 								},
@@ -534,7 +543,8 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 										}
 									],
 									viewConfig: {
-										width: 742
+										width: 742,
+										enableTextSelection: true
 									},
 									listeners: {
 										rowdblclick: 'onOinAppGridRowDblClick'
@@ -791,6 +801,9 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 									text: 'Description'
 								}
 							],
+							viewConfig: {
+								enableTextSelection: true
+							},
 							plugins: [
 								{
 									ptype: 'gridexporter'
@@ -865,6 +878,24 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		this.searchApps('');
 	},
 
+	onButtonClick4: function(button, e, eOpts) {
+		let sThis = this;
+
+		let xhttp = new XMLHttpRequest();
+
+		this.mask('Refreshing Data');
+
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				location.reload();
+			}
+		};
+
+		xhttp.open("POST", "/updateOinData", true);
+		xhttp.send();
+
+	},
+
 	onButtonClick1: function(button, e, eOpts) {
 		let sel = this.queryById('oinAppGrid').getSelectionModel().getSelection();
 
@@ -905,7 +936,9 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 			return;
 		}
 
-		this.getViewModel().getStore('myApps').remove(sel[0]);
+		let store = this.getViewModel().getStore('myApps');
+		store.remove(sel[0]);
+		store.sync();
 	},
 
 	onButtonClick111: function(button, e, eOpts) {
@@ -946,28 +979,8 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		store.on('load',this.loadApps,this);
 		store.sort('Ranking','ASC');
 		store.load();
-	},
 
-	doAjaxRequest: function() {
-		//let job = this.queryById('job').getValue();
-
-		//let grid = this.queryById('jobGrid');
-
-		//this.clearJobGrid();
-
-		AERP.Ajax.request({
-			url:'/controllerName/methodName',
-			jsonData: {
-				job:job
-			},
-			success:function(reply){
-				//this.loadedJob = job;
-
-				//store.loadData(reply.data);
-			},
-			scope:this,
-			//mask:grid
-		});
+		this.getLastApiRefresh();
 	},
 
 	addAppToMyApps: function(record) {
@@ -1073,6 +1086,21 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 			store.clearFilter();
 		}
 
+	},
+
+	getLastApiRefresh: function() {
+		let sThis = this;
+
+		let xhttp = new XMLHttpRequest();
+
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				sThis.queryById('lastUpdate').update('Data Refreshed '+this.responseText);
+			}
+		};
+
+		xhttp.open("POST", "lastApiUpdate", true);
+		xhttp.send();
 	},
 
 	updateMyAppCount: function(store) {
