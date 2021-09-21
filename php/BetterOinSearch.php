@@ -9,7 +9,8 @@ class BetterOinSearch {
 		echo join(',',$line);
 
 	}
-	function convertCsvToJson(){
+
+	function convertCsvToJsonFile(){
 		$fp = fopen('oin.csv','r');
 		$data = [];
 
@@ -66,21 +67,24 @@ class BetterOinSearch {
 
 		curl_close($curlSession);
 
-		$oinLines = explode("\n",$server_output);
+		$tempFile = uniqid().'.json';
+		file_put_contents($tempFile, $server_output);
 
-		array_shift($oinLines);//remove first header line
-		array_pop($oinLines);//remove last blank line
+		$fp = fopen($tempFile,'r');
+		$data = [];
 
-		foreach($oinLines as $line){
+		//skip header line
+		fgetcsv($fp);
 
-			$line = str_getcsv($line);
-
-			foreach($line as &$col){
+		while($line = fgetcsv($fp)) {
+			foreach ($line as &$col) {
 				$col = trim($col);
 				$col = mb_convert_encoding($col, 'UTF-8', mb_detect_encoding($col, 'UTF-8, ISO-8859-1', true));
 			}
 			$data[] = $line;
 		}
+
+		unlink($tempFile);
 
 		if(false === $dataJson = json_encode($data, JSON_THROW_ON_ERROR)){
 			die('failed to json encode!');
@@ -95,11 +99,12 @@ class BetterOinSearch {
 	}
 
 	function route(){
+		$uri = parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);
 
-		if(FALSE === $lastSlash = strrpos($_SERVER['REQUEST_URI'], '/')){
+		if(FALSE === $lastSlash = strrpos($uri, '/')){
 			die('invalid route');
 		}
-		$method = substr($_SERVER['REQUEST_URI'],$lastSlash+1);
+		$method = substr($uri,$lastSlash+1);
 
 		if(FALSE === is_callable([$this, $method])){
 			die('invalid route');
