@@ -936,7 +936,9 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 			return;
 		}
 
-		this.getViewModel().getStore('myApps').remove(sel[0]);
+		let store = this.getViewModel().getStore('myApps');
+		store.remove(sel[0]);
+		store.sync();
 	},
 
 	onButtonClick111: function(button, e, eOpts) {

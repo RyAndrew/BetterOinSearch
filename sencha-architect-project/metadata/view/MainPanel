@@ -2278,7 +2278,9 @@
                                                             "\treturn;",
                                                             "}",
                                                             "",
-                                                            "this.getViewModel().getStore('myApps').remove(sel[0]);"
+                                                            "let store = this.getViewModel().getStore('myApps');",
+                                                            "store.remove(sel[0]);",
+                                                            "store.sync();"
                                                         ],
                                                         "name": "click",
                                                         "scope": "me"
