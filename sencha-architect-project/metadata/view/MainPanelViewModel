@@ -185,10 +185,16 @@
                     },
                     "codeClass": null,
                     "userConfig": {
-                        "url": "/BetterOinSearch/oin.json"
+                        "actionMethods": [
+                            "{\"create\":\"POST\",\"read\":\"POST\",\"update\":\"POST\",\"destroy\":\"POST\"}"
+                        ],
+                        "noCache": false,
+                        "url": "oin.json"
                     },
                     "configAlternates": {
-                        "url": "string"
+                        "url": "string",
+                        "actionMethods": "object",
+                        "noCache": "boolean"
                     },
                     "name": "MyAjaxProxy",
                     "designerId": "eba6bb45-effe-46dd-9186-c39843b0a3ec",

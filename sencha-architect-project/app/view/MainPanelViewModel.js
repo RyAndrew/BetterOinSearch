@@ -80,7 +80,14 @@ Ext.define('BetterOinSearch.view.MainPanelViewModel', {
 			model: 'BetterOinSearch.model.OinModel',
 			proxy: {
 				type: 'ajax',
-				url: '/BetterOinSearch/oin.json',
+				noCache: false,
+				url: 'oin.json',
+				actionMethods: {
+					create: 'POST',
+					read: 'POST',
+					update: 'POST',
+					destroy: 'POST'
+				},
 				reader: {
 					type: 'array'
 				}

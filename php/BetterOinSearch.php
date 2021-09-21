@@ -20,7 +20,7 @@ class BetterOinSearch {
 				$col = trim($col);
 				$col = mb_convert_encoding($col, 'UTF-8', mb_detect_encoding($col, 'UTF-8, ISO-8859-1', true));
 			}
-			$data[] = $line;
+			$data[] = $line; 
 		}
 
 		if(false === $dataJson = json_encode($data, JSON_THROW_ON_ERROR)){
@@ -90,10 +90,13 @@ class BetterOinSearch {
 			die('failed to json encode!');
 		}
 
-		$rootDir = $_SERVER['DOCUMENT_ROOT'].'/BetterOinSearch/';
+		date_default_timezone_set('America/Chicago');
+
+		$rootDir = $_SERVER['DOCUMENT_ROOT'].'/';
 		$date = date('Y-m-d_g-i-s');
 		@rename($rootDir.'oin.json',"{$rootDir}oin-{$date}.json");
 		file_put_contents($rootDir.'oin.json',$dataJson);
+		file_put_contents($rootDir.'lastApiUpdate',date('m/d/y g:ia'));
 
 		echo "oin.json updated! {$date}";
 	}

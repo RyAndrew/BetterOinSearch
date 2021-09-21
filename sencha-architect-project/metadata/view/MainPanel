@@ -33,44 +33,6 @@
     "viewModelInstanceId": "f565af02-a06d-4dc3-95d1-9c4c266bfbf2",
     "cn": [
         {
-            "type": "basicfunction",
-            "reference": {
-                "name": "items",
-                "type": "array"
-            },
-            "codeClass": null,
-            "userConfig": {
-                "fn": "doAjaxRequest",
-                "implHandler": [
-                    "//let job = this.queryById('job').getValue();",
-                    "",
-                    "//let grid = this.queryById('jobGrid');",
-                    "",
-                    "//this.clearJobGrid();",
-                    "",
-                    "AERP.Ajax.request({",
-                    "\turl:'/controllerName/methodName',",
-                    "\tjsonData: {",
-                    "\t\tjob:job",
-                    "\t},",
-                    "\tsuccess:function(reply){",
-                    "\t\t//this.loadedJob = job;",
-                    "",
-                    "\t\t//store.loadData(reply.data);",
-                    "\t},",
-                    "\tscope:this,",
-                    "\t//mask:grid",
-                    "});"
-                ]
-            },
-            "configAlternates": {
-                "fn": "string",
-                "implHandler": "code"
-            },
-            "name": "doAjaxRequest",
-            "designerId": "1c192b78-5cb5-48f9-bd91-cef118346b27"
-        },
-        {
             "type": "Ext.container.Container",
             "reference": {
                 "name": "items",
@@ -599,15 +561,77 @@
                                             },
                                             "codeClass": null,
                                             "userConfig": {
-                                                "html": "<a href='https://docs.google.com/spreadsheets/d/1XQx4umhgmSQ21hkVqnitrJ7FTAbhpaXsks8vWAcOgIA/'>Source Data</a>",
-                                                "margin": "0 10 0 0"
+                                                "itemId": "lastUpdate",
+                                                "margin": "8 0 0 0"
                                             },
                                             "configAlternates": {
                                                 "html": "string",
-                                                "margin": "auto"
+                                                "margin": "auto",
+                                                "itemId": "string"
                                             },
                                             "name": "MyContainer3",
                                             "designerId": "a30ae2cc-4962-4fe4-97ca-210376385389"
+                                        },
+                                        {
+                                            "type": "Ext.button.Button",
+                                            "reference": {
+                                                "name": "items",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "itemId": "updateButton",
+                                                "margin": "0 10 0 10",
+                                                "text": "Refresh"
+                                            },
+                                            "configAlternates": {
+                                                "hidden": "boolean",
+                                                "itemId": "string",
+                                                "margin": "auto",
+                                                "text": "string"
+                                            },
+                                            "name": "MyButton5",
+                                            "designerId": "bb8b876f-6270-4928-ae49-76411932aa4b",
+                                            "cn": [
+                                                {
+                                                    "type": "basiceventbinding",
+                                                    "reference": {
+                                                        "name": "listeners",
+                                                        "type": "array"
+                                                    },
+                                                    "codeClass": null,
+                                                    "userConfig": {
+                                                        "fn": "onButtonClick4",
+                                                        "implHandler": [
+                                                            "let sThis = this;",
+                                                            "",
+                                                            "let xhttp = new XMLHttpRequest();",
+                                                            "",
+                                                            "this.mask('Refreshing Data');",
+                                                            "",
+                                                            "xhttp.onreadystatechange = function() {",
+                                                            "\tif (this.readyState == 4 && this.status == 200) {",
+                                                            "\t\tlocation.reload();",
+                                                            "\t}",
+                                                            "};",
+                                                            "",
+                                                            "xhttp.open(\"POST\", \"/updateOinData\", true);",
+                                                            "xhttp.send();",
+                                                            ""
+                                                        ],
+                                                        "name": "click",
+                                                        "scope": "me"
+                                                    },
+                                                    "configAlternates": {
+                                                        "fn": "string",
+                                                        "implHandler": "code",
+                                                        "name": "string",
+                                                        "scope": "string"
+                                                    },
+                                                    "name": "onButtonClick4",
+                                                    "designerId": "74993700-60a9-45da-bcec-ef4e81355d81"
+                                                }
+                                            ]
                                         }
                                     ]
                                 },
@@ -1549,10 +1573,12 @@
                                             },
                                             "codeClass": null,
                                             "userConfig": {
+                                                "enableTextSelection": true,
                                                 "width": 742
                                             },
                                             "configAlternates": {
-                                                "width": "auto"
+                                                "width": "auto",
+                                                "enableTextSelection": "boolean"
                                             },
                                             "name": "MyTable",
                                             "designerId": "ca49480a-5d80-4e60-ac98-90166a4317e9"
@@ -2399,6 +2425,12 @@
                                         "type": "object"
                                     },
                                     "codeClass": null,
+                                    "userConfig": {
+                                        "enableTextSelection": true
+                                    },
+                                    "configAlternates": {
+                                        "enableTextSelection": "boolean"
+                                    },
                                     "name": "MyTable",
                                     "designerId": "012a05c9-7b7d-4293-a876-082d3a925dd9"
                                 },
@@ -3396,6 +3428,37 @@
             },
             "codeClass": null,
             "userConfig": {
+                "fn": "getLastApiRefresh",
+                "implHandler": [
+                    "let sThis = this;",
+                    "",
+                    "let xhttp = new XMLHttpRequest();",
+                    "",
+                    "xhttp.onreadystatechange = function() {",
+                    "\tif (this.readyState == 4 && this.status == 200) {",
+                    "\t\tsThis.queryById('lastUpdate').update('Data Refreshed '+this.responseText);",
+                    "\t}",
+                    "};",
+                    "",
+                    "xhttp.open(\"POST\", \"lastApiUpdate\", true);",
+                    "xhttp.send();"
+                ]
+            },
+            "configAlternates": {
+                "fn": "string",
+                "implHandler": "code"
+            },
+            "name": "getLastApiRefresh",
+            "designerId": "c4ddf727-850e-422b-8b54-42222af274e1"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
                 "designer|params": [
                     "store"
                 ],
@@ -3452,7 +3515,9 @@
                     "",
                     "store.on('load',this.loadApps,this);",
                     "store.sort('Ranking','ASC');",
-                    "store.load();"
+                    "store.load();",
+                    "",
+                    "this.getLastApiRefresh();"
                 ],
                 "name": "afterrender",
                 "scope": "me"
