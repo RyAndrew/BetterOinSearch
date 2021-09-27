@@ -335,8 +335,9 @@
                                 "bodyBorder": true,
                                 "container|align": "stretch",
                                 "designer|uiInterfaceName": "default",
+                                "iconCls": "x-fa fa-search",
                                 "layout": "vbox",
-                                "title": "<i class=\"fas fa-search\"></i> Search OIN",
+                                "title": "Search OIN",
                                 "userCls": [
                                     "force-grid-border"
                                 ]
@@ -347,7 +348,8 @@
                                 "designer|uiInterfaceName": "string",
                                 "layout": "string",
                                 "title": "string",
-                                "userCls": "typedarray"
+                                "userCls": "typedarray",
+                                "iconCls": "string"
                             },
                             "name": "MyPanel3",
                             "designerId": "d544cdee-f13e-492d-b09a-b4f51d298332",
@@ -561,13 +563,19 @@
                                             },
                                             "codeClass": null,
                                             "userConfig": {
+                                                "html": "App v<BR>Data Refreshed",
                                                 "itemId": "lastUpdate",
-                                                "margin": "8 0 0 0"
+                                                "style": [
+                                                    "{",
+                                                    "'text-align':'right'",
+                                                    "}"
+                                                ]
                                             },
                                             "configAlternates": {
                                                 "html": "string",
                                                 "margin": "auto",
-                                                "itemId": "string"
+                                                "itemId": "string",
+                                                "style": "object"
                                             },
                                             "name": "MyContainer3",
                                             "designerId": "a30ae2cc-4962-4fe4-97ca-210376385389"
@@ -705,12 +713,14 @@
                                                     },
                                                     "codeClass": null,
                                                     "userConfig": {
+                                                        "iconCls": "x-fa fa-plus-square",
                                                         "layout|flex": null,
-                                                        "text": "<i class=\"far fa-plus-square\"></i> Add to My Apps"
+                                                        "text": "Add to My Apps"
                                                     },
                                                     "configAlternates": {
                                                         "layout|flex": "number",
-                                                        "text": "string"
+                                                        "text": "string",
+                                                        "iconCls": "string"
                                                     },
                                                     "name": "MyButton1",
                                                     "designerId": "69812e93-f334-4754-9e2a-74d880293f67",
@@ -2107,13 +2117,14 @@
                             },
                             "codeClass": null,
                             "userConfig": {
+                                "iconCls": "x-fa fa-clipboard-list",
                                 "itemId": "myApps",
                                 "resizable": true,
                                 "resizeHandles": "w",
                                 "store": [
                                     "{myApps}"
                                 ],
-                                "title": "<i class=\"fas fa-clipboard-list\"></i> My Apps (0)",
+                                "title": "My Apps (0)",
                                 "userCls": [
                                     "force-grid-border"
                                 ],
@@ -2126,7 +2137,8 @@
                                 "width": "auto",
                                 "store": "binding",
                                 "itemId": "string",
-                                "userCls": "typedarray"
+                                "userCls": "typedarray",
+                                "iconCls": "string"
                             },
                             "name": "MyGridPanel1",
                             "designerId": "99571538-42dd-44a6-8973-6b4847b9b008",
@@ -2155,12 +2167,14 @@
                                             },
                                             "codeClass": null,
                                             "userConfig": {
+                                                "iconCls": "x-fa fa-file-excel",
                                                 "layout|flex": null,
-                                                "text": "<i class=\"far fa-file-excel\"></i> Export"
+                                                "text": "Export"
                                             },
                                             "configAlternates": {
                                                 "layout|flex": "number",
-                                                "text": "string"
+                                                "text": "string",
+                                                "iconCls": "string"
                                             },
                                             "name": "MyButton",
                                             "designerId": "f3e799a6-bd3e-4761-a7e7-837948ec07e6",
@@ -2203,12 +2217,14 @@
                                             },
                                             "codeClass": null,
                                             "userConfig": {
+                                                "iconCls": "x-fa fa-save",
                                                 "layout|flex": null,
-                                                "text": "<i class=\"fas fa-print\"></i> Print"
+                                                "text": "Save"
                                             },
                                             "configAlternates": {
                                                 "layout|flex": "number",
-                                                "text": "string"
+                                                "text": "string",
+                                                "iconCls": "string"
                                             },
                                             "name": "MyButton1",
                                             "designerId": "18419568-e8ab-4f10-a507-0a5c7ffb6ae6",
@@ -2251,12 +2267,14 @@
                                             },
                                             "codeClass": null,
                                             "userConfig": {
+                                                "iconCls": "x-fa fa-minus-square",
                                                 "layout|flex": null,
-                                                "text": "<i class=\"far fa-minus-square\"></i> Remove"
+                                                "text": "Remove"
                                             },
                                             "configAlternates": {
                                                 "layout|flex": "number",
-                                                "text": "string"
+                                                "text": "string",
+                                                "iconCls": "string"
                                             },
                                             "name": "MyButton3",
                                             "designerId": "733debd6-5b1a-4e2f-8ba2-8d25e6ed938e",
@@ -2304,14 +2322,16 @@
                                             },
                                             "codeClass": null,
                                             "userConfig": {
+                                                "iconCls": "x-fa fa-trash-alt",
                                                 "layout|flex": null,
                                                 "margin": "0 0 0 30",
-                                                "text": "<i class=\"far fa-trash-alt\"></i> Remove All"
+                                                "text": "Remove All"
                                             },
                                             "configAlternates": {
                                                 "layout|flex": "number",
                                                 "text": "string",
-                                                "margin": "auto"
+                                                "margin": "auto",
+                                                "iconCls": "string"
                                             },
                                             "name": "MyButton4",
                                             "designerId": "ed541b4c-af3d-48e2-ba4d-b4c0c07d5309",
@@ -3412,7 +3432,8 @@
                     "}else{",
                     "\tstore.clearFilter();",
                     "}",
-                    ""
+                    "",
+                    "this.queryById('oinAppGrid').getScrollable().scrollTo(0,0);"
                 ]
             },
             "configAlternates": {
@@ -3432,13 +3453,15 @@
             "userConfig": {
                 "fn": "getLastApiRefresh",
                 "implHandler": [
+                    "let appVer = '0.1.1';",
+                    "",
                     "let sThis = this;",
                     "",
                     "let xhttp = new XMLHttpRequest();",
                     "",
                     "xhttp.onreadystatechange = function() {",
                     "\tif (this.readyState == 4 && this.status == 200) {",
-                    "\t\tsThis.queryById('lastUpdate').update('Data Refreshed '+this.responseText);",
+                    "\t\tsThis.queryById('lastUpdate').update('App v'+appVer+'<BR>Data Refreshed '+this.responseText);",
                     "\t}",
                     "};",
                     "",
@@ -3466,7 +3489,7 @@
                 ],
                 "fn": "updateMyAppCount",
                 "implHandler": [
-                    "this.queryById('myApps').setTitle('<i class=\"fas fa-clipboard-list\"></i> My Apps ('+store.getCount()+')');"
+                    "this.queryById('myApps').setTitle('My Apps ('+store.getCount()+')');"
                 ]
             },
             "configAlternates": {

@@ -129,7 +129,8 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 							xtype: 'panel',
 							userCls: 'force-grid-border',
 							bodyBorder: true,
-							title: '<i class="fas fa-search"></i> Search OIN',
+							iconCls: 'x-fa fa-search',
+							title: 'Search OIN',
 							layout: {
 								type: 'vbox',
 								align: 'stretch'
@@ -182,8 +183,11 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 										},
 										{
 											xtype: 'container',
+											html: 'App v<BR>Data Refreshed',
 											itemId: 'lastUpdate',
-											margin: '8 0 0 0'
+											style: {
+												'text-align': 'right'
+											}
 										},
 										{
 											xtype: 'button',
@@ -211,7 +215,8 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 											items: [
 												{
 													xtype: 'button',
-													text: '<i class="far fa-plus-square"></i> Add to My Apps',
+													iconCls: 'x-fa fa-plus-square',
+													text: 'Add to My Apps',
 													listeners: {
 														click: 'onButtonClick1'
 													}
@@ -565,7 +570,8 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 							resizeHandles: 'w',
 							userCls: 'force-grid-border',
 							width: 400,
-							title: '<i class="fas fa-clipboard-list"></i> My Apps (0)',
+							iconCls: 'x-fa fa-clipboard-list',
+							title: 'My Apps (0)',
 							bind: {
 								store: '{myApps}'
 							},
@@ -576,21 +582,24 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 									items: [
 										{
 											xtype: 'button',
-											text: '<i class="far fa-file-excel"></i> Export',
+											iconCls: 'x-fa fa-file-excel',
+											text: 'Export',
 											listeners: {
 												click: 'onButtonClick2'
 											}
 										},
 										{
 											xtype: 'button',
-											text: '<i class="fas fa-print"></i> Print',
+											iconCls: 'x-fa fa-save',
+											text: 'Save',
 											listeners: {
 												click: 'onButtonClick3'
 											}
 										},
 										{
 											xtype: 'button',
-											text: '<i class="far fa-minus-square"></i> Remove',
+											iconCls: 'x-fa fa-minus-square',
+											text: 'Remove',
 											listeners: {
 												click: 'onButtonClick11'
 											}
@@ -598,7 +607,8 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 										{
 											xtype: 'button',
 											margin: '0 0 0 30',
-											text: '<i class="far fa-trash-alt"></i> Remove All',
+											iconCls: 'x-fa fa-trash-alt',
+											text: 'Remove All',
 											listeners: {
 												click: 'onButtonClick111'
 											}
@@ -1086,16 +1096,19 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 			store.clearFilter();
 		}
 
+		this.queryById('oinAppGrid').getScrollable().scrollTo(0,0);
 	},
 
 	getLastApiRefresh: function() {
+		let appVer = '0.1.1';
+
 		let sThis = this;
 
 		let xhttp = new XMLHttpRequest();
 
 		xhttp.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
-				sThis.queryById('lastUpdate').update('Data Refreshed '+this.responseText);
+				sThis.queryById('lastUpdate').update('App v'+appVer+'<BR>Data Refreshed '+this.responseText);
 			}
 		};
 
@@ -1104,7 +1117,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 	},
 
 	updateMyAppCount: function(store) {
-		this.queryById('myApps').setTitle('<i class="fas fa-clipboard-list"></i> My Apps ('+store.getCount()+')');
+		this.queryById('myApps').setTitle('My Apps ('+store.getCount()+')');
 	}
 
 });
