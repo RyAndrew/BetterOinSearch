@@ -2,11 +2,13 @@
   "name": "Better-Oin-Search",
   "version": "0.0.1",
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+    "mysql": "latest"
+  },
   "scripts": {
     "start": "node app.js"
   },
-  "engines" : { 
-    "node" : ">=0.12" 
-  } 
+  "engines": {
+    "node": ">=0.12"
+  }
 }

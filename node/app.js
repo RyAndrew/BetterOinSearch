@@ -1,5 +1,6 @@
 "use strict";
 
+const mysql = require('mysql');
 const http = require('http');
 const net = require('net');
 const url = require('url');
@@ -140,6 +141,15 @@ const httpServer = http.createServer(function(request, response) {
 	})
 }
 
+const mysqlcon  = mysql.createPool({
+  connectionLimit : 10,
+  host            : process.env.DB_HOST,
+  user            : process.env.DB_USER,
+  password        : process.env.DB_PASS,
+  database        : process.env.DB_NAME
+});
+
+
 function crudCreate(request, response){
 	try{
 			input=JSON.parse(request.body);
@@ -152,14 +162,49 @@ function crudCreate(request, response){
 		response.end(JSON.stringify({success:false, error:"invalid request data"}));
 		return;
 	}
+	if(!input.hasOwnProperty('apps')){
+		response.end(JSON.stringify({success:false, error:"invalid request data"}));
+		return;
+	}
 
-	let newRecord = {
-		name: input.name
+	let listData = {
+		listName: input.name,
+		listId: makeId(8),
+		apps: input.apps
 	};
+	let insertQuery = 'INSERT INTO appList (listName,listId,appJson,dateCreated) values (??,?,??,CURRENT_TIMESTAMP()) ';
+	mysqlcon.query(insertQuery, [listData.listName, listData.listId, listData.apps] ,function (error, results, fields) {
+		if (error){
+			response.end(JSON.stringify({success:false, error:"invalid request data"}));
+			return;
+		}
+	});
 
-	response.end(JSON.stringify({success:true, data:newRecord}));
+	response.end(JSON.stringify({success:true, data:listData}));
 }
 function crudRead(request, response){
+	try{
+			input=JSON.parse(request.body);
+	}catch(e){
+		response.end(JSON.stringify({success:false, error:"invalid request data"}));
+		return;
+	}
+
+	if(!input.hasOwnProperty('listId') || input.listId.length !== 8 ){
+		response.end(JSON.stringify({success:false, error:"invalid request data"}));
+		return;
+	}
+	mysqlcon.query("select listName,listId,appJson,dateCreated from appList where listId=??", [input.listId] ,function (error, results, fields) {
+		if (error){
+			response.end(JSON.stringify({success:false, error:"invalid request data"}));
+			return;
+		}
+		if(results.length < 1){
+			response.end(JSON.stringify({success:false, error:"invalid request data"}));
+			return;
+		}
+		response.end(JSON.stringify({success:true, data:results[0]}));
+	});
 
 }
 function crudUpdate(request, response){
@@ -167,6 +212,15 @@ function crudUpdate(request, response){
 }
 function crudDelete(request, response){
 
+}
+const randomChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+const charactersLength = randomChars.length;
+function makeId(length) {
+	var result   = '';
+	for ( var i = 0; i < length; i++ ) {
+		result += characters.charAt(Math.floor(Math.random() * charactersLength));
+	}
+	return result;
 }
   
 process.on("SIGINT", function () {
