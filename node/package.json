@@ -1,0 +1,12 @@
+{
+  "name": "Better-Oin-Search",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {},
+  "scripts": {
+    "start": "node app.js"
+  },
+  "engines" : { 
+    "node" : ">=0.12" 
+  } 
+}
