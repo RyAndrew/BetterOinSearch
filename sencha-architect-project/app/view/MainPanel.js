@@ -591,13 +591,14 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 										{
 											xtype: 'button',
 											iconCls: 'x-fa fa-save',
-											text: 'Save',
+											text: 'Save List',
 											listeners: {
 												click: 'onButtonClick3'
 											}
 										},
 										{
 											xtype: 'button',
+											margin: '0 0 0 20',
 											iconCls: 'x-fa fa-minus-square',
 											text: 'Remove',
 											listeners: {
@@ -826,6 +827,82 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 								userCls: 'tab-with-border',
 								width: 128
 							}
+						},
+						{
+							xtype: 'gridpanel',
+							itemId: 'myAppLists',
+							resizable: true,
+							resizeHandles: 'w',
+							userCls: 'force-grid-border',
+							width: 400,
+							iconCls: 'x-fa fa-list',
+							title: 'My App Lists (0)',
+							bind: {
+								store: '{myLists}'
+							},
+							dockedItems: [
+								{
+									xtype: 'toolbar',
+									dock: 'top',
+									items: [
+										{
+											xtype: 'button',
+											iconCls: 'x-fa fa-clipboard-list',
+											text: 'View',
+											listeners: {
+												click: 'onButtonClick21'
+											}
+										},
+										{
+											xtype: 'button',
+											margin: '0 0 0 20',
+											iconCls: 'x-fa fa-minus-square',
+											text: 'Delete',
+											listeners: {
+												click: 'onButtonClick112'
+											}
+										}
+									]
+								}
+							],
+							columns: [
+								{
+									xtype: 'gridcolumn',
+									width: 240,
+									dataIndex: 'listName',
+									text: 'Name'
+								},
+								{
+									xtype: 'gridcolumn',
+									renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+										return value.length || '';
+									},
+									width: 96,
+									dataIndex: 'appList',
+									text: 'Apps'
+								},
+								{
+									xtype: 'gridcolumn',
+									width: 182,
+									dataIndex: 'dateCreated',
+									text: 'Date Created'
+								},
+								{
+									xtype: 'gridcolumn',
+									width: 182,
+									dataIndex: 'dateModified',
+									text: 'Date Modified'
+								}
+							],
+							viewConfig: {
+								enableTextSelection: true
+							},
+							tabConfig: {
+								xtype: 'tab',
+								dock: 'left',
+								margin: '0 0 0 10',
+								userCls: 'tab-with-border'
+							}
 						}
 					]
 				}
@@ -895,6 +972,8 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 
 		this.mask('Refreshing Data');
 
+		'BetterOinSearch.view.SaveWindow'
+
 		xhttp.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
 				location.reload();
@@ -931,11 +1010,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 	},
 
 	onButtonClick3: function(button, e, eOpts) {
-		this.queryById('myApps').saveDocumentAs({
-		     type: 'html',
-		     title: 'My Apps',
-		     fileName: 'My_Apps_'+Ext.util.Format.date(new Date(), 'Y-m-d_g-ia')+'.html'
-		 });
+		this.saveListGetName();
 	},
 
 	onButtonClick11: function(button, e, eOpts) {
@@ -955,6 +1030,27 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		let store = this.getViewModel().getStore('myApps');
 		store.removeAll();
 		store.sync();
+	},
+
+	onButtonClick21: function(button, e, eOpts) {
+		this.queryById('myApps').saveDocumentAs({
+		     type: 'xlsx',
+		     title: 'My Apps',
+		     fileName: 'My_Apps_'+Ext.util.Format.date(new Date(), 'Y-m-d_g-ia')+'.xlsx'
+		 });
+	},
+
+	onButtonClick112: function(button, e, eOpts) {
+		let sel = this.queryById('myAppLists').getSelectionModel().getSelection();
+
+		if(sel.length < 1){
+			Ext.Msg.alert(' ','Please select an app!');
+			return;
+		}
+
+		let store = this.getViewModel().getStore('myLists');
+		//store.remove(sel[0]);
+		//store.sync();
 	},
 
 	onPanelAfterRender: function(component, eOpts) {
@@ -1042,6 +1138,10 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 	},
 
 	loadApps: function(store, records) {
+		if(!records){
+			return;
+		}
+
 		let groups = {
 			'All':{
 				category:'All',
@@ -1097,6 +1197,46 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		}
 
 		this.queryById('oinAppGrid').getScrollable().scrollTo(0,0);
+	},
+
+	saveListResponse: function(data) {
+		this.getViewModel().getStore('myLists').loadData(list,true);
+
+	},
+
+	saveList: function(name) {
+		let apps;
+		this.getViewModel().getStore('myApps').each(function(rec){
+			apps.push(rec.get('Version'));
+		});
+
+		AERP.AjaxRequest({
+			url:'create',
+			mask:true,
+			jsonData:{
+				name:name,
+				apps:apps
+			},
+			success:function(resp){
+				this.saveListResponse(resp.data);
+			},
+			scope:this
+		});
+	},
+
+	saveListGetName: function() {
+		if(!this.saveWin){
+			this.saveWin = Ext.create('BetterOinSearch.view.SaveWindow',{
+				listeners:{
+					scope:this,
+					saved:function(){
+
+					}
+				}
+			});
+		}
+
+		this.saveWin.clearAndShow();
 	},
 
 	getLastApiRefresh: function() {

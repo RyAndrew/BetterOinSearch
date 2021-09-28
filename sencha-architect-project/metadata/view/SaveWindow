@@ -1,0 +1,224 @@
+{
+    "type": "Ext.window.Window",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "closeAction": "hide",
+        "designer|userAlias": "savewindow",
+        "designer|userClassName": "SaveWindow",
+        "height": 185,
+        "title": "Save",
+        "width": 400
+    },
+    "configAlternates": {
+        "closeAction": "string",
+        "designer|userAlias": "string",
+        "designer|userClassName": "string",
+        "height": "auto",
+        "title": "string",
+        "width": "auto"
+    },
+    "name": "MyWindow",
+    "designerId": "0810a8fe-975c-4729-8db8-f5149a788609",
+    "viewControllerInstanceId": "912360fe-918c-4fae-a5a7-0faf177c371e",
+    "viewModelInstanceId": "95eb2d5b-0e11-4721-8fea-b2bc37ee4a90",
+    "cn": [
+        {
+            "type": "Ext.form.field.Text",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fieldLabel": "Name",
+                "itemId": "name",
+                "labelWidth": 60,
+                "margin": "30 0 0 50",
+                "width": 290
+            },
+            "configAlternates": {
+                "fieldLabel": "string",
+                "itemId": "string",
+                "labelWidth": "number",
+                "margin": "auto",
+                "width": "auto"
+            },
+            "name": "MyTextField1",
+            "designerId": "232140ca-a34e-4a32-b6a7-7d7e7ff716dc"
+        },
+        {
+            "type": "Ext.toolbar.Toolbar",
+            "reference": {
+                "name": "dockedItems",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "dock": "bottom"
+            },
+            "configAlternates": {
+                "dock": "string"
+            },
+            "name": "MyToolbar",
+            "designerId": "e627c795-55f3-49bd-811f-725bbc2e1ddc",
+            "cn": [
+                {
+                    "type": "Ext.toolbar.Fill",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "layout|flex": null
+                    },
+                    "configAlternates": {
+                        "layout|flex": "number"
+                    },
+                    "name": "MyFill1",
+                    "designerId": "30bf27f8-a0ba-4271-98ad-6dc74d1bdfb7"
+                },
+                {
+                    "type": "Ext.button.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "layout|flex": null,
+                        "margin": "0 50 0 0",
+                        "text": "Cancel",
+                        "width": 100
+                    },
+                    "configAlternates": {
+                        "layout|flex": "number",
+                        "margin": "auto",
+                        "text": "string",
+                        "width": "auto"
+                    },
+                    "name": "MyButton6",
+                    "designerId": "28a6475b-f8b0-4c53-a31b-e2df38560177",
+                    "cn": [
+                        {
+                            "type": "basiceventbinding",
+                            "reference": {
+                                "name": "listeners",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "fn": "onButtonClick1",
+                                "implHandler": [
+                                    "this.hide();"
+                                ],
+                                "name": "click",
+                                "scope": "me"
+                            },
+                            "configAlternates": {
+                                "fn": "string",
+                                "implHandler": "code",
+                                "name": "string",
+                                "scope": "string"
+                            },
+                            "name": "onButtonClick1",
+                            "designerId": "88d80926-7e25-42bf-bec9-2f40a26a633a"
+                        }
+                    ]
+                },
+                {
+                    "type": "Ext.button.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "layout|flex": null,
+                        "text": "Save",
+                        "width": 100
+                    },
+                    "configAlternates": {
+                        "layout|flex": "number",
+                        "text": "string",
+                        "width": "auto"
+                    },
+                    "name": "MyButton7",
+                    "designerId": "52411b0b-64f2-433b-b553-c2321f98bd39",
+                    "cn": [
+                        {
+                            "type": "basiceventbinding",
+                            "reference": {
+                                "name": "listeners",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "fn": "onButtonClick",
+                                "implHandler": [
+                                    "let name = this.querById('name');",
+                                    "if(name === ''){",
+                                    "\tExt.Msg.alert(' ','Enter name');",
+                                    "\treturn false;",
+                                    "}",
+                                    "this.fireEvent('saved',name);"
+                                ],
+                                "name": "click",
+                                "scope": "me"
+                            },
+                            "configAlternates": {
+                                "fn": "string",
+                                "implHandler": "code",
+                                "name": "string",
+                                "scope": "string"
+                            },
+                            "name": "onButtonClick",
+                            "designerId": "119da936-48fc-4b01-bdcb-fa8e6e562a19"
+                        }
+                    ]
+                },
+                {
+                    "type": "Ext.toolbar.Fill",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "layout|flex": null
+                    },
+                    "configAlternates": {
+                        "layout|flex": "number"
+                    },
+                    "name": "MyFill",
+                    "designerId": "a141277e-0208-4661-9677-295ba05d76c2"
+                }
+            ]
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "clearAndShow",
+                "implHandler": [
+                    "this.show();",
+                    "this.queryById('name').focus();"
+                ]
+            },
+            "configAlternates": {
+                "fn": "string",
+                "implHandler": "code"
+            },
+            "name": "clearAndShow",
+            "designerId": "47180cf5-a806-4ad6-8556-afaac9431829"
+        }
+    ]
+}

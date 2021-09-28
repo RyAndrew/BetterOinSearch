@@ -99,6 +99,29 @@ Ext.define('BetterOinSearch.view.MainPanelViewModel', {
 				type: 'localstorage',
 				id: 'myapps21916'
 			}
+		},
+		myLists: {
+			proxy: {
+				type: 'localstorage',
+				id: 'mylists21928'
+			},
+			fields: [
+				{
+					name: 'listId'
+				},
+				{
+					name: 'listName'
+				},
+				{
+					name: 'dateCreated'
+				},
+				{
+					name: 'dateModified'
+				},
+				{
+					name: 'appList'
+				}
+			]
 		}
 	}
 

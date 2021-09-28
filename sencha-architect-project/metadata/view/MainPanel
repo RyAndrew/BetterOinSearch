@@ -617,6 +617,8 @@
                                                             "",
                                                             "this.mask('Refreshing Data');",
                                                             "",
+                                                            "'BetterOinSearch.view.SaveWindow'",
+                                                            "",
                                                             "xhttp.onreadystatechange = function() {",
                                                             "\tif (this.readyState == 4 && this.status == 200) {",
                                                             "\t\tlocation.reload();",
@@ -2219,7 +2221,7 @@
                                             "userConfig": {
                                                 "iconCls": "x-fa fa-save",
                                                 "layout|flex": null,
-                                                "text": "Save"
+                                                "text": "Save List"
                                             },
                                             "configAlternates": {
                                                 "layout|flex": "number",
@@ -2239,11 +2241,7 @@
                                                     "userConfig": {
                                                         "fn": "onButtonClick3",
                                                         "implHandler": [
-                                                            "this.queryById('myApps').saveDocumentAs({",
-                                                            "     type: 'html',",
-                                                            "     title: 'My Apps',",
-                                                            "     fileName: 'My_Apps_'+Ext.util.Format.date(new Date(), 'Y-m-d_g-ia')+'.html'",
-                                                            " });"
+                                                            "this.saveListGetName();"
                                                         ],
                                                         "name": "click",
                                                         "scope": "me"
@@ -2269,12 +2267,14 @@
                                             "userConfig": {
                                                 "iconCls": "x-fa fa-minus-square",
                                                 "layout|flex": null,
+                                                "margin": "0 0 0 20",
                                                 "text": "Remove"
                                             },
                                             "configAlternates": {
                                                 "layout|flex": "number",
                                                 "text": "string",
-                                                "iconCls": "string"
+                                                "iconCls": "string",
+                                                "margin": "auto"
                                             },
                                             "name": "MyButton3",
                                             "designerId": "733debd6-5b1a-4e2f-8ba2-8d25e6ed938e",
@@ -3235,6 +3235,318 @@
                                     "designerId": "a03bfce4-ff30-4176-ab7e-b77938c19bff"
                                 }
                             ]
+                        },
+                        {
+                            "type": "Ext.grid.Panel",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "iconCls": "x-fa fa-list",
+                                "itemId": "myAppLists",
+                                "resizable": true,
+                                "resizeHandles": "w",
+                                "store": [
+                                    "{myLists}"
+                                ],
+                                "title": "My App Lists (0)",
+                                "userCls": [
+                                    "force-grid-border"
+                                ],
+                                "width": 400
+                            },
+                            "configAlternates": {
+                                "title": "string",
+                                "resizable": "boolean",
+                                "resizeHandles": "string",
+                                "width": "auto",
+                                "store": "binding",
+                                "itemId": "string",
+                                "userCls": "typedarray",
+                                "iconCls": "string"
+                            },
+                            "name": "MyGridPanel4",
+                            "designerId": "02e16d09-6956-4db5-8a0f-33e7df7b7bf9",
+                            "cn": [
+                                {
+                                    "type": "Ext.toolbar.Toolbar",
+                                    "reference": {
+                                        "name": "dockedItems",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "dock": "top"
+                                    },
+                                    "configAlternates": {
+                                        "dock": "string"
+                                    },
+                                    "name": "MyToolbar2",
+                                    "designerId": "1760bd04-5e8d-4b2d-9870-905edbcaef9c",
+                                    "cn": [
+                                        {
+                                            "type": "Ext.button.Button",
+                                            "reference": {
+                                                "name": "items",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "iconCls": "x-fa fa-clipboard-list",
+                                                "layout|flex": null,
+                                                "text": "View"
+                                            },
+                                            "configAlternates": {
+                                                "layout|flex": "number",
+                                                "text": "string",
+                                                "iconCls": "string"
+                                            },
+                                            "name": "MyButton",
+                                            "designerId": "c439fab1-f2b8-4502-aa4e-f08c9cb0e3c7",
+                                            "cn": [
+                                                {
+                                                    "type": "basiceventbinding",
+                                                    "reference": {
+                                                        "name": "listeners",
+                                                        "type": "array"
+                                                    },
+                                                    "codeClass": null,
+                                                    "userConfig": {
+                                                        "fn": "onButtonClick21",
+                                                        "implHandler": [
+                                                            "this.queryById('myApps').saveDocumentAs({",
+                                                            "     type: 'xlsx',",
+                                                            "     title: 'My Apps',",
+                                                            "     fileName: 'My_Apps_'+Ext.util.Format.date(new Date(), 'Y-m-d_g-ia')+'.xlsx'",
+                                                            " });"
+                                                        ],
+                                                        "name": "click",
+                                                        "scope": "me"
+                                                    },
+                                                    "configAlternates": {
+                                                        "fn": "string",
+                                                        "implHandler": "code",
+                                                        "name": "string",
+                                                        "scope": "string"
+                                                    },
+                                                    "name": "onButtonClick21",
+                                                    "designerId": "85e82a0f-da38-492d-9155-15be66629ebb"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "type": "Ext.button.Button",
+                                            "reference": {
+                                                "name": "items",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "iconCls": "x-fa fa-minus-square",
+                                                "layout|flex": null,
+                                                "margin": "0 0 0 20",
+                                                "text": "Delete"
+                                            },
+                                            "configAlternates": {
+                                                "layout|flex": "number",
+                                                "text": "string",
+                                                "iconCls": "string",
+                                                "margin": "auto"
+                                            },
+                                            "name": "MyButton3",
+                                            "designerId": "27b1247b-8ebf-4f4c-984c-df4c0f56368f",
+                                            "cn": [
+                                                {
+                                                    "type": "basiceventbinding",
+                                                    "reference": {
+                                                        "name": "listeners",
+                                                        "type": "array"
+                                                    },
+                                                    "codeClass": null,
+                                                    "userConfig": {
+                                                        "fn": "onButtonClick112",
+                                                        "implHandler": [
+                                                            "let sel = this.queryById('myAppLists').getSelectionModel().getSelection();",
+                                                            "",
+                                                            "if(sel.length < 1){",
+                                                            "\tExt.Msg.alert(' ','Please select an app!');",
+                                                            "\treturn;",
+                                                            "}",
+                                                            "",
+                                                            "let store = this.getViewModel().getStore('myLists');",
+                                                            "//store.remove(sel[0]);",
+                                                            "//store.sync();"
+                                                        ],
+                                                        "name": "click",
+                                                        "scope": "me"
+                                                    },
+                                                    "configAlternates": {
+                                                        "fn": "string",
+                                                        "implHandler": "code",
+                                                        "name": "string",
+                                                        "scope": "string"
+                                                    },
+                                                    "name": "onButtonClick112",
+                                                    "designerId": "732a7c6d-26be-4ac0-9df8-5ef3d09dffe8"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "Ext.grid.column.Column",
+                                    "reference": {
+                                        "name": "columns",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "dataIndex": "listName",
+                                        "text": "Name",
+                                        "width": 240
+                                    },
+                                    "configAlternates": {
+                                        "dataIndex": "datafield",
+                                        "text": "string",
+                                        "width": "auto"
+                                    },
+                                    "name": "MyColumn",
+                                    "designerId": "1284a2e0-7b16-4c5b-8840-c36d2b14230f"
+                                },
+                                {
+                                    "type": "Ext.view.Table",
+                                    "reference": {
+                                        "name": "viewConfig",
+                                        "type": "object"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "enableTextSelection": true
+                                    },
+                                    "configAlternates": {
+                                        "enableTextSelection": "boolean"
+                                    },
+                                    "name": "MyTable",
+                                    "designerId": "48362ee5-3236-4ee6-8df5-ad00bab495f2"
+                                },
+                                {
+                                    "type": "Ext.grid.column.Column",
+                                    "reference": {
+                                        "name": "columns",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "dataIndex": "appList",
+                                        "text": "Apps",
+                                        "width": 96
+                                    },
+                                    "configAlternates": {
+                                        "dataIndex": "datafield",
+                                        "text": "string",
+                                        "width": "auto"
+                                    },
+                                    "name": "MyColumn33",
+                                    "designerId": "310db1d6-42bd-415e-aa90-6975a9e538bb",
+                                    "cn": [
+                                        {
+                                            "type": "fixedfunction",
+                                            "reference": {
+                                                "name": "items",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "designer|params": [
+                                                    "value",
+                                                    "metaData",
+                                                    "record",
+                                                    "rowIndex",
+                                                    "colIndex",
+                                                    "store",
+                                                    "view"
+                                                ],
+                                                "fn": "renderer",
+                                                "implHandler": [
+                                                    "return value.length || '';"
+                                                ]
+                                            },
+                                            "configAlternates": {
+                                                "designer|params": "typedarray",
+                                                "fn": "string",
+                                                "implHandler": "code"
+                                            },
+                                            "name": "renderer",
+                                            "designerId": "d7dc7c36-3a1d-4fe4-8db2-62a2a0228dd4"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "Ext.grid.column.Column",
+                                    "reference": {
+                                        "name": "columns",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "dataIndex": "dateCreated",
+                                        "text": "Date Created",
+                                        "width": 182
+                                    },
+                                    "configAlternates": {
+                                        "dataIndex": "datafield",
+                                        "text": "string",
+                                        "width": "auto"
+                                    },
+                                    "name": "MyColumn37",
+                                    "designerId": "2ecee60d-bb65-40d5-8901-c713e4a2a37a"
+                                },
+                                {
+                                    "type": "Ext.grid.column.Column",
+                                    "reference": {
+                                        "name": "columns",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "dataIndex": "dateModified",
+                                        "text": "Date Modified",
+                                        "width": 182
+                                    },
+                                    "configAlternates": {
+                                        "dataIndex": "datafield",
+                                        "text": "string",
+                                        "width": "auto"
+                                    },
+                                    "name": "MyColumn38",
+                                    "designerId": "b8f0625b-fb16-4d3a-8c64-754d39f007cd"
+                                },
+                                {
+                                    "type": "Ext.tab.Tab",
+                                    "reference": {
+                                        "name": "tabConfig",
+                                        "type": "object"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "dock": "left",
+                                        "margin": "0 0 0 10",
+                                        "userCls": [
+                                            "tab-with-border"
+                                        ]
+                                    },
+                                    "configAlternates": {
+                                        "dock": "string",
+                                        "margin": "auto",
+                                        "userCls": "typedarray",
+                                        "width": "auto"
+                                    },
+                                    "name": "TabConfig4",
+                                    "designerId": "97e8f200-03bb-419f-81a5-0efb69b3e819"
+                                }
+                            ]
                         }
                     ]
                 }
@@ -3362,6 +3674,10 @@
                 ],
                 "fn": "loadApps",
                 "implHandler": [
+                    "if(!records){",
+                    "\treturn;",
+                    "}",
+                    "",
                     "let groups = {",
                     "\t'All':{",
                     "\t\tcategory:'All',",
@@ -3373,14 +3689,14 @@
                     "Ext.each(records,function(rec){",
                     "",
                     "\tlet cat = rec.get('AppCategory');",
-                    "\t",
+                    "",
                     "\tif(!groups[cat]){",
                     "\t\tgroups[cat] = {",
                     "\t\t\tcount:1,",
                     "\t\t\tcategory:cat,",
                     "\t\t\tcategoryLabel:rec.get('AppCategoryLabel')",
                     "\t\t};",
-                    "\t\t",
+                    "",
                     "\t\trec.commit();",
                     "\t}else{",
                     "\t\tgroups[cat].count++;",
@@ -3442,6 +3758,102 @@
             },
             "name": "updateFilters",
             "designerId": "a76fe091-6aa3-4469-9bdd-6f2cea9340f1"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
+                    "data"
+                ],
+                "fn": "saveListResponse",
+                "implHandler": [
+                    "this.getViewModel().getStore('myLists').loadData(list,true);",
+                    ""
+                ]
+            },
+            "configAlternates": {
+                "designer|params": "typedarray",
+                "fn": "string",
+                "implHandler": "code"
+            },
+            "name": "saveListResponse",
+            "designerId": "dbda62a3-0fbf-467e-adf2-6500e8631b18"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
+                    "name"
+                ],
+                "fn": "saveList",
+                "implHandler": [
+                    "let apps;",
+                    "this.getViewModel().getStore('myApps').each(function(rec){",
+                    "\tapps.push(rec.get('Version'));",
+                    "});",
+                    "",
+                    "AERP.AjaxRequest({",
+                    "\turl:'create',",
+                    "\tmask:true,",
+                    "\tjsonData:{",
+                    "\t\tname:name,",
+                    "\t\tapps:apps",
+                    "\t},",
+                    "\tsuccess:function(resp){",
+                    "\t\tthis.saveListResponse(resp.data);",
+                    "\t},",
+                    "\tscope:this",
+                    "});"
+                ]
+            },
+            "configAlternates": {
+                "designer|params": "typedarray",
+                "fn": "string",
+                "implHandler": "code"
+            },
+            "name": "saveList",
+            "designerId": "3cace41f-c737-4b8d-9668-392d7217fc91"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "saveListGetName",
+                "implHandler": [
+                    "if(!this.saveWin){",
+                    "\tthis.saveWin = Ext.create('BetterOinSearch.view.SaveWindow',{",
+                    "\t\tlisteners:{",
+                    "\t\t\tscope:this,",
+                    "\t\t\tsaved:function(){",
+                    "",
+                    "\t\t\t}",
+                    "\t\t}",
+                    "\t});",
+                    "}",
+                    "",
+                    "this.saveWin.clearAndShow();"
+                ]
+            },
+            "configAlternates": {
+                "fn": "string",
+                "implHandler": "code"
+            },
+            "name": "saveListGetName",
+            "designerId": "b6ff1f56-a700-437d-8249-e6dc791153bc"
         },
         {
             "type": "basicfunction",

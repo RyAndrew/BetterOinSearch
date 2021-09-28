@@ -255,6 +255,128 @@
                     ]
                 }
             ]
+        },
+        {
+            "type": "Ext.data.Store",
+            "reference": {
+                "name": "stores",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "myLists"
+            },
+            "configAlternates": {
+                "name": "string",
+                "model": "model"
+            },
+            "name": "MyStore1",
+            "designerId": "5841a798-5b5d-4c36-ae28-c95d4e30fc99",
+            "cn": [
+                {
+                    "type": "Ext.data.proxy.LocalStorage",
+                    "reference": {
+                        "name": "proxy",
+                        "type": "object"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "id": "mylists21928"
+                    },
+                    "configAlternates": {
+                        "id": "string"
+                    },
+                    "name": "MyLocalStorageProxy",
+                    "designerId": "b7b819f7-bcda-4d4c-bf0d-16a12e226cb5",
+                    "customConfigs": [
+                        {
+                            "group": "(Custom Properties)",
+                            "name": "model",
+                            "type": "string"
+                        }
+                    ]
+                },
+                {
+                    "type": "Ext.data.field.Field",
+                    "reference": {
+                        "name": "fields",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "name": "listId"
+                    },
+                    "configAlternates": {
+                        "name": "string"
+                    },
+                    "name": "MyField",
+                    "designerId": "8ae1b61a-b4ff-453f-b207-b7295cc0b606"
+                },
+                {
+                    "type": "Ext.data.field.Field",
+                    "reference": {
+                        "name": "fields",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "name": "listName"
+                    },
+                    "configAlternates": {
+                        "name": "string"
+                    },
+                    "name": "MyField4",
+                    "designerId": "ced79d13-03ad-4d32-a593-d5ef4ccb5023"
+                },
+                {
+                    "type": "Ext.data.field.Field",
+                    "reference": {
+                        "name": "fields",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "name": "dateCreated"
+                    },
+                    "configAlternates": {
+                        "name": "string"
+                    },
+                    "name": "MyField1",
+                    "designerId": "ae79bee2-3654-45ab-8dd5-18311d7d1f25"
+                },
+                {
+                    "type": "Ext.data.field.Field",
+                    "reference": {
+                        "name": "fields",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "name": "dateModified"
+                    },
+                    "configAlternates": {
+                        "name": "string"
+                    },
+                    "name": "MyField2",
+                    "designerId": "d3c1ba3e-c72c-49cb-975c-31a5020bc1d7"
+                },
+                {
+                    "type": "Ext.data.field.Field",
+                    "reference": {
+                        "name": "fields",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "name": "appList"
+                    },
+                    "configAlternates": {
+                        "name": "string"
+                    },
+                    "name": "MyField3",
+                    "designerId": "344b1367-0491-4095-84ff-5d33a791e1f3"
+                }
+            ]
         }
     ]
 }

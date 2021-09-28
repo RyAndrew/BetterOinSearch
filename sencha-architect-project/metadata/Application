@@ -12,7 +12,8 @@
         "name": "BetterOinSearch",
         "views": [
             "MyViewport",
-            "MainPanel"
+            "MainPanel",
+            "SaveWindow"
         ]
     },
     "configAlternates": {

@@ -194,7 +194,7 @@ function crudRead(request, response){
 		response.end(JSON.stringify({success:false, error:"invalid request data"}));
 		return;
 	}
-	mysqlcon.query("select listName,listId,appJson,dateCreated from appList where listId=??", [input.listId] ,function (error, results, fields) {
+	mysqlcon.query("select listId,listName,dateCreated,dateModified,appJson from appList where listId=??", [input.listId] ,function (error, results, fields) {
 		if (error){
 			response.end(JSON.stringify({success:false, error:"invalid request data"}));
 			return;
