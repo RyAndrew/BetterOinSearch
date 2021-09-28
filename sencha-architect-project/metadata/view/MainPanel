@@ -3316,11 +3316,8 @@
                                                     "userConfig": {
                                                         "fn": "onButtonClick21",
                                                         "implHandler": [
-                                                            "this.queryById('myApps').saveDocumentAs({",
-                                                            "     type: 'xlsx',",
-                                                            "     title: 'My Apps',",
-                                                            "     fileName: 'My_Apps_'+Ext.util.Format.date(new Date(), 'Y-m-d_g-ia')+'.xlsx'",
-                                                            " });"
+                                                            "//TODO",
+                                                            "//load list into \"my apps\""
                                                         ],
                                                         "name": "click",
                                                         "scope": "me"
@@ -3333,6 +3330,59 @@
                                                     },
                                                     "name": "onButtonClick21",
                                                     "designerId": "85e82a0f-da38-492d-9155-15be66629ebb"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "type": "Ext.button.Button",
+                                            "reference": {
+                                                "name": "items",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "iconCls": "x-fa fa-copy",
+                                                "layout|flex": null,
+                                                "text": "Copy Sharing Link"
+                                            },
+                                            "configAlternates": {
+                                                "layout|flex": "number",
+                                                "text": "string",
+                                                "iconCls": "string"
+                                            },
+                                            "name": "MyButton8",
+                                            "designerId": "ff15c461-e0d4-407e-a787-5f4e1c33b558",
+                                            "cn": [
+                                                {
+                                                    "type": "basiceventbinding",
+                                                    "reference": {
+                                                        "name": "listeners",
+                                                        "type": "array"
+                                                    },
+                                                    "codeClass": null,
+                                                    "userConfig": {
+                                                        "fn": "onButtonClick211",
+                                                        "implHandler": [
+                                                            "let sel = this.queryById('myAppLists').getSelectionModel().getSelection();",
+                                                            "",
+                                                            "if(sel.length < 1){",
+                                                            "\tExt.Msg.alert(' ','Please select a list!');",
+                                                            "\treturn;",
+                                                            "}",
+                                                            "",
+                                                            "this.copyToClipboard('https://'+window.location.hostname +'/?appList='+sel[0].data.listId);"
+                                                        ],
+                                                        "name": "click",
+                                                        "scope": "me"
+                                                    },
+                                                    "configAlternates": {
+                                                        "fn": "string",
+                                                        "implHandler": "code",
+                                                        "name": "string",
+                                                        "scope": "string"
+                                                    },
+                                                    "name": "onButtonClick211",
+                                                    "designerId": "73e6566a-ec1e-4d6a-964a-ad5141aad3d5"
                                                 }
                                             ]
                                         },
@@ -3371,7 +3421,7 @@
                                                             "let sel = this.queryById('myAppLists').getSelectionModel().getSelection();",
                                                             "",
                                                             "if(sel.length < 1){",
-                                                            "\tExt.Msg.alert(' ','Please select an app!');",
+                                                            "\tExt.Msg.alert(' ','Please select a list!');",
                                                             "\treturn;",
                                                             "}",
                                                             "",
@@ -3638,6 +3688,55 @@
             "codeClass": null,
             "userConfig": {
                 "designer|params": [
+                    "text"
+                ],
+                "fn": "copyToClipboard",
+                "implHandler": [
+                    "if (typeof(navigator.clipboard)=='undefined') {",
+                    "    var textArea = document.createElement(\"textarea\");",
+                    "    textArea.value = text;",
+                    "    textArea.style.position=\"fixed\";  //avoid scrolling to bottom",
+                    "    document.body.appendChild(textArea);",
+                    "    textArea.focus();",
+                    "    textArea.select();",
+                    "",
+                    "    try {",
+                    "        let successful =document.execCommand('copy');",
+                    "\t\tif(!successful){",
+                    "\t\t\tExt.Msg.alert(' ','Failed to copy to clipboard 1');",
+                    "\t\t}",
+                    "        //var msg = successful ? 'successful' : 'unsuccessful';",
+                    "        //toastr.info(msg);",
+                    "    } catch (err) {",
+                    "\t\t\tExt.Msg.alert(' ','Failed to copy to clipboard 2');",
+                    "    }",
+                    "",
+                    "    document.body.removeChild(textArea);",
+                    "    return;",
+                    "}else{",
+                    "\tnavigator.clipboard.writeText(this.menuRecord.ecr).then(function() {}, function() {",
+                    "\t\tExt.Msg.alert(' ','Failed to copy to clipboard');",
+                    "\t});",
+                    "}"
+                ]
+            },
+            "configAlternates": {
+                "designer|params": "typedarray",
+                "fn": "string",
+                "implHandler": "code"
+            },
+            "name": "copyToClipboard",
+            "designerId": "975653cf-5597-4e87-8ab2-0c73972405d9"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
                     "s"
                 ],
                 "fn": "customZeroSort",
@@ -3659,6 +3758,41 @@
             },
             "name": "customZeroSort",
             "designerId": "b1542c68-05fe-4e2f-b024-7dc2f1af18c1"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "loadAppListFromUrl",
+                "implHandler": [
+                    "var searchQuery = Ext.Object.fromQueryString(window.location.search);",
+                    "",
+                    "if(searchQuery.appList){",
+                    "\tAERP.Ajax.request({",
+                    "\t\turl:'read',",
+                    "\t\tmask:this,",
+                    "\t\tjsonData:{",
+                    "\t\t\tlistId:searchQuery.appList",
+                    "\t\t},",
+                    "\t\tsuccess:function(resp){",
+                    "\t\t\tthis.loadAppsFromAppList(resp.data);",
+                    "\t\t},",
+                    "\t\tscope:this",
+                    "\t});",
+                    "}",
+                    ""
+                ]
+            },
+            "configAlternates": {
+                "fn": "string",
+                "implHandler": "code"
+            },
+            "name": "loadAppListFromUrl",
+            "designerId": "fdede2b2-f1a6-4143-9646-07e6d250c3dc"
         },
         {
             "type": "basicfunction",
@@ -3768,11 +3902,33 @@
             "codeClass": null,
             "userConfig": {
                 "designer|params": [
+                    "appList"
+                ],
+                "fn": "loadAppsFromAppList"
+            },
+            "configAlternates": {
+                "designer|params": "typedarray",
+                "fn": "string"
+            },
+            "name": "loadAppsFromAppList",
+            "designerId": "fea0b1a4-53b6-44c8-9eb8-34ca9a445ee1"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
                     "data"
                 ],
                 "fn": "saveListResponse",
                 "implHandler": [
-                    "this.getViewModel().getStore('myLists').loadData(list,true);",
+                    "let store = this.getViewModel().getStore('myLists');",
+                    "store.loadData([data],true);",
+                    "store.sync();",
                     ""
                 ]
             },
@@ -3793,21 +3949,23 @@
             "codeClass": null,
             "userConfig": {
                 "designer|params": [
-                    "name"
+                    "listName"
                 ],
                 "fn": "saveList",
                 "implHandler": [
-                    "let apps;",
+                    "let appList = [];",
                     "this.getViewModel().getStore('myApps').each(function(rec){",
-                    "\tapps.push(rec.get('Version'));",
+                    "\tappList.push(rec.get('Version'));",
                     "});",
                     "",
-                    "AERP.AjaxRequest({",
+                    "console.log(listName,appList);",
+                    "",
+                    "AERP.Ajax.request({",
                     "\turl:'create',",
-                    "\tmask:true,",
+                    "\tmask:this,",
                     "\tjsonData:{",
-                    "\t\tname:name,",
-                    "\t\tapps:apps",
+                    "\t\tlistName:listName,",
+                    "\t\tappList:appList",
                     "\t},",
                     "\tsuccess:function(resp){",
                     "\t\tthis.saveListResponse(resp.data);",
@@ -3838,8 +3996,8 @@
                     "\tthis.saveWin = Ext.create('BetterOinSearch.view.SaveWindow',{",
                     "\t\tlisteners:{",
                     "\t\t\tscope:this,",
-                    "\t\t\tsaved:function(){",
-                    "",
+                    "\t\t\tsaved:function(name){",
+                    "\t\t\t\tthis.saveList(name);",
                     "\t\t\t}",
                     "\t\t}",
                     "\t});",
@@ -3954,7 +4112,9 @@
                     "store.sort('Ranking','ASC');",
                     "store.load();",
                     "",
-                    "this.getLastApiRefresh();"
+                    "this.getLastApiRefresh();",
+                    "",
+                    "this.loadAppListFromUrl();"
                 ],
                 "name": "afterrender",
                 "scope": "me"

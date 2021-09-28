@@ -81,17 +81,20 @@ Ext.define('BetterOinSearch.view.SaveWindow', {
 	},
 
 	onButtonClick: function(button, e, eOpts) {
-		let name = this.querById('name');
+		let name = this.queryById('name').getValue();
 		if(name === ''){
 			Ext.Msg.alert(' ','Enter name');
 			return false;
 		}
 		this.fireEvent('saved',name);
+		this.hide();
 	},
 
 	clearAndShow: function() {
 		this.show();
-		this.queryById('name').focus();
+		let name = this.queryById('name');
+		name.setValue('');
+		name.focus();
 	}
 
 });

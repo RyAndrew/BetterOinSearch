@@ -855,6 +855,14 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 										},
 										{
 											xtype: 'button',
+											iconCls: 'x-fa fa-copy',
+											text: 'Copy Sharing Link',
+											listeners: {
+												click: 'onButtonClick211'
+											}
+										},
+										{
+											xtype: 'button',
 											margin: '0 0 0 20',
 											iconCls: 'x-fa fa-minus-square',
 											text: 'Delete',
@@ -1033,18 +1041,26 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 	},
 
 	onButtonClick21: function(button, e, eOpts) {
-		this.queryById('myApps').saveDocumentAs({
-		     type: 'xlsx',
-		     title: 'My Apps',
-		     fileName: 'My_Apps_'+Ext.util.Format.date(new Date(), 'Y-m-d_g-ia')+'.xlsx'
-		 });
+		//TODO
+		//load list into "my apps"
+	},
+
+	onButtonClick211: function(button, e, eOpts) {
+		let sel = this.queryById('myAppLists').getSelectionModel().getSelection();
+
+		if(sel.length < 1){
+			Ext.Msg.alert(' ','Please select a list!');
+			return;
+		}
+
+		this.copyToClipboard('https://'+window.location.hostname +'/?appList='+sel[0].data.listId);
 	},
 
 	onButtonClick112: function(button, e, eOpts) {
 		let sel = this.queryById('myAppLists').getSelectionModel().getSelection();
 
 		if(sel.length < 1){
-			Ext.Msg.alert(' ','Please select an app!');
+			Ext.Msg.alert(' ','Please select a list!');
 			return;
 		}
 
@@ -1087,6 +1103,8 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		store.load();
 
 		this.getLastApiRefresh();
+
+		this.loadAppListFromUrl();
 	},
 
 	addAppToMyApps: function(record) {
@@ -1126,6 +1144,35 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		this.updateFilters();
 	},
 
+	copyToClipboard: function(text) {
+		if (typeof(navigator.clipboard)=='undefined') {
+		    var textArea = document.createElement("textarea");
+		    textArea.value = text;
+		    textArea.style.position="fixed";  //avoid scrolling to bottom
+		    document.body.appendChild(textArea);
+		    textArea.focus();
+		    textArea.select();
+
+		    try {
+		        let successful =document.execCommand('copy');
+				if(!successful){
+					Ext.Msg.alert(' ','Failed to copy to clipboard 1');
+				}
+		        //var msg = successful ? 'successful' : 'unsuccessful';
+		        //toastr.info(msg);
+		    } catch (err) {
+					Ext.Msg.alert(' ','Failed to copy to clipboard 2');
+		    }
+
+		    document.body.removeChild(textArea);
+		    return;
+		}else{
+			navigator.clipboard.writeText(this.menuRecord.ecr).then(function() {}, function() {
+				Ext.Msg.alert(' ','Failed to copy to clipboard');
+			});
+		}
+	},
+
 	customZeroSort: function(s) {
 		if(s === 0){
 		    if(appSortDir == "ASC"){
@@ -1135,6 +1182,25 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		    }
 		}
 		return s;
+	},
+
+	loadAppListFromUrl: function() {
+		var searchQuery = Ext.Object.fromQueryString(window.location.search);
+
+		if(searchQuery.appList){
+			AERP.Ajax.request({
+				url:'read',
+				mask:this,
+				jsonData:{
+					listId:searchQuery.appList
+				},
+				success:function(resp){
+					this.loadAppsFromAppList(resp.data);
+				},
+				scope:this
+			});
+		}
+
 	},
 
 	loadApps: function(store, records) {
@@ -1199,23 +1265,31 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		this.queryById('oinAppGrid').getScrollable().scrollTo(0,0);
 	},
 
-	saveListResponse: function(data) {
-		this.getViewModel().getStore('myLists').loadData(list,true);
+	loadAppsFromAppList: function(appList) {
 
 	},
 
-	saveList: function(name) {
-		let apps;
+	saveListResponse: function(data) {
+		let store = this.getViewModel().getStore('myLists');
+		store.loadData([data],true);
+		store.sync();
+
+	},
+
+	saveList: function(listName) {
+		let appList = [];
 		this.getViewModel().getStore('myApps').each(function(rec){
-			apps.push(rec.get('Version'));
+			appList.push(rec.get('Version'));
 		});
 
-		AERP.AjaxRequest({
+		console.log(listName,appList);
+
+		AERP.Ajax.request({
 			url:'create',
-			mask:true,
+			mask:this,
 			jsonData:{
-				name:name,
-				apps:apps
+				listName:listName,
+				appList:appList
 			},
 			success:function(resp){
 				this.saveListResponse(resp.data);
@@ -1229,8 +1303,8 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 			this.saveWin = Ext.create('BetterOinSearch.view.SaveWindow',{
 				listeners:{
 					scope:this,
-					saved:function(){
-
+					saved:function(name){
+						this.saveList(name);
 					}
 				}
 			});

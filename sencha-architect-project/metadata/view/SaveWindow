@@ -160,12 +160,13 @@
                             "userConfig": {
                                 "fn": "onButtonClick",
                                 "implHandler": [
-                                    "let name = this.querById('name');",
+                                    "let name = this.queryById('name').getValue();",
                                     "if(name === ''){",
                                     "\tExt.Msg.alert(' ','Enter name');",
                                     "\treturn false;",
                                     "}",
-                                    "this.fireEvent('saved',name);"
+                                    "this.fireEvent('saved',name);",
+                                    "this.hide();"
                                 ],
                                 "name": "click",
                                 "scope": "me"
@@ -210,7 +211,9 @@
                 "fn": "clearAndShow",
                 "implHandler": [
                     "this.show();",
-                    "this.queryById('name').focus();"
+                    "let name = this.queryById('name');",
+                    "name.setValue('');",
+                    "name.focus();"
                 ]
             },
             "configAlternates": {
