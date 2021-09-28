@@ -28,6 +28,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		'Ext.form.field.Text',
 		'Ext.tab.Tab',
 		'Ext.toolbar.Toolbar',
+		'Ext.toolbar.TextItem',
 		'Ext.grid.plugin.Exporter'
 	],
 
@@ -120,6 +121,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 					xtype: 'tabpanel',
 					border: false,
 					flex: 1,
+					itemId: 'tabs',
 					width: 100,
 					bodyBorder: false,
 					activeTab: 0,
@@ -581,6 +583,18 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 									dock: 'top',
 									items: [
 										{
+											xtype: 'tbtext',
+											itemId: 'appListName',
+											margin: '4 0 0 30',
+											userCls: 'app-list-name'
+										}
+									]
+								},
+								{
+									xtype: 'toolbar',
+									dock: 'top',
+									items: [
+										{
 											xtype: 'button',
 											iconCls: 'x-fa fa-file-excel',
 											text: 'Export',
@@ -863,11 +877,12 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 										},
 										{
 											xtype: 'button',
+											itemId: 'btnDelete',
 											margin: '0 0 0 20',
 											iconCls: 'x-fa fa-minus-square',
 											text: 'Delete',
 											listeners: {
-												click: 'onButtonClick112'
+												click: 'onBtnDeleteClick'
 											}
 										}
 									]
@@ -974,23 +989,14 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 	},
 
 	onButtonClick4: function(button, e, eOpts) {
-		let sThis = this;
-
-		let xhttp = new XMLHttpRequest();
-
-		this.mask('Refreshing Data');
-
-		'BetterOinSearch.view.SaveWindow'
-
-		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
+		AERP.Ajax.request({
+			url:'updateOinData',
+			mask:this,
+			success:function(resp){
 				location.reload();
-			}
-		};
-
-		xhttp.open("POST", "/updateOinData", true);
-		xhttp.send();
-
+			},
+			scope:this
+		});
 	},
 
 	onButtonClick1: function(button, e, eOpts) {
@@ -1041,8 +1047,14 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 	},
 
 	onButtonClick21: function(button, e, eOpts) {
-		//TODO
-		//load list into "my apps"
+		let sel = this.queryById('myAppLists').getSelectionModel().getSelection();
+
+		if(sel.length < 1){
+			Ext.Msg.alert(' ','Please select a list!');
+			return;
+		}
+
+		this.loadAppsFromAppList(sel[0].data.appList, sel[0].data.listName);
 	},
 
 	onButtonClick211: function(button, e, eOpts) {
@@ -1053,10 +1065,10 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 			return;
 		}
 
-		this.copyToClipboard('https://'+window.location.hostname +'/?appList='+sel[0].data.listId);
+		this.copyToClipboard('https://'+window.location.hostname +'/?list='+sel[0].data.listId);
 	},
 
-	onButtonClick112: function(button, e, eOpts) {
+	onBtnDeleteClick: function(button, e, eOpts) {
 		let sel = this.queryById('myAppLists').getSelectionModel().getSelection();
 
 		if(sel.length < 1){
@@ -1064,9 +1076,22 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 			return;
 		}
 
-		let store = this.getViewModel().getStore('myLists');
-		//store.remove(sel[0]);
-		//store.sync();
+		AERP.Ajax.request({
+			url:'delete',
+			mask:this,
+			jsonData:{
+				list:sel[0].data.listId
+			},
+			success:function(resp){
+				let store = this.getViewModel().getStore('myLists');
+				store.remove(sel[0]);
+				store.sync();
+				this.updateMyListsCount(store);
+			},
+			scope:this
+		});
+
+
 	},
 
 	onPanelAfterRender: function(component, eOpts) {
@@ -1098,15 +1123,15 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		    }
 		}, this);
 
-		store.on('load',this.loadApps,this);
+		store.on('load',this.oinAppsLoaded,this);
 		store.sort('Ranking','ASC');
 		store.load();
 
-		this.getViewModel().getStore('myLists').load();
+		let listsStore = this.getViewModel().getStore('myLists');
+		listsStore.load();
+		this.updateMyListsCount(listsStore);
 
 		this.getLastApiRefresh();
-
-		this.loadAppListFromUrl();
 	},
 
 	addAppToMyApps: function(record) {
@@ -1189,15 +1214,20 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 	loadAppListFromUrl: function() {
 		var searchQuery = Ext.Object.fromQueryString(window.location.search);
 
-		if(searchQuery.appList){
+		if(searchQuery.list){
 			AERP.Ajax.request({
 				url:'read',
 				mask:this,
 				jsonData:{
-					listId:searchQuery.appList
+					list:searchQuery.list
 				},
 				success:function(resp){
-					this.loadAppsFromAppList(resp.data);
+					if(resp.data === null){
+						Ext.Msg.alert(' ','This list has been deleted');
+						return;
+					}
+					resp.data.appList = Ext.decode(resp.data.appList);
+					this.loadAppsFromAppList(resp.data.appList, resp.data.listName);
 				},
 				scope:this
 			});
@@ -1205,8 +1235,8 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 
 	},
 
-	loadApps: function(store, records) {
-		if(!records){
+	oinAppsLoaded: function(store, records) {
+		if(records==undefined){
 			return;
 		}
 
@@ -1242,6 +1272,8 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		};
 
 		this.getViewModel().getStore('oinCategoryStore').loadData(groupsArr);
+
+		this.loadAppListFromUrl();
 	},
 
 	updateFilters: function() {
@@ -1267,15 +1299,33 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		this.queryById('oinAppGrid').getScrollable().scrollTo(0,0);
 	},
 
-	loadAppsFromAppList: function(appList) {
+	loadAppsFromAppList: function(appList, listName) {
+		this.queryById('tabs').setActiveItem('myApps');
+		this.queryById('appListName').setHtml(listName);
 
+		let foundRecs = [];
+
+		this.getViewModel().getStore('oinAppStore').each(function(rec){
+			if(appList.indexOf(rec.get('Version'))>= 0){
+				let clone = rec.clone();
+				clone.phantom = true;
+				foundRecs.push(clone);
+			}
+		});
+
+		let MyAppsStore = this.getViewModel().getStore('myApps');
+		MyAppsStore.removeAll();
+		MyAppsStore.add(foundRecs);
+		MyAppsStore.sync();
+
+		this.updateMyAppCount(MyAppsStore);
 	},
 
 	saveListResponse: function(data) {
 		let store = this.getViewModel().getStore('myLists');
 		store.loadData([data],true);
 		store.sync();
-
+		this.updateMyListsCount(store);
 	},
 
 	saveList: function(listName) {
@@ -1283,8 +1333,6 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		this.getViewModel().getStore('myApps').each(function(rec){
 			appList.push(rec.get('Version'));
 		});
-
-		console.log(listName,appList);
 
 		AERP.Ajax.request({
 			url:'create',
@@ -1294,6 +1342,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 				appList:appList
 			},
 			success:function(resp){
+				resp.data.appList = Ext.decode(resp.data.appList);
 				this.saveListResponse(resp.data);
 			},
 			scope:this
@@ -1318,22 +1367,22 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 	getLastApiRefresh: function() {
 		let appVer = '0.1.1';
 
-		let sThis = this;
-
-		let xhttp = new XMLHttpRequest();
-
-		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				sThis.queryById('lastUpdate').update('App v'+appVer+'<BR>Data Refreshed '+this.responseText);
-			}
-		};
-
-		xhttp.open("POST", "lastApiUpdate", true);
-		xhttp.send();
+		AERP.Ajax.request({
+			url:'lastApiUpdate',
+			rawResponse:true,
+			success:function(resp){
+				this.queryById('lastUpdate').update('App v'+appVer+'<BR>Data Refreshed '+resp);
+			},
+			scope:this
+		});
 	},
 
 	updateMyAppCount: function(store) {
 		this.queryById('myApps').setTitle('My Apps ('+store.getCount()+')');
+	},
+
+	updateMyListsCount: function(store) {
+		this.queryById('myAppLists').setTitle('My App Lists ('+store.getCount()+')');
 	}
 
 });

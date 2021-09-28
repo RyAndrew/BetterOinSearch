@@ -17,6 +17,7 @@ Ext.define('AERP.Ajax', {
 			maskText: 'Loading...',
 			success: Ext.emptyFn,
 			failure: Ext.emptyFn,
+			rawResponse: false,
 			scope: this
 		};
 		requestObj = Ext.apply(requestObj, config, this.defaultConfig);
@@ -38,6 +39,11 @@ Ext.define('AERP.Ajax', {
 	success:function(response, options){
 		if(options.mask){
 			options.mask.unmask();
+		}
+		
+		if(options.rawResponse){
+			options.userSuccess.call(options.userScope, response.responseText);
+			return true;
 		}
 
 		var result;

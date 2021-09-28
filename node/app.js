@@ -216,7 +216,7 @@ async function crudCreate(request, response){
 		dateModified: null
 	};
 
-	let insertQuery = mysql.format('INSERT INTO appList (listName,listId,appJson,dateCreated) values (?,?,?,CURRENT_TIMESTAMP()) ',[listData.listName, listData.listId, listData.appList] );
+	let insertQuery = mysql.format('INSERT INTO appList (listName,listId,appList,dateCreated) values (?,?,?,CURRENT_TIMESTAMP()) ',[listData.listName, listData.listId, listData.appList] );
 	executeQuery(insertQuery, function (error, results) {
 		if (error){
 			response.end(JSON.stringify({success:false, error:"database error"}));
@@ -241,21 +241,20 @@ async function crudRead(request, response){
 		return;
 	}
 
-	if(!input.hasOwnProperty('listId') || input.listId.length !== 8 ){
+	if(!input.hasOwnProperty('list') || input.list.length !== 8 ){
 		response.end(JSON.stringify({success:false, error:"invalid request data"}));
 		return;
 	}
-	let selectQuery = mysql.format("select listId,listName,dateCreated,dateModified,appJson from appList where listId=?", [input.listId]);
+	let selectQuery = mysql.format("select listId,listName,dateCreated,dateModified,appList from appList where listId=?", [input.list]);
 	executeQuery(selectQuery,function (error, results) {
 		if (error){
-			response.end(JSON.stringify({success:false, error:"invalid request data"}));
+			response.end(JSON.stringify({success:false, error:"database error"}));
 			return;
 		}
 		if(results.rows.length < 1){
-			response.end(JSON.stringify({success:false, error:"invalid request data"}));
+			response.end(JSON.stringify({success:true, data:null}));
 			return;
 		}
-		console.log(results);
 		response.end(JSON.stringify({success:true, data:results.rows[0]}));
 	});
 
@@ -263,7 +262,34 @@ async function crudRead(request, response){
 function crudUpdate(request, response){
 
 }
-function crudDelete(request, response){
+async function crudDelete(request, response){
+	const buffers = [];
+	for await (const chunk of request) {
+		buffers.push(chunk);
+	}
+	const requestData = Buffer.concat(buffers).toString();
+
+	let input;
+	try{
+		input=JSON.parse(requestData);
+	}catch(e){
+		response.end(JSON.stringify({success:false, error:"invalid request data"}));
+		return;
+	}
+
+	if(!input.hasOwnProperty('list') || input.list.length !== 8 ){
+		response.end(JSON.stringify({success:false, error:"invalid request data"}));
+		return;
+	}
+	let selectQuery = mysql.format("delete from appList where listId=?", [input.list]);
+	executeQuery(selectQuery,function (error, results) {
+		if (error){
+			response.end(JSON.stringify({success:false, error:"database error"}));
+			return;
+		}
+		response.end(JSON.stringify({success:true}));
+	});
+
 
 }
 const randomChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

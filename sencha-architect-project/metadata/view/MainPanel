@@ -310,6 +310,7 @@
                         "bodyBorder": false,
                         "border": false,
                         "flex": 1,
+                        "itemId": "tabs",
                         "plain": true,
                         "width": 100
                     },
@@ -319,7 +320,8 @@
                         "border": "boolean",
                         "flex": "number",
                         "plain": "boolean",
-                        "width": "auto"
+                        "width": "auto",
+                        "itemId": "string"
                     },
                     "name": "MyTabPanel",
                     "designerId": "0db12b5b-5255-4472-882a-d312dee53803",
@@ -611,23 +613,14 @@
                                                     "userConfig": {
                                                         "fn": "onButtonClick4",
                                                         "implHandler": [
-                                                            "let sThis = this;",
-                                                            "",
-                                                            "let xhttp = new XMLHttpRequest();",
-                                                            "",
-                                                            "this.mask('Refreshing Data');",
-                                                            "",
-                                                            "'BetterOinSearch.view.SaveWindow'",
-                                                            "",
-                                                            "xhttp.onreadystatechange = function() {",
-                                                            "\tif (this.readyState == 4 && this.status == 200) {",
+                                                            "AERP.Ajax.request({",
+                                                            "\turl:'updateOinData',",
+                                                            "\tmask:this,",
+                                                            "\tsuccess:function(resp){",
                                                             "\t\tlocation.reload();",
-                                                            "\t}",
-                                                            "};",
-                                                            "",
-                                                            "xhttp.open(\"POST\", \"/updateOinData\", true);",
-                                                            "xhttp.send();",
-                                                            ""
+                                                            "\t},",
+                                                            "\tscope:this",
+                                                            "});"
                                                         ],
                                                         "name": "click",
                                                         "scope": "me"
@@ -2158,6 +2151,48 @@
                                     "configAlternates": {
                                         "dock": "string"
                                     },
+                                    "name": "MyToolbar3",
+                                    "designerId": "a66b67fc-258d-4d79-a6f7-e1faa2ec91f9",
+                                    "cn": [
+                                        {
+                                            "type": "Ext.toolbar.TextItem",
+                                            "reference": {
+                                                "name": "items",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "itemId": "appListName",
+                                                "layout|flex": null,
+                                                "margin": "4 0 0 30",
+                                                "userCls": [
+                                                    "app-list-name"
+                                                ]
+                                            },
+                                            "configAlternates": {
+                                                "itemId": "string",
+                                                "layout|flex": "number",
+                                                "margin": "auto",
+                                                "userCls": "typedarray"
+                                            },
+                                            "name": "MyTextItem",
+                                            "designerId": "edb343fd-3623-4854-92bd-5cd39ab5c1c6"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "Ext.toolbar.Toolbar",
+                                    "reference": {
+                                        "name": "dockedItems",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "dock": "top"
+                                    },
+                                    "configAlternates": {
+                                        "dock": "string"
+                                    },
                                     "name": "MyToolbar2",
                                     "designerId": "511a6ec8-5ba5-4fea-bf75-40dab3cf0137",
                                     "cn": [
@@ -3316,8 +3351,14 @@
                                                     "userConfig": {
                                                         "fn": "onButtonClick21",
                                                         "implHandler": [
-                                                            "//TODO",
-                                                            "//load list into \"my apps\""
+                                                            "let sel = this.queryById('myAppLists').getSelectionModel().getSelection();",
+                                                            "",
+                                                            "if(sel.length < 1){",
+                                                            "\tExt.Msg.alert(' ','Please select a list!');",
+                                                            "\treturn;",
+                                                            "}",
+                                                            "",
+                                                            "this.loadAppsFromAppList(sel[0].data.appList, sel[0].data.listName);"
                                                         ],
                                                         "name": "click",
                                                         "scope": "me"
@@ -3370,7 +3411,7 @@
                                                             "\treturn;",
                                                             "}",
                                                             "",
-                                                            "this.copyToClipboard('https://'+window.location.hostname +'/?appList='+sel[0].data.listId);"
+                                                            "this.copyToClipboard('https://'+window.location.hostname +'/?list='+sel[0].data.listId);"
                                                         ],
                                                         "name": "click",
                                                         "scope": "me"
@@ -3395,6 +3436,7 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "iconCls": "x-fa fa-minus-square",
+                                                "itemId": "btnDelete",
                                                 "layout|flex": null,
                                                 "margin": "0 0 0 20",
                                                 "text": "Delete"
@@ -3403,7 +3445,8 @@
                                                 "layout|flex": "number",
                                                 "text": "string",
                                                 "iconCls": "string",
-                                                "margin": "auto"
+                                                "margin": "auto",
+                                                "itemId": "string"
                                             },
                                             "name": "MyButton3",
                                             "designerId": "27b1247b-8ebf-4f4c-984c-df4c0f56368f",
@@ -3416,7 +3459,7 @@
                                                     },
                                                     "codeClass": null,
                                                     "userConfig": {
-                                                        "fn": "onButtonClick112",
+                                                        "fn": "onBtnDeleteClick",
                                                         "implHandler": [
                                                             "let sel = this.queryById('myAppLists').getSelectionModel().getSelection();",
                                                             "",
@@ -3425,9 +3468,22 @@
                                                             "\treturn;",
                                                             "}",
                                                             "",
-                                                            "let store = this.getViewModel().getStore('myLists');",
-                                                            "//store.remove(sel[0]);",
-                                                            "//store.sync();"
+                                                            "AERP.Ajax.request({",
+                                                            "\turl:'delete',",
+                                                            "\tmask:this,",
+                                                            "\tjsonData:{",
+                                                            "\t\tlist:sel[0].data.listId",
+                                                            "\t},",
+                                                            "\tsuccess:function(resp){",
+                                                            "\t\tlet store = this.getViewModel().getStore('myLists');",
+                                                            "\t\tstore.remove(sel[0]);",
+                                                            "\t\tstore.sync();",
+                                                            "\t\tthis.updateMyListsCount(store);",
+                                                            "\t},",
+                                                            "\tscope:this",
+                                                            "});",
+                                                            "",
+                                                            ""
                                                         ],
                                                         "name": "click",
                                                         "scope": "me"
@@ -3438,7 +3494,7 @@
                                                         "name": "string",
                                                         "scope": "string"
                                                     },
-                                                    "name": "onButtonClick112",
+                                                    "name": "onBtnDeleteClick",
                                                     "designerId": "732a7c6d-26be-4ac0-9df8-5ef3d09dffe8"
                                                 }
                                             ]
@@ -3771,15 +3827,20 @@
                 "implHandler": [
                     "var searchQuery = Ext.Object.fromQueryString(window.location.search);",
                     "",
-                    "if(searchQuery.appList){",
+                    "if(searchQuery.list){",
                     "\tAERP.Ajax.request({",
                     "\t\turl:'read',",
                     "\t\tmask:this,",
                     "\t\tjsonData:{",
-                    "\t\t\tlistId:searchQuery.appList",
+                    "\t\t\tlist:searchQuery.list",
                     "\t\t},",
                     "\t\tsuccess:function(resp){",
-                    "\t\t\tthis.loadAppsFromAppList(resp.data);",
+                    "\t\t\tif(resp.data === null){",
+                    "\t\t\t\tExt.Msg.alert(' ','This list has been deleted');",
+                    "\t\t\t\treturn;",
+                    "\t\t\t}",
+                    "\t\t\tresp.data.appList = Ext.decode(resp.data.appList);",
+                    "\t\t\tthis.loadAppsFromAppList(resp.data.appList, resp.data.listName);",
                     "\t\t},",
                     "\t\tscope:this",
                     "\t});",
@@ -3806,9 +3867,9 @@
                     "store",
                     "records"
                 ],
-                "fn": "loadApps",
+                "fn": "oinAppsLoaded",
                 "implHandler": [
-                    "if(!records){",
+                    "if(records==undefined){",
                     "\treturn;",
                     "}",
                     "",
@@ -3843,7 +3904,9 @@
                     "\tgroupsArr.push([group.category, group.categoryLabel, group.count]);",
                     "};",
                     "",
-                    "this.getViewModel().getStore('oinCategoryStore').loadData(groupsArr);"
+                    "this.getViewModel().getStore('oinCategoryStore').loadData(groupsArr);",
+                    "",
+                    "this.loadAppListFromUrl();"
                 ]
             },
             "configAlternates": {
@@ -3851,7 +3914,7 @@
                 "fn": "string",
                 "implHandler": "code"
             },
-            "name": "loadApps",
+            "name": "oinAppsLoaded",
             "designerId": "0bbd8a52-f7e3-4e17-9f02-6a8aeb3fc289"
         },
         {
@@ -3902,13 +3965,36 @@
             "codeClass": null,
             "userConfig": {
                 "designer|params": [
-                    "appList"
+                    "appList",
+                    "listName"
                 ],
-                "fn": "loadAppsFromAppList"
+                "fn": "loadAppsFromAppList",
+                "implHandler": [
+                    "this.queryById('tabs').setActiveItem('myApps');",
+                    "this.queryById('appListName').setHtml(listName);",
+                    "",
+                    "let foundRecs = [];",
+                    "",
+                    "this.getViewModel().getStore('oinAppStore').each(function(rec){",
+                    "\tif(appList.indexOf(rec.get('Version'))>= 0){",
+                    "\t\tlet clone = rec.clone();",
+                    "\t\tclone.phantom = true;",
+                    "\t\tfoundRecs.push(clone);",
+                    "\t}",
+                    "});",
+                    "",
+                    "let MyAppsStore = this.getViewModel().getStore('myApps');",
+                    "MyAppsStore.removeAll();",
+                    "MyAppsStore.add(foundRecs);",
+                    "MyAppsStore.sync();",
+                    "",
+                    "this.updateMyAppCount(MyAppsStore);"
+                ]
             },
             "configAlternates": {
                 "designer|params": "typedarray",
-                "fn": "string"
+                "fn": "string",
+                "implHandler": "code"
             },
             "name": "loadAppsFromAppList",
             "designerId": "fea0b1a4-53b6-44c8-9eb8-34ca9a445ee1"
@@ -3929,7 +4015,7 @@
                     "let store = this.getViewModel().getStore('myLists');",
                     "store.loadData([data],true);",
                     "store.sync();",
-                    ""
+                    "this.updateMyListsCount(store);"
                 ]
             },
             "configAlternates": {
@@ -3958,8 +4044,6 @@
                     "\tappList.push(rec.get('Version'));",
                     "});",
                     "",
-                    "console.log(listName,appList);",
-                    "",
                     "AERP.Ajax.request({",
                     "\turl:'create',",
                     "\tmask:this,",
@@ -3968,6 +4052,7 @@
                     "\t\tappList:appList",
                     "\t},",
                     "\tsuccess:function(resp){",
+                    "\t\tresp.data.appList = Ext.decode(resp.data.appList);",
                     "\t\tthis.saveListResponse(resp.data);",
                     "\t},",
                     "\tscope:this",
@@ -4025,18 +4110,14 @@
                 "implHandler": [
                     "let appVer = '0.1.1';",
                     "",
-                    "let sThis = this;",
-                    "",
-                    "let xhttp = new XMLHttpRequest();",
-                    "",
-                    "xhttp.onreadystatechange = function() {",
-                    "\tif (this.readyState == 4 && this.status == 200) {",
-                    "\t\tsThis.queryById('lastUpdate').update('App v'+appVer+'<BR>Data Refreshed '+this.responseText);",
-                    "\t}",
-                    "};",
-                    "",
-                    "xhttp.open(\"POST\", \"lastApiUpdate\", true);",
-                    "xhttp.send();"
+                    "AERP.Ajax.request({",
+                    "\turl:'lastApiUpdate',",
+                    "\trawResponse:true,",
+                    "\tsuccess:function(resp){",
+                    "\t\tthis.queryById('lastUpdate').update('App v'+appVer+'<BR>Data Refreshed '+resp);",
+                    "\t},",
+                    "\tscope:this",
+                    "});"
                 ]
             },
             "configAlternates": {
@@ -4069,6 +4150,30 @@
             },
             "name": "updateMyAppCount",
             "designerId": "efdec7a4-b8ec-403c-8438-bdafa425d246"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
+                    "store"
+                ],
+                "fn": "updateMyListsCount",
+                "implHandler": [
+                    "this.queryById('myAppLists').setTitle('My App Lists ('+store.getCount()+')');"
+                ]
+            },
+            "configAlternates": {
+                "designer|params": "typedarray",
+                "fn": "string",
+                "implHandler": "code"
+            },
+            "name": "updateMyListsCount",
+            "designerId": "e70186dd-e8eb-4449-bd4b-4e7349a91783"
         },
         {
             "type": "basiceventbinding",
@@ -4108,15 +4213,15 @@
                     "    }",
                     "}, this);",
                     "",
-                    "store.on('load',this.loadApps,this);",
+                    "store.on('load',this.oinAppsLoaded,this);",
                     "store.sort('Ranking','ASC');",
                     "store.load();",
                     "",
-                    "this.getViewModel().getStore('myLists').load();",
+                    "let listsStore = this.getViewModel().getStore('myLists');",
+                    "listsStore.load();",
+                    "this.updateMyListsCount(listsStore);",
                     "",
-                    "this.getLastApiRefresh();",
-                    "",
-                    "this.loadAppListFromUrl();"
+                    "this.getLastApiRefresh();"
                 ],
                 "name": "afterrender",
                 "scope": "me"
