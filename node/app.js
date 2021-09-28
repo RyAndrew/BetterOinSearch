@@ -16,6 +16,8 @@ var defaultConfigs = {
 	webRoot:'webroot/'
 };
 
+var mysqlpool;
+
 showBanner();
 init();
 
@@ -30,6 +32,7 @@ function showBanner(){
 function init(){
 	configRead();
 	initHttpServer();
+	initMySql();
 }
 
 function configRead(){
@@ -68,6 +71,43 @@ function configRead(){
 		...defaultConfigs,
 		...configFileJson
 	};
+}
+
+function executeQuery(query,callback){
+
+    mysqlpool.getConnection(function(error,connection){
+
+        if (error) {
+        	console.log(error);
+        	callback(true);
+        	return;
+        }   
+        connection.query(query,function(error,rows){
+
+            connection.release();
+            if(error) {
+							console.log(error);
+							callback(true);
+							return;
+            }  else{
+                callback(null, {rows: rows});
+            }         
+        });
+        connection.on('error', function(err) {      
+              throw error;
+              return;     
+        });
+    });
+}
+
+function initMySql(){
+	mysqlpool = mysql.createPool({
+	  connectionLimit : 10,
+	  host            : process.env.DB_HOST,
+	  user            : process.env.DB_USER,
+	  password        : process.env.DB_PASS,
+	  database        : process.env.DB_NAME
+	});
 }
 
 function initHttpServer(){
@@ -141,50 +181,61 @@ const httpServer = http.createServer(function(request, response) {
 	})
 }
 
-const mysqlcon  = mysql.createPool({
-  connectionLimit : 10,
-  host            : process.env.DB_HOST,
-  user            : process.env.DB_USER,
-  password        : process.env.DB_PASS,
-  database        : process.env.DB_NAME
-});
 
+async function crudCreate(request, response){
+	const buffers = [];
+	for await (const chunk of request) {
+		buffers.push(chunk);
+	}
+	const requestData = Buffer.concat(buffers).toString();
 
-function crudCreate(request, response){
+	let input;
 	try{
-			input=JSON.parse(request.body);
+		input=JSON.parse(requestData);
 	}catch(e){
-		response.end(JSON.stringify({success:false, error:"invalid request data"}));
+		console.log(requestData);
+		console.log(e);
+		response.end(JSON.stringify({success:false, error:"invalid request data 1"}));
 		return;
 	}
 
-	if(!input.hasOwnProperty('name')){
-		response.end(JSON.stringify({success:false, error:"invalid request data"}));
+	if(!input.hasOwnProperty('listName')){
+		response.end(JSON.stringify({success:false, error:"invalid request data 2"}));
 		return;
 	}
-	if(!input.hasOwnProperty('apps')){
-		response.end(JSON.stringify({success:false, error:"invalid request data"}));
+	if(!input.hasOwnProperty('appList')){
+		response.end(JSON.stringify({success:false, error:"invalid request data 3"}));
 		return;
 	}
 
 	let listData = {
-		listName: input.name,
+		listName: input.listName,
 		listId: makeId(8),
-		apps: input.apps
+		appList: JSON.stringify(input.appList),
+		dateCreated: new Date(),
+		dateModified: null
 	};
-	let insertQuery = 'INSERT INTO appList (listName,listId,appJson,dateCreated) values (??,?,??,CURRENT_TIMESTAMP()) ';
-	mysqlcon.query(insertQuery, [listData.listName, listData.listId, listData.apps] ,function (error, results, fields) {
+
+	let insertQuery = mysql.format('INSERT INTO appList (listName,listId,appJson,dateCreated) values (?,?,?,CURRENT_TIMESTAMP()) ',[listData.listName, listData.listId, listData.appList] );
+	executeQuery(insertQuery, function (error, results) {
 		if (error){
-			response.end(JSON.stringify({success:false, error:"invalid request data"}));
+			response.end(JSON.stringify({success:false, error:"database error"}));
 			return;
 		}
 	});
 
 	response.end(JSON.stringify({success:true, data:listData}));
 }
-function crudRead(request, response){
+async function crudRead(request, response){
+	const buffers = [];
+	for await (const chunk of request) {
+		buffers.push(chunk);
+	}
+	const requestData = Buffer.concat(buffers).toString();
+
+	let input;
 	try{
-			input=JSON.parse(request.body);
+		input=JSON.parse(requestData);
 	}catch(e){
 		response.end(JSON.stringify({success:false, error:"invalid request data"}));
 		return;
@@ -194,16 +245,18 @@ function crudRead(request, response){
 		response.end(JSON.stringify({success:false, error:"invalid request data"}));
 		return;
 	}
-	mysqlcon.query("select listId,listName,dateCreated,dateModified,appJson from appList where listId=??", [input.listId] ,function (error, results, fields) {
+	let selectQuery = mysql.format("select listId,listName,dateCreated,dateModified,appJson from appList where listId=?", [input.listId]);
+	executeQuery(selectQuery,function (error, results) {
 		if (error){
 			response.end(JSON.stringify({success:false, error:"invalid request data"}));
 			return;
 		}
-		if(results.length < 1){
+		if(results.rows.length < 1){
 			response.end(JSON.stringify({success:false, error:"invalid request data"}));
 			return;
 		}
-		response.end(JSON.stringify({success:true, data:results[0]}));
+		console.log(results);
+		response.end(JSON.stringify({success:true, data:results.rows[0]}));
 	});
 
 }
@@ -214,11 +267,11 @@ function crudDelete(request, response){
 
 }
 const randomChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-const charactersLength = randomChars.length;
+const randomCharsLength = randomChars.length;
 function makeId(length) {
 	var result   = '';
 	for ( var i = 0; i < length; i++ ) {
-		result += characters.charAt(Math.floor(Math.random() * charactersLength));
+		result += randomChars.charAt(Math.floor(Math.random() * randomCharsLength));
 	}
 	return result;
 }
