@@ -24,4 +24,5 @@ jobs:
         environment_name: eb-oin-export-v1-2
         version_label: ${{github.SHA}}
         region: us-east-2
+        use_existing_version_if_available: true
         deployment_package: deploy.zip
