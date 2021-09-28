@@ -11,12 +11,9 @@ jobs:
 
     - name: Checkout source code
       uses: actions/checkout@v2
-
-    - name: cd to node
-      run: cd node
       
     - name: Generate deployment package
-      run: zip -r deploy.zip .
+      run: cd node & zip -r deploy.zip .
 
     - name: Deploy to EB
       uses: einaregilsson/beanstalk-deploy@v18
