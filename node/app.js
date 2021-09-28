@@ -144,12 +144,12 @@ function crudCreate(request, response){
 	try{
 			input=JSON.parse(request.body);
 	}catch(e){
-		response.end(JSON.stringify({success:false, error:"invalid request data"});
+		response.end(JSON.stringify({success:false, error:"invalid request data"}));
 		return;
 	}
 
 	if(!input.hasOwnProperty('name')){
-		response.end(JSON.stringify({success:false, error:"invalid request data"});
+		response.end(JSON.stringify({success:false, error:"invalid request data"}));
 		return;
 	}
 
@@ -157,7 +157,7 @@ function crudCreate(request, response){
 		name: input.name
 	};
 
-	response.end(JSON.stringify({success:true, data:newRecord});
+	response.end(JSON.stringify({success:true, data:newRecord}));
 }
 function crudRead(request, response){
 
