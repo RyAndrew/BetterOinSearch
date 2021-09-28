@@ -1065,7 +1065,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 			return;
 		}
 
-		this.copyToClipboard('https://'+window.location.hostname +'/?list='+sel[0].data.listId);
+		this.copyToClipboard(location.protocol+'//'+window.location.hostname +'/?list='+sel[0].data.listId);
 	},
 
 	onBtnDeleteClick: function(button, e, eOpts) {

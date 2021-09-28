@@ -3411,7 +3411,7 @@
                                                             "\treturn;",
                                                             "}",
                                                             "",
-                                                            "this.copyToClipboard('https://'+window.location.hostname +'/?list='+sel[0].data.listId);"
+                                                            "this.copyToClipboard(location.protocol+'//'+window.location.hostname +'/?list='+sel[0].data.listId);"
                                                         ],
                                                         "name": "click",
                                                         "scope": "me"
