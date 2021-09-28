@@ -3714,7 +3714,7 @@
                     "    document.body.removeChild(textArea);",
                     "    return;",
                     "}else{",
-                    "\tnavigator.clipboard.writeText(this.menuRecord.ecr).then(function() {}, function() {",
+                    "\tnavigator.clipboard.writeText(text).then(function() {}, function() {",
                     "\t\tExt.Msg.alert(' ','Failed to copy to clipboard');",
                     "\t});",
                     "}"
@@ -4111,6 +4111,8 @@
                     "store.on('load',this.loadApps,this);",
                     "store.sort('Ranking','ASC');",
                     "store.load();",
+                    "",
+                    "this.getViewModel().getStore('myLists').load();",
                     "",
                     "this.getLastApiRefresh();",
                     "",

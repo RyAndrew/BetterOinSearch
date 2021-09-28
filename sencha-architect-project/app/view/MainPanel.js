@@ -1102,6 +1102,8 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		store.sort('Ranking','ASC');
 		store.load();
 
+		this.getViewModel().getStore('myLists').load();
+
 		this.getLastApiRefresh();
 
 		this.loadAppListFromUrl();
@@ -1167,7 +1169,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		    document.body.removeChild(textArea);
 		    return;
 		}else{
-			navigator.clipboard.writeText(this.menuRecord.ecr).then(function() {}, function() {
+			navigator.clipboard.writeText(text).then(function() {}, function() {
 				Ext.Msg.alert(' ','Failed to copy to clipboard');
 			});
 		}
