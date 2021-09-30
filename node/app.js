@@ -21,10 +21,6 @@ var mysqlpool;
 showBanner();
 init();
 
-function log(logLine){
-	console.log(logLine);
-}
-
 function showBanner(){
   log('Starting Server!');
 }
@@ -55,14 +51,14 @@ function configRead(){
 	}catch(e){
 		config=defaultConfigs;
 		log(`read configs from ${configFile} - Error! File contains invalid json! Defaults loaded`);
-		console.log(`--------\r\nBad Config:${configFileData}\r\n--------`);
+		log(`Bad Config:\r\n${configFileData}`);
 		return;
 	}
 
 	if(!configFileJson.hasOwnProperty('httpPort')){
 		config=defaultConfigs;
-		log(`read configs from ${configFile} - Error! Config missing httpPort, assuming bad! Defaults loaded`);
-		console.log(`--------\r\nBad Config:${configFileData}\r\n--------`);
+		log(`read configs from ${configFile} - Error! File contains invalid json! Defaults loaded`);
+		log(`Bad Config:\r\n${configFileData}`);
 	}else{
 		log(`read configs from ${configFile}`);
 	}
@@ -78,7 +74,7 @@ function executeQuery(query,callback){
     mysqlpool.getConnection(function(error,connection){
 
         if (error) {
-        	console.log(error);
+        	log(error);
         	callback(true);
         	return;
         }   
@@ -86,9 +82,9 @@ function executeQuery(query,callback){
 
             connection.release();
             if(error) {
-							console.log(error);
-							callback(true);
-							return;
+				log(error);
+				callback(true);
+				return;
             }  else{
                 callback(null, {rows: rows});
             }         
@@ -176,7 +172,7 @@ const httpServer = http.createServer(function(request, response) {
 })
 
 	httpServer.listen(config.httpPort).on('error',function(){
-		console.error(`Fatal Error! Failed to listen on port ${config.httpPort}. Is something else using it?`);
+		log(`Fatal Error! Failed to listen on port ${config.httpPort}. Is something else using it?`);
 		process.exit(1);
 	})
 }
@@ -297,8 +293,12 @@ function makeId(length) {
 	}
 	return result;
 }
+
+function log(logLine){
+	console.log(logLine);
+}
   
 process.on("SIGINT", function () {
-	console.log("\nGracefully shutting down from SIGINT (Ctrl-C)");
+	log("\nGracefully shutting down from SIGINT (Ctrl-C)");
 	process.exit(-1);
 });
