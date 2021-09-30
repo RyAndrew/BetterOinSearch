@@ -184,7 +184,7 @@ const httpServer = http.createServer(function(request, response) {
 
 async function crudCreate(request, response){
 
-	let input = await req.requestBodyJson().catch((err) => { 
+	let input = await requestBodyJson(request).catch((err) => { 
 		response.end(JSON.stringify({success:false, error:"invalid request data"}));
 		return;
 	});
@@ -218,7 +218,7 @@ async function crudCreate(request, response){
 }
 async function crudRead(request, response){
 
-	let input = await req.requestBodyJson().catch((err) => { 
+	let input = await requestBodyJson(request).catch((err) => { 
 		response.end(JSON.stringify({success:false, error:"invalid request data"}));
 		return;
 	});
@@ -245,7 +245,7 @@ function crudUpdate(request, response){
 
 }
 async function crudDelete(request, response){
-	let input = await req.requestBodyJson().catch((err) => { 
+	let input = await requestBodyJson(request).catch((err) => { 
 		response.end(JSON.stringify({success:false, error:"invalid request data"}));
 		return;
 	});
@@ -267,7 +267,7 @@ async function crudDelete(request, response){
 }
 
 //read entire request body helper
-function requestBodyJson(req) {
+function requestBodyJson(request) {
 	return new Promise( async (resolve, reject) => {
 
 		const buffers = [];
