@@ -183,21 +183,11 @@ const httpServer = http.createServer(function(request, response) {
 
 
 async function crudCreate(request, response){
-	const buffers = [];
-	for await (const chunk of request) {
-		buffers.push(chunk);
-	}
-	const requestData = Buffer.concat(buffers).toString();
 
-	let input;
-	try{
-		input=JSON.parse(requestData);
-	}catch(e){
-		console.log(requestData);
-		console.log(e);
-		response.end(JSON.stringify({success:false, error:"invalid request data 1"}));
+	let input = await req.requestBodyJson().catch((err) => { 
+		response.end(JSON.stringify({success:false, error:"invalid request data"}));
 		return;
-	}
+	});
 
 	if(!input.hasOwnProperty('listName')){
 		response.end(JSON.stringify({success:false, error:"invalid request data 2"}));
@@ -227,19 +217,11 @@ async function crudCreate(request, response){
 	response.end(JSON.stringify({success:true, data:listData}));
 }
 async function crudRead(request, response){
-	const buffers = [];
-	for await (const chunk of request) {
-		buffers.push(chunk);
-	}
-	const requestData = Buffer.concat(buffers).toString();
 
-	let input;
-	try{
-		input=JSON.parse(requestData);
-	}catch(e){
+	let input = await req.requestBodyJson().catch((err) => { 
 		response.end(JSON.stringify({success:false, error:"invalid request data"}));
 		return;
-	}
+	});
 
 	if(!input.hasOwnProperty('list') || input.list.length !== 8 ){
 		response.end(JSON.stringify({success:false, error:"invalid request data"}));
@@ -263,19 +245,10 @@ function crudUpdate(request, response){
 
 }
 async function crudDelete(request, response){
-	const buffers = [];
-	for await (const chunk of request) {
-		buffers.push(chunk);
-	}
-	const requestData = Buffer.concat(buffers).toString();
-
-	let input;
-	try{
-		input=JSON.parse(requestData);
-	}catch(e){
+	let input = await req.requestBodyJson().catch((err) => { 
 		response.end(JSON.stringify({success:false, error:"invalid request data"}));
 		return;
-	}
+	});
 
 	if(!input.hasOwnProperty('list') || input.list.length !== 8 ){
 		response.end(JSON.stringify({success:false, error:"invalid request data"}));
@@ -292,6 +265,29 @@ async function crudDelete(request, response){
 
 
 }
+
+//read entire request body helper
+function requestBodyJson(req) {
+	return new Promise( async (resolve, reject) => {
+
+		const buffers = [];
+		for await (const chunk of request) {
+			buffers.push(chunk);
+		}
+		const requestData = Buffer.concat(buffers).toString();
+
+		let parsed;
+		try {
+			parsed = JSON.parse(requestData);
+		} catch (e) {
+			reject(e);
+			return;
+		}
+
+		resolve(parsed);
+	});
+}
+
 const randomChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 const randomCharsLength = randomChars.length;
 function makeId(length) {
