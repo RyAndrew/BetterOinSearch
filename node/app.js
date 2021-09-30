@@ -71,29 +71,29 @@ function configRead(){
 
 function executeQuery(query,callback){
 
-    mysqlpool.getConnection(function(error,connection){
+	mysqlpool.getConnection(function(error,connection){
 
-        if (error) {
-        	log(error);
-        	callback(true);
-        	return;
-        }   
-        connection.query(query,function(error,rows){
+		if (error) {
+			log(error);
+			callback(true);
+			return;
+		}   
+		connection.query(query,function(error,rows){
 
-            connection.release();
-            if(error) {
+			connection.release();
+			if(error) {
 				log(error);
 				callback(true);
 				return;
-            }  else{
-                callback(null, {rows: rows});
-            }         
-        });
-        connection.on('error', function(err) {      
-              throw error;
-              return;     
-        });
-    });
+			}  else{
+				callback(null, {rows: rows});
+			}         
+		});
+		connection.on('error', function(err) {      
+			  throw error;
+			  return;     
+		});
+	});
 }
 
 function initMySql(){
