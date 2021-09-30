@@ -180,18 +180,15 @@ const httpServer = http.createServer(function(request, response) {
 
 async function crudCreate(request, response){
 
-	let input = await requestBodyJson(request).catch((err) => { 
-		response.end(JSON.stringify({success:false, error:"invalid request data"}));
-		return;
+	let input = await requestBodyJson(request).catch((err) => {
+		return outputJson(response,{success:false, error:"invalid request data"});
 	});
 
 	if(!input.hasOwnProperty('listName')){
-		response.end(JSON.stringify({success:false, error:"invalid request data 2"}));
-		return;
+		return outputJson(response,{success:false, error:"invalid request data"});
 	}
 	if(!input.hasOwnProperty('appList')){
-		response.end(JSON.stringify({success:false, error:"invalid request data 3"}));
-		return;
+		return outputJson(response,{success:false, error:"invalid request data"});
 	}
 
 	let listData = {
@@ -205,8 +202,7 @@ async function crudCreate(request, response){
 	let insertQuery = mysql.format('INSERT INTO appList (listName,listId,appList,dateCreated) values (?,?,?,CURRENT_TIMESTAMP()) ',[listData.listName, listData.listId, listData.appList] );
 	executeQuery(insertQuery, function (error, results) {
 		if (error){
-			response.end(JSON.stringify({success:false, error:"database error"}));
-			return;
+			return outputJson(response,{success:false, error:"database error"});
 		}
 	});
 
@@ -214,26 +210,22 @@ async function crudCreate(request, response){
 }
 async function crudRead(request, response){
 
-	let input = await requestBodyJson(request).catch((err) => { 
-		response.end(JSON.stringify({success:false, error:"invalid request data"}));
-		return;
+	let input = await requestBodyJson(request).catch((err) => {
+		return outputJson(response,{success:false, error:"invalid request data"});
 	});
 
 	if(!input.hasOwnProperty('list') || input.list.length !== 8 ){
-		response.end(JSON.stringify({success:false, error:"invalid request data"}));
-		return;
+		return outputJson(response,{success:false, error:"invalid request data"});
 	}
 	let selectQuery = mysql.format("select listId,listName,dateCreated,dateModified,appList from appList where listId=?", [input.list]);
 	executeQuery(selectQuery,function (error, results) {
 		if (error){
-			response.end(JSON.stringify({success:false, error:"database error"}));
-			return;
+			return outputJson(response,{success:false, error:"database error"});
 		}
 		if(results.rows.length < 1){
-			response.end(JSON.stringify({success:true, data:null}));
-			return;
+			return outputJson(response,{success:true, data:null});
 		}
-		response.end(JSON.stringify({success:true, data:results.rows[0]}));
+		outputJson(response,{success:true, data:results.rows[0]});
 	});
 
 }
@@ -241,22 +233,19 @@ function crudUpdate(request, response){
 
 }
 async function crudDelete(request, response){
-	let input = await requestBodyJson(request).catch((err) => { 
-		response.end(JSON.stringify({success:false, error:"invalid request data"}));
-		return;
+	let input = await requestBodyJson(request).catch((err) => {
+		return outputJson(response,{success:false, error:"invalid request data"});
 	});
 
 	if(!input.hasOwnProperty('list') || input.list.length !== 8 ){
-		response.end(JSON.stringify({success:false, error:"invalid request data"}));
-		return;
+		return outputJson(response,{success:false, error:"invalid request data"});
 	}
 	let selectQuery = mysql.format("delete from appList where listId=?", [input.list]);
 	executeQuery(selectQuery,function (error, results) {
 		if (error){
-			response.end(JSON.stringify({success:false, error:"database error"}));
-			return;
+			return outputJson(response,{success:false, error:"database error"});
 		}
-		response.end(JSON.stringify({success:true}));
+		outputJson(response,{success:true});
 	});
 
 
@@ -292,6 +281,10 @@ function makeId(length) {
 		result += randomChars.charAt(Math.floor(Math.random() * randomCharsLength));
 	}
 	return result;
+}
+
+function outputJson(httpResponse, responseJson){
+	httpResponse.end(JSON.stringify(responseJson));
 }
 
 function log(logLine){
