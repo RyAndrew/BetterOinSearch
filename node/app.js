@@ -1,5 +1,10 @@
 "use strict";
 
+let config = {
+	httpPort:8080,
+	webRoot:'webroot/'
+};
+
 const mysql = require('mysql');
 const http = require('http');
 const net = require('net');
@@ -8,93 +13,11 @@ const fs = require('fs');
 const path = require('path');
 const querystring = require('querystring');
 
-const configFile = 'config.json';
+let mysqlpool;
 
-var config = {};
-var defaultConfigs = {
-	httpPort:8080, //https://stackoverflow.com/a/23281401
-	webRoot:'webroot/'
-};
-
-var mysqlpool;
-
-showBanner();
-init();
-
-function showBanner(){
-  log('Starting Server!');
-}
-
-function init(){
-	configRead();
-	initHttpServer();
-	initMySql();
-}
-
-function configRead(){
-	let configFileData;
-	if (!fs.existsSync(configFile)) {
-		config=defaultConfigs;
-		log(`configs file ${configFile} doesn't exist, defaults loaded`);
-		return;
-	}
-	try{
-		configFileData = fs.readFileSync(configFile, 'utf8');//, function (err, data) {
-	}catch(e){
-		config=defaultConfigs;
-		log(`read configs from ${configFile} - Error! Unable to read file! Check permissions! Defaults loaded`);
-		return;
-	}
-	let configFileJson;
-	try{
-		configFileJson=JSON.parse(configFileData);
-	}catch(e){
-		config=defaultConfigs;
-		log(`read configs from ${configFile} - Error! File contains invalid json! Defaults loaded`);
-		log(`Bad Config:\r\n${configFileData}`);
-		return;
-	}
-
-	if(!configFileJson.hasOwnProperty('httpPort')){
-		config=defaultConfigs;
-		log(`read configs from ${configFile} - Error! File contains invalid json! Defaults loaded`);
-		log(`Bad Config:\r\n${configFileData}`);
-	}else{
-		log(`read configs from ${configFile}`);
-	}
-
-	config = {
-		...defaultConfigs,
-		...configFileJson
-	};
-}
-
-function executeQuery(query,callback){
-
-	mysqlpool.getConnection(function(error,connection){
-
-		if (error) {
-			log(error);
-			callback(true);
-			return;
-		}   
-		connection.query(query,function(error,rows){
-
-			connection.release();
-			if(error) {
-				log(error);
-				callback(true);
-				return;
-			}  else{
-				callback(null, {rows: rows});
-			}         
-		});
-		connection.on('error', function(err) {      
-			  throw error;
-			  return;     
-		});
-	});
-}
+log('Starting Server!');
+initHttpServer();
+initMySql();
 
 function initMySql(){
 	mysqlpool = mysql.createPool({
@@ -108,68 +31,68 @@ function initMySql(){
 
 function initHttpServer(){
 
-// maps file extention to MIME types
-const mimeType = {
-	'.ico': 'image/x-icon',
-	'.html': 'text/html',
-	'.js': 'text/javascript',
-	'.json': 'application/json',
-	'.css': 'text/css',
-	'.png': 'image/png',
-	'.jpg': 'image/jpeg',
-	'.wav': 'audio/wav',
-	'.mp3': 'audio/mpeg',
-	'.svg': 'image/svg+xml',
-	'.pdf': 'application/pdf',
-	'.doc': 'application/msword',
-	'.eot': 'appliaction/vnd.ms-fontobject',
-	'.ttf': 'aplication/font-sfnt'
-};
+	// maps file extention to MIME types
+	const mimeType = {
+		'.ico': 'image/x-icon',
+		'.html': 'text/html',
+		'.js': 'text/javascript',
+		'.json': 'application/json',
+		'.css': 'text/css',
+		'.png': 'image/png',
+		'.jpg': 'image/jpeg',
+		'.wav': 'audio/wav',
+		'.mp3': 'audio/mpeg',
+		'.svg': 'image/svg+xml',
+		'.pdf': 'application/pdf',
+		'.doc': 'application/msword',
+		'.eot': 'appliaction/vnd.ms-fontobject',
+		'.ttf': 'aplication/font-sfnt'
+	};
 
-const httpServer = http.createServer(function(request, response) {
+	const httpServer = http.createServer(function(request, response) {
 
-	const parsedUrl = url.parse(request.url);
-	
-	switch(parsedUrl.pathname){
-		case '/create': crudCreate(request, response); return;
-		case '/read': crudRead(request, response); return;
-		case '/update': crudUpdate(request, response); return;
-		case '/delete': crudDelete(request, response); return;
-	}
-
-	const sanitizePath = path.normalize(parsedUrl.pathname).replace(/^(\.\.[\/\\])+/, '');
-	let pathname = path.join(__dirname, config.webRoot, sanitizePath);
-
-	fs.exists(pathname, function (exist) {
-		if (!exist) {
-			// if the file is not found, return 404
-			log('404 not found!');
-			response.statusCode = 404;
-			response.end(`File ${pathname} not found!`);
-			return;
+		const parsedUrl = url.parse(request.url);
+		
+		switch(parsedUrl.pathname){
+			case '/create': crudCreate(request, response); return;
+			case '/read': crudRead(request, response); return;
+			case '/update': crudUpdate(request, response); return;
+			case '/delete': crudDelete(request, response); return;
 		}
 
-		// if is a directory, then look for index.html
-		if (fs.statSync(pathname).isDirectory()) {
-			pathname += '/index.html';
-		}
+		const sanitizePath = path.normalize(parsedUrl.pathname).replace(/^(\.\.[\/\\])+/, '');
+		let pathname = path.join(__dirname, config.webRoot, sanitizePath);
 
-		// read file from file system
-		fs.readFile(pathname, function (err, data) {
-			if (err) {
-				log('500 file exists but cant read!');
-				response.statusCode = 500;
-				response.end(`Error getting the file: ${err}.`);
-			} else {
-				// based on the URL path, extract the file extention. e.g. .js, .doc, ...
-				const ext = path.parse(pathname).ext;
-				// if the file is found, set Content-type and send data
-				response.setHeader('Content-type', mimeType[ext] || 'text/plain');
-				response.end(data);
+		fs.exists(pathname, function (exist) {
+			if (!exist) {
+				// if the file is not found, return 404
+				log('404 not found!');
+				response.statusCode = 404;
+				response.end(`File ${pathname} not found!`);
+				return;
 			}
+
+			// if is a directory, then look for index.html
+			if (fs.statSync(pathname).isDirectory()) {
+				pathname += '/index.html';
+			}
+
+			// read file from file system
+			fs.readFile(pathname, function (err, data) {
+				if (err) {
+					log('500 file exists but cant read!');
+					response.statusCode = 500;
+					response.end(`Error getting the file: ${err}.`);
+				} else {
+					// based on the URL path, extract the file extention. e.g. .js, .doc, ...
+					const ext = path.parse(pathname).ext;
+					// if the file is found, set Content-type and send data
+					response.setHeader('Content-type', mimeType[ext] || 'text/plain');
+					response.end(data);
+				}
+			});
 		});
 	});
-})
 
 	httpServer.listen(config.httpPort).on('error',function(){
 		log(`Fatal Error! Failed to listen on port ${config.httpPort}. Is something else using it?`);
@@ -273,11 +196,38 @@ function requestBodyJson(request) {
 	});
 }
 
+function executeQuery(query,callback){
+
+	mysqlpool.getConnection(function(error,connection){
+
+		if (error) {
+			log(error);
+			callback(true);
+			return;
+		}
+		connection.query(query,function(error,rows){
+
+			connection.release();
+			if(error) {
+				log(error);
+				callback(true);
+				return;
+			}  else{
+				callback(null, {rows: rows});
+			}
+		});
+		connection.on('error', function(err) {
+			  throw error;
+			  return;
+		});
+	});
+}
+
 const randomChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 const randomCharsLength = randomChars.length;
 function makeId(length) {
-	var result   = '';
-	for ( var i = 0; i < length; i++ ) {
+	let result   = '';
+	for ( let i = 0; i < length; i++ ) {
 		result += randomChars.charAt(Math.floor(Math.random() * randomCharsLength));
 	}
 	return result;
