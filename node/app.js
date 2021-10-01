@@ -153,7 +153,7 @@ async function crudRead(httpRequest, httpResponse){
 function crudUpdate(httpRequest, httpResponse){
 
 }
-async function crudDelete(httpRequest, httphttpResponse){
+async function crudDelete(httpRequest, httpResponse){
 	let input = await requestBodyJson(httpRequest, httpResponse)
 
 	if(!input.hasOwnProperty('list') || input.list.length !== 8 ){
