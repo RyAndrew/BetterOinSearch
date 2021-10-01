@@ -180,7 +180,7 @@ async function requestBodyJson(httpRequest, httpResponse) {
 	try {
 		parsed = JSON.parse(requestData)
 	} catch (error) {
-		return outputJsonError(httpResponse,"invalid request data")
+		outputJsonError(httpResponse,"invalid request data")
 		throw new RequestEndedException(error)
 	}
 
