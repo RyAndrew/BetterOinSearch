@@ -138,16 +138,16 @@ async function crudRead(httpRequest, httpResponse){
 		return outputJsonError(httpResponse,"invalid request data")
 	}
 
-	const results = await executeQuery(
+	const [rows, fields] = await executeQuery(
 		"select listId,listName,dateCreated,dateModified,appList from appList where listId=?"
 		,[input.list]
 		,httpResponse
 	)
 
-	if(results.rows.length < 1){
+	if(rows.length < 1){
 		return outputJson(httpResponse,{success:true, data:null})
 	}
-	outputJson(httpResponse,{success:true, data:results.rows[0]})
+	outputJson(httpResponse,{success:true, data:rows[0]})
 
 }
 function crudUpdate(httpRequest, httpResponse){
@@ -159,7 +159,7 @@ async function crudDelete(httpRequest, httphttpResponse){
 	if(!input.hasOwnProperty('list') || input.list.length !== 8 ){
 		return outputJsonError(httpResponse,"invalid request data")
 	}
-	let [error, results] = await executeQuery(
+	await executeQuery(
 		"delete from appList where listId=?"
 		,[input.list]
 		,httpResponse
@@ -192,7 +192,7 @@ async function executeQuery(query, params, httpResponse){
 	try {
 		const connection = await mysqlpool.getConnection()
 
-		return await connection.query(query, params)
+		return await connection.execute(query, params)
 	} catch (error) {
 		outputJsonError(httpResponse, "database error")
 		throw new RequestEndedException(error)
