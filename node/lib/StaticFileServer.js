@@ -1,12 +1,15 @@
 import {
 	fileURLToPath
-} from 'url';
-import {access, stat, readFile} from 'fs/promises'
+} from 'url'
+import {
+	access,
+	stat,
+	readFile
+} from 'fs/promises'
 import path from 'path'
 
-const __filename = fileURLToPath(
-	import.meta.url);
-const __dirname = path.dirname(__filename);
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 export default class StaticFileServer {
 	webRoot = ''

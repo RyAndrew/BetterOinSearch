@@ -7,7 +7,9 @@ let config = {
 
 import mysql from 'mysql2/promise'
 import http from 'http'
-import { parse } from 'url'
+import {
+	parse
+} from 'url'
 
 import StaticFileServer from './lib/StaticFileServer.js'
 StaticFileServer.webRoot = config.webRoot
@@ -15,11 +17,11 @@ StaticFileServer.webRoot = config.webRoot
 import ApiCsvToJson from './lib/ApiCsvToJson.js'
 ApiCsvToJson.apiUrl = process.env.API_URL
 ApiCsvToJson.apiKey = process.env.API_KEY
+ApiCsvToJson.webRoot = config.webRoot
 
 let mysqlpool
 
 log('Starting Server!')
-console.log(process.cwd())
 initHttpServer()
 initMySql()
 
@@ -34,17 +36,21 @@ function initMySql() {
 		database: process.env.DB_NAME
 	})
 }
-async function updateOinData(httpRequest, httpResponse){
-	
-	let data = await ApiCsvToJson.fetchApiData().catch(error => {
+async function updateOinData(httpRequest, httpResponse) {
+
+	let oinData = await ApiCsvToJson.fetchApiData().catch(error => {
 		httpResponse.end('API Error!' + error)
-		return
+		throw new RequestEndedException(error)
 	})
-	httpResponse.end(data);
+
+	outputJson(httpResponse, {
+		success: true
+	})
 }
+
 function initHttpServer() {
 
-	const httpServer = http.createServer( async (httpRequest, httpResponse) => {
+	const httpServer = http.createServer(async (httpRequest, httpResponse) => {
 
 		const parsedUrl = parse(httpRequest.url)
 
@@ -66,7 +72,7 @@ function initHttpServer() {
 				return
 		}
 
-		await StaticFileServer.serveFile(httpRequest, httpResponse, parsedUrl).catch(error =>{
+		await StaticFileServer.serveFile(httpRequest, httpResponse, parsedUrl).catch(error => {
 			throw new RequestEndedException(error)
 		})
 
@@ -92,16 +98,16 @@ async function crudCreate(httpRequest, httpResponse) {
 		appList: JSON.stringify(input.appList),
 		dateCreated: new Date(),
 		dateModified: null
-	};
+	}
 
 	const results = await executeQuery(
 		'INSERT INTO appList (listName,listId,appList,dateCreated) values (?,?,?,CURRENT_TIMESTAMP()) ', [listData.listName, listData.listId, listData.appList], httpResponse
-	);
+	)
 
 	outputJson(httpResponse, {
 		success: true,
 		data: listData
-	});
+	})
 }
 async function crudRead(httpRequest, httpResponse) {
 
@@ -204,7 +210,7 @@ function outputJson(httpResponse, responseJson) {
 function log(...allArgs) {
 	allArgs.forEach(i => {
 		console.log(i)
-	});
+	})
 }
 
 class RequestEndedException extends Error {}
