@@ -1,8 +1,8 @@
 "use strict";
 
 let config = {
-	httpPort:8080,
-	webRoot:'webroot/'
+	httpPort: 8080,
+	webRoot: 'webroot/'
 }
 
 const mysql = require('mysql2/promise')
@@ -18,19 +18,19 @@ log('Starting Server!')
 initHttpServer()
 initMySql()
 
-function initMySql(){
+function initMySql() {
 	mysqlpool = mysql.createPool({
-		connectionLimit:10,
-		queueLimit:25,
-		waitForConnections:true,
-		host:process.env.DB_HOST,
-		user:process.env.DB_USER,
-		password:process.env.DB_PASS,
-		database:process.env.DB_NAME
+		connectionLimit: 10,
+		queueLimit: 25,
+		waitForConnections: true,
+		host: process.env.DB_HOST,
+		user: process.env.DB_USER,
+		password: process.env.DB_PASS,
+		database: process.env.DB_NAME
 	})
 }
 
-function initHttpServer(){
+function initHttpServer() {
 
 	// maps file extention to MIME types
 	const mimeType = {
@@ -53,15 +53,19 @@ function initHttpServer(){
 	const httpServer = http.createServer(function(httpRequest, httpResponse) {
 
 		const parsedUrl = url.parse(httpRequest.url)
-		
-		switch(parsedUrl.pathname){
-			case '/create': crudCreate(httpRequest, httpResponse) 
+
+		switch (parsedUrl.pathname) {
+			case '/create':
+				crudCreate(httpRequest, httpResponse)
 				return
-			case '/read': crudRead(httpRequest, httpResponse) 
+			case '/read':
+				crudRead(httpRequest, httpResponse)
 				return
-			case '/update': crudUpdate(httpRequest, httpResponse) 
+			case '/update':
+				crudUpdate(httpRequest, httpResponse)
 				return
-			case '/delete': crudDelete(httpRequest, httpResponse) 
+			case '/delete':
+				crudDelete(httpRequest, httpResponse)
 				return
 		}
 
@@ -69,7 +73,7 @@ function initHttpServer(){
 		const sanitizePath = path.normalize(parsedUrl.pathname).replace(/^(\.\.[\/\\])+/, '')
 		let pathname = path.join(__dirname, config.webRoot, sanitizePath)
 
-		fs.exists(pathname, function (exist) {
+		fs.exists(pathname, function(exist) {
 			if (!exist) {
 				// if the file is not found, return 404
 				log('404 not found!')
@@ -84,7 +88,7 @@ function initHttpServer(){
 			}
 
 			// read file from file system
-			fs.readFile(pathname, function (err, data) {
+			fs.readFile(pathname, function(err, data) {
 				if (err) {
 					log('500 file exists but cant read!')
 					httpResponse.statusCode = 500
@@ -100,18 +104,18 @@ function initHttpServer(){
 		})
 	})
 
-	httpServer.listen(config.httpPort).on('error',function(){
+	httpServer.listen(config.httpPort).on('error', function() {
 		log(`Fatal Error! Failed to listen on port ${config.httpPort}. Is something else using it?`)
 		process.exit(1)
 	})
 }
 
 
-async function crudCreate(httpRequest, httpResponse){
+async function crudCreate(httpRequest, httpResponse) {
 	let input = await requestBodyJson(httpRequest, httpResponse)
 
-	if(!input.hasOwnProperty('listName') || !input.hasOwnProperty('appList')){
-		return outputJsonError(httpResponse,"invalid request data")
+	if (!input.hasOwnProperty('listName') || !input.hasOwnProperty('appList')) {
+		return outputJsonError(httpResponse, "invalid request data")
 	}
 
 	let listData = {
@@ -121,51 +125,57 @@ async function crudCreate(httpRequest, httpResponse){
 		dateCreated: new Date(),
 		dateModified: null
 	};
-	
+
 	const results = await executeQuery(
-		'INSERT INTO appList (listName,listId,appList,dateCreated) values (?,?,?,CURRENT_TIMESTAMP()) '
-		,[listData.listName, listData.listId, listData.appList]
-		,httpResponse
+		'INSERT INTO appList (listName,listId,appList,dateCreated) values (?,?,?,CURRENT_TIMESTAMP()) ', [listData.listName, listData.listId, listData.appList], httpResponse
 	);
 
-	outputJson(httpResponse,{success:true, data:listData});
+	outputJson(httpResponse, {
+		success: true,
+		data: listData
+	});
 }
-async function crudRead(httpRequest, httpResponse){
+async function crudRead(httpRequest, httpResponse) {
 
 	let input = await requestBodyJson(httpRequest, httpResponse)
 
-	if(!input.hasOwnProperty('list') || input.list.length !== 8 ){
-		return outputJsonError(httpResponse,"invalid request data")
+	if (!input.hasOwnProperty('list') || input.list.length !== 8) {
+		return outputJsonError(httpResponse, "invalid request data")
 	}
 
 	const [rows, fields] = await executeQuery(
-		"select listId,listName,dateCreated,dateModified,appList from appList where listId=?"
-		,[input.list]
-		,httpResponse
+		"select listId,listName,dateCreated,dateModified,appList from appList where listId=?", [input.list], httpResponse
 	)
 
-	if(rows.length < 1){
-		return outputJson(httpResponse,{success:true, data:null})
+	if (rows.length < 1) {
+		return outputJson(httpResponse, {
+			success: true,
+			data: null
+		})
 	}
-	outputJson(httpResponse,{success:true, data:rows[0]})
+	outputJson(httpResponse, {
+		success: true,
+		data: rows[0]
+	})
 
 }
-function crudUpdate(httpRequest, httpResponse){
+
+function crudUpdate(httpRequest, httpResponse) {
 
 }
-async function crudDelete(httpRequest, httpResponse){
+async function crudDelete(httpRequest, httpResponse) {
 	let input = await requestBodyJson(httpRequest, httpResponse)
 
-	if(!input.hasOwnProperty('list') || input.list.length !== 8 ){
-		return outputJsonError(httpResponse,"invalid request data")
+	if (!input.hasOwnProperty('list') || input.list.length !== 8) {
+		return outputJsonError(httpResponse, "invalid request data")
 	}
 	await executeQuery(
-		"delete from appList where listId=?"
-		,[input.list]
-		,httpResponse
+		"delete from appList where listId=?", [input.list], httpResponse
 	)
 
-	outputJson(httpResponse,{success:true})
+	outputJson(httpResponse, {
+		success: true
+	})
 }
 
 //read entire request body helper
@@ -180,14 +190,14 @@ async function requestBodyJson(httpRequest, httpResponse) {
 	try {
 		parsed = JSON.parse(requestData)
 	} catch (error) {
-		outputJsonError(httpResponse,"invalid request data")
+		outputJsonError(httpResponse, "invalid request data")
 		throw new RequestEndedException(error)
 	}
 
 	return parsed
 }
 
-async function executeQuery(query, params, httpResponse){
+async function executeQuery(query, params, httpResponse) {
 
 	try {
 		const connection = await mysqlpool.getConnection()
@@ -201,34 +211,40 @@ async function executeQuery(query, params, httpResponse){
 
 const randomChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 const randomCharsLength = randomChars.length
+
 function makeId() {
 	const idLength = 8
-	let result   = ''
-	for ( let i = 0; i < idLength; i++ ) {
+	let result = ''
+	for (let i = 0; i < idLength; i++) {
 		result += randomChars.charAt(Math.floor(Math.random() * randomCharsLength))
 	}
 	return result
 }
 
-function outputJsonError(httpResponse, errorString){
+function outputJsonError(httpResponse, errorString) {
 	httpResponse.statusCode = 500
-	outputJson(httpResponse, {success:false, error:errorString})
+	outputJson(httpResponse, {
+		success: false,
+		error: errorString
+	})
 }
 
-function outputJson(httpResponse, responseJson){
+function outputJson(httpResponse, responseJson) {
 	httpResponse.end(JSON.stringify(responseJson))
 }
 
-function log(...allArgs){
-	allArgs.forEach(i => {console.log(i)});
+function log(...allArgs) {
+	allArgs.forEach(i => {
+		console.log(i)
+	});
 }
 
 class RequestEndedException extends Error {}
 
-function errorHandler(error){
-	if(error instanceof RequestEndedException){
+function errorHandler(error) {
+	if (error instanceof RequestEndedException) {
 		log('error but its nbd', error)
-	}else{
+	} else {
 		log('fatal unhandled error', error)
 		process.exit(1)
 	}
@@ -236,7 +252,7 @@ function errorHandler(error){
 process.on('unhandledRejection', errorHandler)
 process.on('uncaughtException', errorHandler)
 
-process.on("SIGINT", function () {
+process.on("SIGINT", function() {
 	log("\nGracefully shutting down from SIGINT (Ctrl-C)")
 	process.exit(-1)
 })
