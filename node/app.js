@@ -2,19 +2,24 @@
 
 let config = {
 	httpPort: 8080,
-	webRoot: 'webroot/'
+	webRoot: './webroot/'
 }
 
-const mysql = require('mysql2/promise')
-const http = require('http')
-const net = require('net')
-const url = require('url')
-const fs = require('fs')
-const path = require('path')
+import mysql from 'mysql2/promise'
+import http from 'http'
+import { parse } from 'url'
+
+import StaticFileServer from './lib/StaticFileServer.js'
+StaticFileServer.webRoot = config.webRoot
+
+import ApiCsvToJson from './lib/ApiCsvToJson.js'
+ApiCsvToJson.apiUrl = process.env.API_URL
+ApiCsvToJson.apiKey = process.env.API_KEY
 
 let mysqlpool
 
 log('Starting Server!')
+console.log(process.cwd())
 initHttpServer()
 initMySql()
 
@@ -29,30 +34,19 @@ function initMySql() {
 		database: process.env.DB_NAME
 	})
 }
-
+async function updateOinData(httpRequest, httpResponse){
+	
+	let data = await ApiCsvToJson.fetchApiData().catch(error => {
+		httpResponse.end('API Error!' + error)
+		return
+	})
+	httpResponse.end(data);
+}
 function initHttpServer() {
 
-	// maps file extention to MIME types
-	const mimeType = {
-		'.ico': 'image/x-icon',
-		'.html': 'text/html',
-		'.js': 'text/javascript',
-		'.json': 'application/json',
-		'.css': 'text/css',
-		'.png': 'image/png',
-		'.jpg': 'image/jpeg',
-		'.wav': 'audio/wav',
-		'.mp3': 'audio/mpeg',
-		'.svg': 'image/svg+xml',
-		'.pdf': 'application/pdf',
-		'.doc': 'application/msword',
-		'.eot': 'appliaction/vnd.ms-fontobject',
-		'.ttf': 'aplication/font-sfnt'
-	}
+	const httpServer = http.createServer( async (httpRequest, httpResponse) => {
 
-	const httpServer = http.createServer(function(httpRequest, httpResponse) {
-
-		const parsedUrl = url.parse(httpRequest.url)
+		const parsedUrl = parse(httpRequest.url)
 
 		switch (parsedUrl.pathname) {
 			case '/create':
@@ -67,41 +61,15 @@ function initHttpServer() {
 			case '/delete':
 				crudDelete(httpRequest, httpResponse)
 				return
+			case '/updateOinData':
+				updateOinData(httpRequest, httpResponse)
+				return
 		}
 
-		//static file server stuff:
-		const sanitizePath = path.normalize(parsedUrl.pathname).replace(/^(\.\.[\/\\])+/, '')
-		let pathname = path.join(__dirname, config.webRoot, sanitizePath)
-
-		fs.exists(pathname, function(exist) {
-			if (!exist) {
-				// if the file is not found, return 404
-				log('404 not found!')
-				httpResponse.statusCode = 404
-				httpResponse.end(`File ${pathname} not found!`)
-				return
-			}
-
-			// if is a directory, then look for index.html
-			if (fs.statSync(pathname).isDirectory()) {
-				pathname += '/index.html'
-			}
-
-			// read file from file system
-			fs.readFile(pathname, function(err, data) {
-				if (err) {
-					log('500 file exists but cant read!')
-					httpResponse.statusCode = 500
-					httpResponse.end(`Error getting the file: ${err}.`)
-				} else {
-					// based on the URL path, extract the file extention. e.g. .js, .doc, ...
-					const ext = path.parse(pathname).ext
-					// if the file is found, set Content-type and send data
-					httpResponse.setHeader('Content-type', mimeType[ext] || 'text/plain')
-					httpResponse.end(data)
-				}
-			})
+		await StaticFileServer.serveFile(httpRequest, httpResponse, parsedUrl).catch(error =>{
+			throw new RequestEndedException(error)
 		})
+
 	})
 
 	httpServer.listen(config.httpPort).on('error', function() {
