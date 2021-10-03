@@ -72,6 +72,12 @@ function initHttpServer() {
 				return
 		}
 
+		if(process.env.ENABLE_STATIC){
+			StaticFileServer.serveFile(httpRequest, httpResponse, parsedUrl).catch(error => {
+				throw new RequestEndedException(error)
+			})
+		}
+
 	})
 
 	httpServer.listen(config.httpPort).on('error', function() {
