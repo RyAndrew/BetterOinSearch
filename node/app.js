@@ -55,26 +55,22 @@ function initHttpServer() {
 		const parsedUrl = parse(httpRequest.url)
 
 		switch (parsedUrl.pathname) {
-			case '/create':
+			case '/api/create':
 				crudCreate(httpRequest, httpResponse)
 				return
-			case '/read':
+			case '/api/read':
 				crudRead(httpRequest, httpResponse)
 				return
-			case '/update':
-				crudUpdate(httpRequest, httpResponse)
-				return
-			case '/delete':
+			// case '/api/update':
+			// 	crudUpdate(httpRequest, httpResponse)
+			// 	return
+			case '/api/delete':
 				crudDelete(httpRequest, httpResponse)
 				return
-			case '/updateOinData':
+			case '/api/updateOinData':
 				updateOinData(httpRequest, httpResponse)
 				return
 		}
-
-		await StaticFileServer.serveFile(httpRequest, httpResponse, parsedUrl).catch(error => {
-			throw new RequestEndedException(error)
-		})
 
 	})
 
@@ -134,9 +130,9 @@ async function crudRead(httpRequest, httpResponse) {
 
 }
 
-function crudUpdate(httpRequest, httpResponse) {
+// function crudUpdate(httpRequest, httpResponse) {
 
-}
+// }
 async function crudDelete(httpRequest, httpResponse) {
 	let input = await requestBodyJson(httpRequest, httpResponse)
 
