@@ -19,6 +19,7 @@ ApiCsvToJson.apiUrl = process.env.API_URL
 ApiCsvToJson.apiKey = process.env.API_KEY
 ApiCsvToJson.webRoot = config.webRoot
 
+
 let mysqlpool
 
 log('Starting Server!')
