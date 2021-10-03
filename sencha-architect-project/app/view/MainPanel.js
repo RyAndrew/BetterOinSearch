@@ -990,7 +990,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 
 	onButtonClick4: function(button, e, eOpts) {
 		AERP.Ajax.request({
-			url:'updateOinData',
+			url:'api/updateOinData',
 			mask:this,
 			success:function(resp){
 				location.reload();
@@ -1077,7 +1077,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		}
 
 		AERP.Ajax.request({
-			url:'delete',
+			url:'api/delete',
 			mask:this,
 			jsonData:{
 				list:sel[0].data.listId
@@ -1216,7 +1216,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 
 		if(searchQuery.list){
 			AERP.Ajax.request({
-				url:'read',
+				url:'api/read',
 				mask:this,
 				jsonData:{
 					list:searchQuery.list
@@ -1335,7 +1335,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		});
 
 		AERP.Ajax.request({
-			url:'create',
+			url:'api/create',
 			mask:this,
 			jsonData:{
 				listName:listName,
@@ -1365,7 +1365,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 	},
 
 	getLastApiRefresh: function() {
-		let appVer = '0.1.1';
+		let appVer = '1.0.2';
 
 		AERP.Ajax.request({
 			url:'lastApiUpdate',
