@@ -26,6 +26,7 @@ log('Starting Server!')
 initHttpServer()
 initMySql()
 
+
 function initMySql() {
 	mysqlpool = mysql.createPool({
 		connectionLimit: 10,
