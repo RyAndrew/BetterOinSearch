@@ -19,6 +19,10 @@ API_KEY="p2H9QLvn9sgyw6HcVWhUA2laxSqWvAWTwYlVfmmJxr"
 ```
 cd node
 ```
+#### install node dependencies
+```
+node install
+```
 #### run command node app
 ```
 node app
