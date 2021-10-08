@@ -40,10 +40,10 @@ function initMySql() {
 }
 async function updateOinData(httpRequest, httpResponse) {
 
-	let oinData = await ApiCsvToJson.fetchApiData().catch(error => {
-		httpResponse.end('API Error!' + error)
-		throw new RequestEndedException(error)
-	})
+	//let oinData = await ApiCsvToJson.fetchApiData().catch(error => {
+	//	httpResponse.end('API Error!' + error)
+	//	throw new RequestEndedException(error)
+	//})
 
 	outputJson(httpResponse, {
 		success: true
