@@ -185,10 +185,6 @@
                     },
                     "codeClass": null,
                     "userConfig": {
-                        "actionMethods": [
-                            "{\"create\":\"POST\",\"read\":\"POST\",\"update\":\"POST\",\"destroy\":\"POST\"}"
-                        ],
-                        "noCache": false,
                         "url": "oin.json"
                     },
                     "configAlternates": {

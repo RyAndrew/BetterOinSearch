@@ -795,7 +795,7 @@
                                                         ],
                                                         "fn": "renderer",
                                                         "implHandler": [
-                                                            "return '<img src=\"https://ok3static.oktacdn.com'+value+'\" height=\"34\" />';"
+                                                            "return '<img src=\"'+store.cdnUrl + value+'\" height=\"34\" />';"
                                                         ]
                                                     },
                                                     "configAlternates": {
@@ -922,8 +922,7 @@
                                                                 ],
                                                                 "fn": "renderer",
                                                                 "implHandler": [
-                                                                    "if(value==='YES'){",
-                                                                    "",
+                                                                    "if(record.data['AutoLogin'] === 'YES' || record.data['BrowserPlugin'] === 'YES'){",
                                                                     "\treturn String.fromCodePoint(0x2705);",
                                                                     "\t//return '&#x2705;';",
                                                                     "\t//return '<img src=\"/inc/img/silk_icons/tick.png\">';",
@@ -2442,7 +2441,7 @@
                                                 ],
                                                 "fn": "renderer",
                                                 "implHandler": [
-                                                    "return '<img src=\"https://ok3static.oktacdn.com'+value+'\" height=\"34\" />';"
+                                                    "return '<img src=\"'+store.cdnUrl + value+'\" height=\"34\" />';"
                                                 ]
                                             },
                                             "configAlternates": {
@@ -2562,8 +2561,10 @@
                                                         ],
                                                         "fn": "renderer",
                                                         "implHandler": [
-                                                            "if(value==='YES'){",
+                                                            "if(record.data['AutoLogin'] === 'YES' || record.data['BrowserPlugin'] === 'YES'){",
                                                             "\treturn String.fromCodePoint(0x2705);",
+                                                            "\t//return '&#x2705;';",
+                                                            "\t//return '<img src=\"/inc/img/silk_icons/tick.png\">';",
                                                             "}",
                                                             "return '';"
                                                         ]
@@ -4112,6 +4113,7 @@
                     "",
                     "AERP.Ajax.request({",
                     "\turl:'lastApiUpdate',",
+                    "\tmethod:'GET',",
                     "\trawResponse:true,",
                     "\tsuccess:function(resp){",
                     "\t\tthis.queryById('lastUpdate').update('App v'+appVer+'<BR>Data Refreshed '+resp);",
@@ -4189,13 +4191,18 @@
                     "this.searchFilter = null;",
                     "this.capabilityFilter = [];",
                     "",
+                    "let cdnUrl = 'https://ok14static.oktacdn.com';",
+                    "",
                     "//load my apps",
                     "let myAppStore = this.getViewModel().getStore('myApps');",
                     "myAppStore.on('datachanged',this.updateMyAppCount, this);",
                     "myAppStore.load();",
                     "",
+                    "myAppStore.cdnUrl = cdnUrl;",
+                    "",
                     "//load oin apps",
                     "let store = this.getViewModel().getStore('oinAppStore');",
+                    "store.cdnUrl = cdnUrl;",
                     "",
                     "var fields = store.getModel().getFields();",
                     "Ext.each(fields,function(field){",

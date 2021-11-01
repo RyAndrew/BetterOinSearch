@@ -654,8 +654,10 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 										{
 											xtype: 'gridcolumn',
 											renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-												if(value==='YES'){
+												if(record.data['AutoLogin'] === 'YES' || record.data['BrowserPlugin'] === 'YES'){
 													return String.fromCodePoint(0x2705);
+													//return '&#x2705;';
+													//return '<img src="/inc/img/silk_icons/tick.png">';
 												}
 												return '';
 											},
