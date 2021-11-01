@@ -230,7 +230,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 										{
 											xtype: 'gridcolumn',
 											renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-												return '<img src="https://ok3static.oktacdn.com'+value+'" height="34" />';
+												return '<img src="'+store.cdnUrl + value+'" height="34" />';
 											},
 											width: 145,
 											dataIndex: 'LogoImage',
@@ -255,8 +255,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 												{
 													xtype: 'gridcolumn',
 													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-														if(value==='YES'){
-
+														if(record.data['AutoLogin'] === 'YES' || record.data['BrowserPlugin'] === 'YES'){
 															return String.fromCodePoint(0x2705);
 															//return '&#x2705;';
 															//return '<img src="/inc/img/silk_icons/tick.png">';
@@ -635,7 +634,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 								{
 									xtype: 'gridcolumn',
 									renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-										return '<img src="https://ok3static.oktacdn.com'+value+'" height="34" />';
+										return '<img src="'+store.cdnUrl + value+'" height="34" />';
 									},
 									width: 145,
 									dataIndex: 'LogoImage',
@@ -1099,13 +1098,18 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		this.searchFilter = null;
 		this.capabilityFilter = [];
 
+		let cdnUrl = 'https://ok14static.oktacdn.com';
+
 		//load my apps
 		let myAppStore = this.getViewModel().getStore('myApps');
 		myAppStore.on('datachanged',this.updateMyAppCount, this);
 		myAppStore.load();
 
+		myAppStore.cdnUrl = cdnUrl;
+
 		//load oin apps
 		let store = this.getViewModel().getStore('oinAppStore');
+		store.cdnUrl = cdnUrl;
 
 		var fields = store.getModel().getFields();
 		Ext.each(fields,function(field){
@@ -1369,6 +1373,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 
 		AERP.Ajax.request({
 			url:'lastApiUpdate',
+			method:'GET',
 			rawResponse:true,
 			success:function(resp){
 				this.queryById('lastUpdate').update('App v'+appVer+'<BR>Data Refreshed '+resp);
