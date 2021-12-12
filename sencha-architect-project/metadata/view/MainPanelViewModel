@@ -112,8 +112,14 @@
                     "['SSO - SAML','SAML_2_0'],",
                     "['SSO - OIDC','OIDC'],",
                     "['SSO - WS-Federation','WSFED'],",
-                    "['Provisioning','PushNewUsers'],",
-                    "['Workflows','workflows']",
+                    "['Workflows','accessWorkflowsCompatible'],",
+                    "['Provisioning','accessProvisioning'],",
+                    "['Group Linking','provisioningGroupLinking'],",
+                    "['Group Push','provisioningGroupPush'],",
+                    "['Provis: Sync Password','provisioningSyncPassword'],",
+                    "['Provis: Attr Sourcing','provisioningAttributeSourcing'],",
+                    "['Provis: Attr Writeback','provisioningAttributeWriteback'],",
+                    "['Provis: Schema Disco','provisioningSchemaDiscovery']",
                     "]"
                 ],
                 "name": "oinCapabilities"

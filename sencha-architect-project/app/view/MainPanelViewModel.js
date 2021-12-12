@@ -59,12 +59,36 @@ Ext.define('BetterOinSearch.view.MainPanelViewModel', {
 					'WSFED'
 				],
 				[
-					'Provisioning',
-					'PushNewUsers'
+					'Workflows',
+					'accessWorkflowsCompatible'
 				],
 				[
-					'Workflows',
-					'workflows'
+					'Provisioning',
+					'accessProvisioning'
+				],
+				[
+					'Group Linking',
+					'provisioningGroupLinking'
+				],
+				[
+					'Group Push',
+					'provisioningGroupPush'
+				],
+				[
+					'Provis: Sync Password',
+					'provisioningSyncPassword'
+				],
+				[
+					'Provis: Attr Sourcing',
+					'provisioningAttributeSourcing'
+				],
+				[
+					'Provis: Attr Writeback',
+					'provisioningAttributeWriteback'
+				],
+				[
+					'Provis: Schema Disco',
+					'provisioningSchemaDiscovery'
 				]
 			],
 			fields: [

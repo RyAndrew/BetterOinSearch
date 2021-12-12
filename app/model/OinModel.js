@@ -141,6 +141,54 @@ Ext.define('BetterOinSearch.model.OinModel', {
 		},
 		{
 			name: 'SupportLevel'
+		},
+		{
+			name: 'accessSAML'
+		},
+		{
+			name: 'accessSWA'
+		},
+		{
+			name: 'accessProvisioning'
+		},
+		{
+			name: 'accessOIDC'
+		},
+		{
+			name: 'accessWorkflowsCompatible'
+		},
+		{
+			name: 'accessWSFederation'
+		},
+		{
+			name: 'provisioningCreate'
+		},
+		{
+			name: 'provisioningUpdate'
+		},
+		{
+			name: 'provisioningDeactivate'
+		},
+		{
+			name: 'provisioningSyncPassword'
+		},
+		{
+			name: 'provisioningGroupPush'
+		},
+		{
+			name: 'provisioningGroupLinking'
+		},
+		{
+			name: 'provisioningAttributeSourcing'
+		},
+		{
+			name: 'provisioningAttributeWriteback'
+		},
+		{
+			name: 'provisioningSchemaDiscovery'
+		},
+		{
+			name: 'path'
 		}
 	]
 });

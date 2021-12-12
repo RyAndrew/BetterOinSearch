@@ -15,8 +15,8 @@ import StaticFileServer from './lib/StaticFileServer.js'
 StaticFileServer.webRoot = config.webRoot
 
 import ApiCsvToJson from './lib/ApiCsvToJson.js'
-ApiCsvToJson.apiUrl = process.env.API_URL
-ApiCsvToJson.apiKey = process.env.API_KEY
+ApiCsvToJson.part1ApiUrl = process.env.API_URL
+ApiCsvToJson.part1ApiKey = process.env.API_KEY
 ApiCsvToJson.webRoot = config.webRoot
 
 
@@ -40,10 +40,11 @@ function initMySql() {
 }
 async function updateOinData(httpRequest, httpResponse) {
 
-	let oinData = await ApiCsvToJson.fetchApiData().catch(error => {
-		httpResponse.end('API Error!' + error)
-		throw new RequestEndedException(error)
-	})
+	let oinData = await ApiCsvToJson.fetchAllApiData()
+	//.catch(error => {
+	//	httpResponse.end('API Error!' + error)
+	//	throw new RequestEndedException(error)
+	//})
 
 	outputJson(httpResponse, {
 		success: true

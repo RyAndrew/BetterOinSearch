@@ -346,10 +346,75 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 														}
 														return '';
 													},
+													dataIndex: 'PushUserDeactivation',
 													userCls: 'rotate-grid-headers',
 													width: 50,
-													dataIndex: 'PushUserDeactivation',
 													text: 'Deactivation'
+												},
+												{
+													xtype: 'gridcolumn',
+													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+														if(value===1){
+															return String.fromCodePoint(0x2705);
+														}
+														return '';
+													},
+													userCls: 'rotate-grid-headers',
+													width: 50,
+													dataIndex: 'provisioningSchemaDiscovery',
+													text: 'Schema Disco'
+												},
+												{
+													xtype: 'gridcolumn',
+													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+														if(value===1){
+															return String.fromCodePoint(0x2705);
+														}
+														return '';
+													},
+													userCls: 'rotate-grid-headers',
+													width: 50,
+													dataIndex: 'provisioningGroupPush',
+													text: 'Group Push'
+												},
+												{
+													xtype: 'gridcolumn',
+													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+														if(value===1){
+															return String.fromCodePoint(0x2705);
+														}
+														return '';
+													},
+													userCls: 'rotate-grid-headers',
+													width: 50,
+													dataIndex: 'provisioningGroupLinking',
+													text: 'Group Link'
+												},
+												{
+													xtype: 'gridcolumn',
+													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+														if(value===1){
+															return String.fromCodePoint(0x2705);
+														}
+														return '';
+													},
+													userCls: 'rotate-grid-headers',
+													width: 50,
+													dataIndex: 'provisioningAttributeSourcing',
+													text: 'Attr Sourcing'
+												},
+												{
+													xtype: 'gridcolumn',
+													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+														if(value===1){
+															return String.fromCodePoint(0x2705);
+														}
+														return '';
+													},
+													userCls: 'rotate-grid-headers',
+													width: 50,
+													dataIndex: 'provisioningAttributeWriteback',
+													text: 'Attr Writeback'
 												}
 											]
 										},
@@ -413,9 +478,29 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 										},
 										{
 											xtype: 'gridcolumn',
+											renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+												if(value===1){
+													return String.fromCodePoint(0x2705);
+												}
+												return '';
+											},
+											dataIndex: 'accessWorkflowsCompatible',
+											text: 'Workflows'
+										},
+										{
+											xtype: 'gridcolumn',
 											width: 275,
 											dataIndex: 'Description',
 											text: 'Description'
+										},
+										{
+											xtype: 'gridcolumn',
+											renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+												return '<a href="https://www.okta.com/'+record.data.path+'/#capabilities" target="_blank">OIN</a>';
+											},
+											width: 55,
+											dataIndex: 'DisplayName',
+											text: 'OIN'
 										},
 										{
 											xtype: 'gridcolumn',
@@ -541,6 +626,46 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 											xtype: 'gridcolumn',
 											dataIndex: 'AppCatalogDiscoverable',
 											text: 'App Catalog Discoverable'
+										},
+										{
+											xtype: 'gridcolumn',
+											dataIndex: 'accessSAML',
+											text: 'A SAML'
+										},
+										{
+											xtype: 'gridcolumn',
+											dataIndex: 'accessSWA',
+											text: 'A SWA'
+										},
+										{
+											xtype: 'gridcolumn',
+											dataIndex: 'accessProvisioning',
+											text: 'A Provisioning'
+										},
+										{
+											xtype: 'gridcolumn',
+											dataIndex: 'accessWSFederation',
+											text: 'A WSFederation'
+										},
+										{
+											xtype: 'gridcolumn',
+											dataIndex: 'provisioningCreate',
+											text: 'P Create'
+										},
+										{
+											xtype: 'gridcolumn',
+											dataIndex: 'provisioningUpdate',
+											text: 'P Update'
+										},
+										{
+											xtype: 'gridcolumn',
+											dataIndex: 'provisioningDeactivate',
+											text: 'P Deactivate'
+										},
+										{
+											xtype: 'gridcolumn',
+											dataIndex: 'provisioningSyncPassword',
+											text: 'P SyncPassword'
 										},
 										{
 											xtype: 'gridcolumn',
@@ -956,10 +1081,20 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 	onGridpanelSelectionChange1: function(model, selected, eOpts) {
 		this.capabilityFilter = [];
 
+		const OneZeroCols = ['accessSAML','accessSWA','accessProvisioning','accessOIDC','accessWorkflowsCompatible','accessWSFederation','provisioningCreate','provisioningUpdate','provisioningDeactivate','provisioningSyncPassword','provisioningGroupPush','provisioningGroupLinking','provisioningAttributeSourcing','provisioningAttributeWriteback','provisioningSchemaDiscovery'];
+
 		Ext.each(selected, function(sel){
+			let val;
+			let found = OneZeroCols.indexOf(sel.data.filter);
+
+			if(found >= 0){
+				val = 1;
+			}else{
+				val = 'YES';
+			}
 			this.capabilityFilter.push({
 				property:sel.data.filter,
-				value:'YES',
+				value:val,
 				exactMatch:true
 			});
 		}, this);
