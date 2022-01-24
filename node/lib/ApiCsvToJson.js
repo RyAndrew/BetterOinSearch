@@ -10,14 +10,17 @@ import {
 import csv from 'csv-parser'
 
 export default class ApiCsvToJson {
-	static part1ApiUrl = ''
-	static part1ApiKey = ''
 	static tempCsv1 = 'temp1.csv'
 
 	static part2ApiUrl = 'https://www.okta.com/oktaapi/integration/search?limit=100000'
 	static tempCsv2 = 'temp2.csv'
 
-	static webRoot = ''
+	static config = {
+		webRoot: '',
+		part1ApiUrl: '',
+		part1ApiKey: ''
+	}
+
 	static blankCapabilitiesObject = {}
 
 	static accessColumns = [
@@ -54,10 +57,10 @@ export default class ApiCsvToJson {
 
 		let allDataArray = this.convertObjectToArray(dataPart1)
 
-		await writeFile(this.webRoot + 'oin.json', JSON.stringify(allDataArray)).catch(error => {
+		await writeFile(this.config.webRoot + 'oin.json', JSON.stringify(allDataArray)).catch(error => {
 			console.log('error writing file', error)
 		})
-		await writeFile(this.webRoot + 'lastApiUpdate', (new Date().toLocaleString())).catch(error => {
+		await writeFile(this.config.webRoot + 'lastApiUpdate', (new Date().toLocaleString('en-US',{timeZone:this.config.timeZone}))).catch(error => {
 			console.log('error writing file', error)
 		})
 	}
@@ -93,10 +96,10 @@ export default class ApiCsvToJson {
 
 		const options = {
 			headers: {
-				'Authorization': 'SSWS ' + this.part1ApiKey
+				'Authorization': 'SSWS ' + this.config.part1ApiKey
 			}
 		}
-		let csvString = await this.asyncHttp(this.part1ApiUrl, options)
+		let csvString = await this.asyncHttp(this.config.part1ApiUrl, options)
 
 		await writeFile(this.tempCsv1, csvString).catch(error => {
 			console.log('error writing file', error)

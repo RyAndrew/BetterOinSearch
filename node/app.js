@@ -2,7 +2,8 @@
 
 let config = {
 	httpPort: 8080,
-	webRoot: './webroot/'
+	webRoot: './webroot/',
+	timeZone: 'America/Los_Angeles'
 }
 
 import mysql from 'mysql2/promise'
@@ -15,9 +16,12 @@ import StaticFileServer from './lib/StaticFileServer.js'
 StaticFileServer.webRoot = config.webRoot
 
 import ApiCsvToJson from './lib/ApiCsvToJson.js'
-ApiCsvToJson.part1ApiUrl = process.env.API_URL
-ApiCsvToJson.part1ApiKey = process.env.API_KEY
-ApiCsvToJson.webRoot = config.webRoot
+ApiCsvToJson.config = {
+	part1ApiUrl: process.env.API_URL,
+	part1ApiKey: process.env.API_KEY,
+	webRoot: config.webRoot,
+	timeZone: config.timeZone
+}
 
 
 let mysqlpool

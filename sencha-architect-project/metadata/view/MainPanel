@@ -374,9 +374,8 @@
                                     },
                                     "codeClass": null,
                                     "userConfig": {
-                                        "height": 47,
                                         "layout": "hbox",
-                                        "margin": "10 0 0 10"
+                                        "margin": "5 0 0 0"
                                     },
                                     "configAlternates": {
                                         "bodyPadding": "auto",
@@ -398,34 +397,50 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "container|align": "stretch",
+                                                "flex": 1,
                                                 "layout": "hbox",
+                                                "margin": "0 20 10 0",
                                                 "width": 435
                                             },
                                             "configAlternates": {
                                                 "container|align": "string",
                                                 "layout": "string",
-                                                "width": "auto"
+                                                "width": "auto",
+                                                "flex": "number",
+                                                "margin": "auto"
                                             },
                                             "name": "MyContainer2",
                                             "designerId": "09c8cd81-facd-426f-bdbc-6775b84899b2",
                                             "cn": [
                                                 {
-                                                    "type": "Ext.form.field.Text",
+                                                    "type": "Ext.form.field.Tag",
                                                     "reference": {
                                                         "name": "items",
                                                         "type": "array"
                                                     },
                                                     "codeClass": null,
                                                     "userConfig": {
+                                                        "autoLoadOnValue": true,
+                                                        "createNewOnBlur": true,
+                                                        "createNewOnEnter": true,
+                                                        "displayField": "display",
                                                         "emptyText": "Search",
                                                         "enableKeyEvents": true,
                                                         "fieldLabel": "",
+                                                        "filterPickList": true,
+                                                        "flex": 1,
+                                                        "hideTrigger": true,
                                                         "itemId": "search",
                                                         "labelAlign": "right",
+                                                        "margin": "0 0 0 10",
+                                                        "store": [
+                                                            "{searchTags}"
+                                                        ],
+                                                        "triggerOnClick": false,
                                                         "userCls": [
                                                             "search-label"
                                                         ],
-                                                        "width": 383
+                                                        "valueField": "display"
                                                     },
                                                     "configAlternates": {
                                                         "enableKeyEvents": "boolean",
@@ -434,10 +449,30 @@
                                                         "width": "auto",
                                                         "emptyText": "string",
                                                         "labelAlign": "string",
-                                                        "userCls": "typedarray"
+                                                        "userCls": "typedarray",
+                                                        "createNewOnBlur": "boolean",
+                                                        "createNewOnEnter": "boolean",
+                                                        "displayField": "datafield",
+                                                        "forceSelection": "boolean",
+                                                        "hideTrigger": "boolean",
+                                                        "triggerOnClick": "boolean",
+                                                        "valueField": "datafield",
+                                                        "allowBlank": "boolean",
+                                                        "flex": "number",
+                                                        "margin": "auto",
+                                                        "store": "binding",
+                                                        "autoLoadOnValue": "boolean",
+                                                        "filterPickList": "boolean"
                                                     },
-                                                    "name": "MyTextField",
+                                                    "name": "MyTagField",
                                                     "designerId": "6677f19b-6f9d-4cb3-ba28-de11e00e1bc0",
+                                                    "customConfigs": [
+                                                        {
+                                                            "group": "(Custom Properties)",
+                                                            "name": "onKeyUp",
+                                                            "type": "string"
+                                                        }
+                                                    ],
                                                     "cn": [
                                                         {
                                                             "type": "basiceventbinding",
@@ -449,16 +484,27 @@
                                                             "userConfig": {
                                                                 "fn": "onTextfieldKeyup",
                                                                 "implHandler": [
-                                                                    "//debounce!",
+                                                                    "console.log('keyup');",
+                                                                    "",
                                                                     "if(this.delayTimer){",
                                                                     "\tExt.undefer(this.delayTimer);",
                                                                     "}",
-                                                                    "this.delayTimer = Ext.defer(function(){",
-                                                                    "\tthis.delayTimer = false;",
                                                                     "",
-                                                                    "\tthis.searchApps(textfield.getValue());",
+                                                                    "let key = e.getKey();",
                                                                     "",
-                                                                    "}, 200, this);"
+                                                                    "//dont search for comma since that triggers a tag to be created",
+                                                                    "if(key !== 188){",
+                                                                    "\tthis.delayTimer = Ext.defer(function(){",
+                                                                    "\t\tconsole.log('keyup search!', e.getKey());",
+                                                                    "",
+                                                                    "\t\tthis.delayTimer = false;",
+                                                                    "\t\t",
+                                                                    "\t\tif(textfield.inputEl.getValue().length >= 2 ){",
+                                                                    "\t\t\tthis.searchAppsByName();",
+                                                                    "\t\t}",
+                                                                    "",
+                                                                    "\t}, 200, this);",
+                                                                    "}"
                                                                 ],
                                                                 "name": "keyup",
                                                                 "scope": "me"
@@ -480,6 +526,7 @@
                                                             },
                                                             "codeClass": null,
                                                             "userConfig": {
+                                                                "delay": 50,
                                                                 "fn": "onSearchRender",
                                                                 "implHandler": [
                                                                     "component.focus();"
@@ -491,10 +538,44 @@
                                                                 "fn": "string",
                                                                 "implHandler": "code",
                                                                 "name": "string",
-                                                                "scope": "string"
+                                                                "scope": "string",
+                                                                "delay": "number"
                                                             },
                                                             "name": "onSearchRender",
                                                             "designerId": "6fefdc69-f720-449b-b1ce-fe1554d70aab"
+                                                        },
+                                                        {
+                                                            "type": "basiceventbinding",
+                                                            "reference": {
+                                                                "name": "listeners",
+                                                                "type": "array"
+                                                            },
+                                                            "codeClass": null,
+                                                            "userConfig": {
+                                                                "delay": 1,
+                                                                "fn": "onSearchChange",
+                                                                "implHandler": [
+                                                                    "console.log('change!');",
+                                                                    "",
+                                                                    "if(newValue.indexOf(' ') !== -1){",
+                                                                    "\tfield.removeValue(' ');",
+                                                                    "\treturn;",
+                                                                    "}",
+                                                                    "",
+                                                                    "this.searchAppsByName();"
+                                                                ],
+                                                                "name": "change",
+                                                                "scope": "me"
+                                                            },
+                                                            "configAlternates": {
+                                                                "fn": "string",
+                                                                "implHandler": "code",
+                                                                "name": "string",
+                                                                "scope": "string",
+                                                                "delay": "number"
+                                                            },
+                                                            "name": "onSearchChange",
+                                                            "designerId": "ebc7fca3-1b4f-464d-869b-c35bccc72c32"
                                                         }
                                                     ]
                                                 },
@@ -531,7 +612,7 @@
                                                                 "fn": "onButtonClick",
                                                                 "implHandler": [
                                                                     "this.queryById('search').setValue('');",
-                                                                    "this.searchApps('');"
+                                                                    "this.searchAppsByName('');"
                                                                 ],
                                                                 "name": "click",
                                                                 "scope": "me"
@@ -548,24 +629,6 @@
                                                     ]
                                                 }
                                             ]
-                                        },
-                                        {
-                                            "type": "Ext.container.Container",
-                                            "reference": {
-                                                "name": "items",
-                                                "type": "array"
-                                            },
-                                            "codeClass": null,
-                                            "userConfig": {
-                                                "html": "&nbsp;",
-                                                "layout|flex": 1
-                                            },
-                                            "configAlternates": {
-                                                "html": "string",
-                                                "layout|flex": "number"
-                                            },
-                                            "name": "MyContainer4",
-                                            "designerId": "2a78ec69-da87-4a0b-ba36-14baea5568ee"
                                         },
                                         {
                                             "type": "Ext.container.Container",
@@ -626,6 +689,7 @@
                                                             "AERP.Ajax.request({",
                                                             "\turl:'api/updateOinData',",
                                                             "\tmask:this,",
+                                                            "\ttimeout: 60000,",
                                                             "\tsuccess:function(resp){",
                                                             "\t\tlocation.reload();",
                                                             "\t},",
@@ -2652,6 +2716,16 @@
                                             },
                                             "name": "onOinAppGridRowDblClick",
                                             "designerId": "5ec71663-0992-4882-8e4d-a6a774c383fb"
+                                        },
+                                        {
+                                            "type": "Ext.selection.RowModel",
+                                            "reference": {
+                                                "name": "selModel",
+                                                "type": "object"
+                                            },
+                                            "codeClass": null,
+                                            "name": "MyRowSelectionModel",
+                                            "designerId": "c2093b03-fa82-40e9-b770-4be192de68a3"
                                         }
                                     ]
                                 }
@@ -4658,24 +4732,50 @@
             },
             "codeClass": null,
             "userConfig": {
-                "designer|params": [
-                    "searchText"
-                ],
-                "fn": "searchApps",
+                "fn": "searchAppsByName",
                 "implHandler": [
+                    "let searchField = this.queryById('search');",
+                    "let searchText =searchField.inputEl.getValue();",
+                    "",
+                    "let searchFilterEntriesArr = this.queryById('search').getValue();",
+                    "",
                     "let store = this.getViewModel().getStore('oinAppStore');",
                     "",
-                    "if(searchText === ''){",
-                    "\tthis.searchFilter = null;",
+                    "let searchByNameList = [];",
+                    "",
+                    "searchByNameList = searchByNameList.concat(searchFilterEntriesArr);",
+                    "",
+                    "// text value not in a tag yet",
+                    "if(searchText !== ''){",
+                    "\tsearchByNameList.push(searchText.trim());",
+                    "}",
+                    "",
+                    "if(searchByNameList.length < 1){",
+                    "\tthis.searchByNameFilter = null;",
+                    "}else{",
+                    "\tthis.searchByNameFilter = {",
+                    "\t\tfilterNameVals: searchByNameList,",
+                    "\t\tfilterFn: function(item) {",
+                    "\t\t\tlet nameFound = false;",
+                    "",
+                    "\t\t\tExt.each(this.filterNameVals,function(searchName){",
+                    "\t\t\t\tlet matcher = Ext.String.createRegex(searchName, false, false, true);",
+                    "\t\t\t\tnameFound = matcher.test(item.data.DisplayName);",
+                    "\t\t\t\tif(nameFound){",
+                    "\t\t\t\t\treturn false;",
+                    "\t\t\t\t}",
+                    "\t\t\t});",
+                    "",
+                    "\t\t\treturn nameFound;",
+                    "\t\t}",
+                    "\t};",
+                    "}",
+                    "",
+                    "if(this.searchByNameFilter === null){",
                     "\tthis.queryById('clearButton').hide();",
                     "}else{",
-                    "\tthis.searchFilter = {",
-                    "\t\tproperty:'DisplayName',",
-                    "\t\tvalue:searchText,",
-                    "\t\tanyMatch:true",
-                    "\t};",
                     "\tthis.queryById('clearButton').show();",
-                    "\t",
+                    "",
                     "\tstore.sort({property:'DisplayName',direction:'ASC'});",
                     "}",
                     "",
@@ -4687,7 +4787,7 @@
                 "fn": "string",
                 "implHandler": "code"
             },
-            "name": "searchApps",
+            "name": "searchAppsByName",
             "designerId": "702b987e-89fe-4938-8f8b-f619a39be69d"
         },
         {
@@ -4890,7 +4990,13 @@
                     "\tfilters.push(this.searchFilter);",
                     "}",
                     "",
+                    "if(this.searchByNameFilter !== null){",
+                    "\tfilters.push(this.searchByNameFilter);",
+                    "}",
+                    "",
                     "filters = filters.concat(this.capabilityFilter);",
+                    "",
+                    "console.log(filters);",
                     "",
                     "let store = this.getViewModel().getStore('oinAppStore');",
                     "",
@@ -5063,7 +5169,7 @@
             "userConfig": {
                 "fn": "getLastApiRefresh",
                 "implHandler": [
-                    "let appVer = '1.0.2';",
+                    "let appVer = '1.0.3';",
                     "",
                     "AERP.Ajax.request({",
                     "\turl:'lastApiUpdate',",

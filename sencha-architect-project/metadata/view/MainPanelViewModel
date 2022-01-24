@@ -379,6 +379,56 @@
                     "designerId": "344b1367-0491-4095-84ff-5d33a791e1f3"
                 }
             ]
+        },
+        {
+            "type": "Ext.data.Store",
+            "reference": {
+                "name": "stores",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "searchTags"
+            },
+            "configAlternates": {
+                "name": "string"
+            },
+            "name": "MyStore5",
+            "designerId": "c60dc79e-1ded-4719-add7-2ff27afc4dda",
+            "cn": [
+                {
+                    "type": "Ext.data.field.Field",
+                    "reference": {
+                        "name": "fields",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "name": "id"
+                    },
+                    "configAlternates": {
+                        "name": "string"
+                    },
+                    "name": "MyField22",
+                    "designerId": "4aeda222-7509-4068-95ea-c369d565a843"
+                },
+                {
+                    "type": "Ext.data.field.Field",
+                    "reference": {
+                        "name": "fields",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "name": "display"
+                    },
+                    "configAlternates": {
+                        "name": "string"
+                    },
+                    "name": "MyField21",
+                    "designerId": "3dc1712f-706d-4513-9acd-47a107e867b1"
+                }
+            ]
         }
     ]
 }

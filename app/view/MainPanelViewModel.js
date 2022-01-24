@@ -139,6 +139,16 @@ Ext.define('BetterOinSearch.view.MainPanelViewModel', {
 					name: 'appList'
 				}
 			]
+		},
+		searchTags: {
+			fields: [
+				{
+					name: 'id'
+				},
+				{
+					name: 'display'
+				}
+			]
 		}
 	}
 

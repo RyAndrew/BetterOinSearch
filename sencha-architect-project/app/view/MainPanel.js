@@ -25,7 +25,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		'Ext.selection.CheckboxModel',
 		'Ext.tab.Panel',
 		'Ext.form.Panel',
-		'Ext.form.field.Text',
+		'Ext.form.field.Tag',
 		'Ext.tab.Tab',
 		'Ext.toolbar.Toolbar',
 		'Ext.toolbar.TextItem',
@@ -140,12 +140,13 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 							items: [
 								{
 									xtype: 'form',
-									height: 47,
-									margin: '10 0 0 10',
+									margin: '5 0 0 0',
 									layout: 'hbox',
 									items: [
 										{
 											xtype: 'container',
+											flex: 1,
+											margin: '0 20 10 0',
 											width: 435,
 											layout: {
 												type: 'hbox',
@@ -153,17 +154,36 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 											},
 											items: [
 												{
-													xtype: 'textfield',
+													xtype: 'tagfield',
+													flex: 1,
 													itemId: 'search',
+													margin: '0 0 0 10',
 													userCls: 'search-label',
-													width: 383,
 													fieldLabel: '',
 													labelAlign: 'right',
 													emptyText: 'Search',
 													enableKeyEvents: true,
+													hideTrigger: true,
+													autoLoadOnValue: true,
+													displayField: 'display',
+													valueField: 'display',
+													createNewOnBlur: true,
+													createNewOnEnter: true,
+													filterPickList: true,
+													triggerOnClick: false,
+													bind: {
+														store: '{searchTags}'
+													},
 													listeners: {
 														keyup: 'onTextfieldKeyup',
-														render: 'onSearchRender'
+														render: {
+															fn: 'onSearchRender',
+															delay: 50
+														},
+														change: {
+															fn: 'onSearchChange',
+															delay: 1
+														}
 													}
 												},
 												{
@@ -177,11 +197,6 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 													}
 												}
 											]
-										},
-										{
-											xtype: 'container',
-											flex: 1,
-											html: '&nbsp;'
 										},
 										{
 											xtype: 'container',
@@ -346,9 +361,9 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 														}
 														return '';
 													},
-													dataIndex: 'PushUserDeactivation',
 													userCls: 'rotate-grid-headers',
 													width: 50,
+													dataIndex: 'PushUserDeactivation',
 													text: 'Deactivation'
 												},
 												{
@@ -679,6 +694,9 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 									},
 									listeners: {
 										rowdblclick: 'onOinAppGridRowDblClick'
+									},
+									selModel: {
+										selType: 'rowmodel'
 									}
 								}
 							],
@@ -928,9 +946,9 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 												}
 												return '';
 											},
-											dataIndex: 'provisioningAttributeSourcing',
 											userCls: 'rotate-grid-headers',
 											width: 50,
+											dataIndex: 'provisioningAttributeSourcing',
 											text: 'Attr Sourcing'
 										},
 										{
@@ -1188,31 +1206,54 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 	},
 
 	onTextfieldKeyup: function(textfield, e, eOpts) {
-		//debounce!
+		console.log('keyup');
+
 		if(this.delayTimer){
 			Ext.undefer(this.delayTimer);
 		}
-		this.delayTimer = Ext.defer(function(){
-			this.delayTimer = false;
 
-			this.searchApps(textfield.getValue());
+		let key = e.getKey();
 
-		}, 200, this);
+		//dont search for comma since that triggers a tag to be created
+		if(key !== 188){
+			this.delayTimer = Ext.defer(function(){
+				console.log('keyup search!', e.getKey());
+
+				this.delayTimer = false;
+
+				if(textfield.inputEl.getValue().length >= 2 ){
+					this.searchAppsByName();
+				}
+
+			}, 200, this);
+		}
 	},
 
 	onSearchRender: function(component, eOpts) {
 		component.focus();
 	},
 
+	onSearchChange: function(field, newValue, oldValue, eOpts) {
+		console.log('change!');
+
+		if(newValue.indexOf(' ') !== -1){
+			field.removeValue(' ');
+			return;
+		}
+
+		this.searchAppsByName();
+	},
+
 	onButtonClick: function(button, e, eOpts) {
 		this.queryById('search').setValue('');
-		this.searchApps('');
+		this.searchAppsByName('');
 	},
 
 	onButtonClick4: function(button, e, eOpts) {
 		AERP.Ajax.request({
 			url:'api/updateOinData',
 			mask:this,
+			timeout: 60000,
 			success:function(resp){
 				location.reload();
 			},
@@ -1377,18 +1418,47 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		store.sync();
 	},
 
-	searchApps: function(searchText) {
+	searchAppsByName: function() {
+		let searchField = this.queryById('search');
+		let searchText =searchField.inputEl.getValue();
+
+		let searchFilterEntriesArr = this.queryById('search').getValue();
+
 		let store = this.getViewModel().getStore('oinAppStore');
 
-		if(searchText === ''){
-			this.searchFilter = null;
+		let searchByNameList = [];
+
+		searchByNameList = searchByNameList.concat(searchFilterEntriesArr);
+
+		// text value not in a tag yet
+		if(searchText !== ''){
+			searchByNameList.push(searchText.trim());
+		}
+
+		if(searchByNameList.length < 1){
+			this.searchByNameFilter = null;
+		}else{
+			this.searchByNameFilter = {
+				filterNameVals: searchByNameList,
+				filterFn: function(item) {
+					let nameFound = false;
+
+					Ext.each(this.filterNameVals,function(searchName){
+						let matcher = Ext.String.createRegex(searchName, false, false, true);
+						nameFound = matcher.test(item.data.DisplayName);
+						if(nameFound){
+							return false;
+						}
+					});
+
+					return nameFound;
+				}
+			};
+		}
+
+		if(this.searchByNameFilter === null){
 			this.queryById('clearButton').hide();
 		}else{
-			this.searchFilter = {
-				property:'DisplayName',
-				value:searchText,
-				anyMatch:true
-			};
 			this.queryById('clearButton').show();
 
 			store.sort({property:'DisplayName',direction:'ASC'});
@@ -1511,7 +1581,13 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 			filters.push(this.searchFilter);
 		}
 
+		if(this.searchByNameFilter !== null){
+			filters.push(this.searchByNameFilter);
+		}
+
 		filters = filters.concat(this.capabilityFilter);
+
+		console.log(filters);
 
 		let store = this.getViewModel().getStore('oinAppStore');
 
@@ -1591,7 +1667,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 	},
 
 	getLastApiRefresh: function() {
-		let appVer = '1.0.2';
+		let appVer = '1.0.3';
 
 		AERP.Ajax.request({
 			url:'lastApiUpdate',
