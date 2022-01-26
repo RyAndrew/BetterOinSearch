@@ -5249,6 +5249,8 @@
                 "implHandler": [
                     "this.categoryFilter = null;",
                     "this.searchFilter = null;",
+                    "this.searchByNameFilter = null;",
+                    "",
                     "this.capabilityFilter = [];",
                     "",
                     "let cdnUrl = 'https://ok14static.oktacdn.com';",

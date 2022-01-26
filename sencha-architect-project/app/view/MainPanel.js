@@ -1359,6 +1359,8 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 	onPanelAfterRender: function(component, eOpts) {
 		this.categoryFilter = null;
 		this.searchFilter = null;
+		this.searchByNameFilter = null;
+
 		this.capabilityFilter = [];
 
 		let cdnUrl = 'https://ok14static.oktacdn.com';
