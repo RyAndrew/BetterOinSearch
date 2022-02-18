@@ -144,7 +144,8 @@ export default class ApiCsvToJson {
 
 		/////////////
 		// 1. process access property
-		let access = app.access.split(",").map(element => {
+		let appaccess = app.access+'';
+		let access = appaccess.split(",").map(element => {
 			return element.trim()
 		})
 
@@ -158,7 +159,8 @@ export default class ApiCsvToJson {
 
 		/////////////
 		// 2. process provisioning property
-		let provisioning = app.provisioning.split(",").map(element => {
+		let appprovisioning = app.provisioning+'';
+		let provisioning = appprovisioning.split(",").map(element => {
 			return element.trim()
 		})
 		let provisioningHash = {}
