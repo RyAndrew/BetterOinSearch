@@ -13,6 +13,9 @@
         "layout": "vbox",
         "minHeight": 500,
         "minWidth": 500,
+        "requires": [
+            "Ext.exporter.text.CSV"
+        ],
         "title": ""
     },
     "configAlternates": {
@@ -25,7 +28,8 @@
         "minHeight": "number",
         "minWidth": "number",
         "container|align": "string",
-        "layout": "string"
+        "layout": "string",
+        "requires": "typedarray"
     },
     "name": "MyPanel",
     "designerId": "d38c2cf0-9e53-498a-8521-da773f47156a",
@@ -827,6 +831,70 @@
                                                             "designerId": "3a81d197-200f-4b9f-bd0d-5f6869199643"
                                                         }
                                                     ]
+                                                },
+                                                {
+                                                    "type": "Ext.toolbar.Fill",
+                                                    "reference": {
+                                                        "name": "items",
+                                                        "type": "array"
+                                                    },
+                                                    "codeClass": null,
+                                                    "userConfig": {
+                                                        "layout|flex": null
+                                                    },
+                                                    "configAlternates": {
+                                                        "layout|flex": "number"
+                                                    },
+                                                    "name": "MyFill",
+                                                    "designerId": "cf4a97a2-9869-4eaf-97fa-300f77c1e1a1"
+                                                },
+                                                {
+                                                    "type": "Ext.button.Button",
+                                                    "reference": {
+                                                        "name": "items",
+                                                        "type": "array"
+                                                    },
+                                                    "codeClass": null,
+                                                    "userConfig": {
+                                                        "layout|flex": null,
+                                                        "text": "Export All OIN"
+                                                    },
+                                                    "configAlternates": {
+                                                        "layout|flex": "number",
+                                                        "text": "string"
+                                                    },
+                                                    "name": "MyButton6",
+                                                    "designerId": "735a5c45-2c56-400f-8c04-8f0ff0957b54",
+                                                    "cn": [
+                                                        {
+                                                            "type": "basiceventbinding",
+                                                            "reference": {
+                                                                "name": "listeners",
+                                                                "type": "array"
+                                                            },
+                                                            "codeClass": null,
+                                                            "userConfig": {
+                                                                "fn": "onButtonClick5",
+                                                                "implHandler": [
+                                                                    "this.queryById('oinAppGrid').saveDocumentAs({",
+                                                                    "     type: 'csv',",
+                                                                    "     title: 'All OIN Apps',",
+                                                                    "     fileName: 'All_OIN_Apps_'+Ext.util.Format.date(new Date(), 'Y-m-d_g-ia')+'.csv'",
+                                                                    " });"
+                                                                ],
+                                                                "name": "click",
+                                                                "scope": "me"
+                                                            },
+                                                            "configAlternates": {
+                                                                "fn": "string",
+                                                                "implHandler": "code",
+                                                                "name": "string",
+                                                                "scope": "string"
+                                                            },
+                                                            "name": "onButtonClick5",
+                                                            "designerId": "73d2cb8d-2e89-4bb7-96d5-91dbea221ecd"
+                                                        }
+                                                    ]
                                                 }
                                             ]
                                         },
@@ -839,13 +907,15 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "dataIndex": "LogoImage",
+                                                "ignoreExport": true,
                                                 "text": "Logo",
                                                 "width": 145
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
                                                 "text": "string",
-                                                "width": "auto"
+                                                "width": "auto",
+                                                "ignoreExport": "boolean"
                                             },
                                             "name": "MyColumn1",
                                             "designerId": "b67d4207-7ea1-40e4-a981-345c6dd73cac",
@@ -962,6 +1032,7 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "AutoLogin",
+                                                        "exportRenderer": true,
                                                         "text": "SWA",
                                                         "userCls": [
                                                             "rotate-grid-headers"
@@ -972,7 +1043,8 @@
                                                         "text": "string",
                                                         "dataIndex": "datafield",
                                                         "width": "auto",
-                                                        "userCls": "typedarray"
+                                                        "userCls": "typedarray",
+                                                        "exportRenderer": "boolean"
                                                     },
                                                     "name": "MyColumn4",
                                                     "designerId": "7df8b863-ac2e-44e0-b005-76f64841cd3a",
@@ -1023,6 +1095,7 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "SAML_2_0",
+                                                        "exportRenderer": true,
                                                         "text": "SAML",
                                                         "userCls": [
                                                             "rotate-grid-headers"
@@ -1033,7 +1106,8 @@
                                                         "text": "string",
                                                         "dataIndex": "datafield",
                                                         "width": "auto",
-                                                        "userCls": "typedarray"
+                                                        "userCls": "typedarray",
+                                                        "exportRenderer": "boolean"
                                                     },
                                                     "name": "MyColumn5",
                                                     "designerId": "a77f4304-94b8-4e6a-82be-5feb1ce1219a",
@@ -1081,6 +1155,7 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "OIDC",
+                                                        "exportRenderer": true,
                                                         "text": "OIDC",
                                                         "userCls": [
                                                             "rotate-grid-headers"
@@ -1091,7 +1166,8 @@
                                                         "text": "string",
                                                         "width": "auto",
                                                         "dataIndex": "datafield",
-                                                        "userCls": "typedarray"
+                                                        "userCls": "typedarray",
+                                                        "exportRenderer": "boolean"
                                                     },
                                                     "name": "MyColumn6",
                                                     "designerId": "de3109c3-4666-46e2-96dc-fbd8c919936a",
@@ -1219,6 +1295,7 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "PushNewUsers",
+                                                        "exportRenderer": true,
                                                         "text": "Create Users",
                                                         "userCls": [
                                                             "rotate-grid-headers"
@@ -1229,7 +1306,8 @@
                                                         "dataIndex": "datafield",
                                                         "text": "string",
                                                         "userCls": "typedarray",
-                                                        "width": "auto"
+                                                        "width": "auto",
+                                                        "exportRenderer": "boolean"
                                                     },
                                                     "name": "MyColumn24",
                                                     "designerId": "5038c1c8-d2cb-4fac-b170-9b651e94565c",
@@ -1278,6 +1356,7 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "PushPasswordUpdates",
+                                                        "exportRenderer": true,
                                                         "text": "Password",
                                                         "userCls": [
                                                             "rotate-grid-headers"
@@ -1288,7 +1367,8 @@
                                                         "dataIndex": "datafield",
                                                         "text": "string",
                                                         "userCls": "typedarray",
-                                                        "width": "auto"
+                                                        "width": "auto",
+                                                        "exportRenderer": "boolean"
                                                     },
                                                     "name": "MyColumn27",
                                                     "designerId": "1b093471-2f47-406d-bdf2-42b581468894",
@@ -1337,6 +1417,7 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "PushUserDeactivation",
+                                                        "exportRenderer": true,
                                                         "text": "Deactivation",
                                                         "userCls": [
                                                             "rotate-grid-headers"
@@ -1347,7 +1428,8 @@
                                                         "dataIndex": "datafield",
                                                         "text": "string",
                                                         "userCls": "typedarray",
-                                                        "width": "auto"
+                                                        "width": "auto",
+                                                        "exportRenderer": "boolean"
                                                     },
                                                     "name": "MyColumn26",
                                                     "designerId": "bc5b3588-4897-46a8-bc7b-9dc9ddf13b24",
@@ -1396,6 +1478,7 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "provisioningSchemaDiscovery",
+                                                        "exportRenderer": true,
                                                         "text": "Schema Disco",
                                                         "userCls": [
                                                             "rotate-grid-headers"
@@ -1406,7 +1489,8 @@
                                                         "dataIndex": "datafield",
                                                         "text": "string",
                                                         "userCls": "typedarray",
-                                                        "width": "auto"
+                                                        "width": "auto",
+                                                        "exportRenderer": "boolean"
                                                     },
                                                     "name": "MyColumn42",
                                                     "designerId": "8116f2a8-9dfc-4dbf-89e1-49d1ede0acf7",
@@ -1455,6 +1539,7 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "provisioningGroupPush",
+                                                        "exportRenderer": true,
                                                         "text": "Group Push",
                                                         "userCls": [
                                                             "rotate-grid-headers"
@@ -1465,7 +1550,8 @@
                                                         "dataIndex": "datafield",
                                                         "text": "string",
                                                         "userCls": "typedarray",
-                                                        "width": "auto"
+                                                        "width": "auto",
+                                                        "exportRenderer": "boolean"
                                                     },
                                                     "name": "MyColumn41",
                                                     "designerId": "6894b585-2146-4cc1-83fa-c5f0e8088a44",
@@ -1514,6 +1600,7 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "provisioningGroupLinking",
+                                                        "exportRenderer": true,
                                                         "text": "Group Link",
                                                         "userCls": [
                                                             "rotate-grid-headers"
@@ -1524,7 +1611,8 @@
                                                         "dataIndex": "datafield",
                                                         "text": "string",
                                                         "userCls": "typedarray",
-                                                        "width": "auto"
+                                                        "width": "auto",
+                                                        "exportRenderer": "boolean"
                                                     },
                                                     "name": "MyColumn40",
                                                     "designerId": "4dd5e039-5bc1-451b-bbf0-7a7914605725",
@@ -1573,6 +1661,7 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "provisioningAttributeSourcing",
+                                                        "exportRenderer": true,
                                                         "text": "Attr Sourcing",
                                                         "userCls": [
                                                             "rotate-grid-headers"
@@ -1583,7 +1672,8 @@
                                                         "dataIndex": "datafield",
                                                         "text": "string",
                                                         "userCls": "typedarray",
-                                                        "width": "auto"
+                                                        "width": "auto",
+                                                        "exportRenderer": "boolean"
                                                     },
                                                     "name": "MyColumn44",
                                                     "designerId": "7a73f344-6f82-4ce1-828c-5a8dd662f42f",
@@ -1632,6 +1722,7 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "provisioningAttributeWriteback",
+                                                        "exportRenderer": true,
                                                         "text": "Attr Writeback",
                                                         "userCls": [
                                                             "rotate-grid-headers"
@@ -1642,7 +1733,8 @@
                                                         "dataIndex": "datafield",
                                                         "text": "string",
                                                         "userCls": "typedarray",
-                                                        "width": "auto"
+                                                        "width": "auto",
+                                                        "exportRenderer": "boolean"
                                                     },
                                                     "name": "MyColumn43",
                                                     "designerId": "cfdbe6e9-3c91-4444-ab5c-476cfbd9aa27",
@@ -1709,6 +1801,7 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "ImportNewUsers",
+                                                        "exportRenderer": true,
                                                         "text": "Import Users",
                                                         "userCls": [
                                                             "rotate-grid-headers"
@@ -1719,7 +1812,8 @@
                                                         "dataIndex": "datafield",
                                                         "text": "string",
                                                         "userCls": "typedarray",
-                                                        "width": "auto"
+                                                        "width": "auto",
+                                                        "exportRenderer": "boolean"
                                                     },
                                                     "name": "MyColumn22",
                                                     "designerId": "4280f885-2da0-46d1-8979-2a95c65aba97",
@@ -1768,6 +1862,7 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "ImportProfileUpdates",
+                                                        "exportRenderer": true,
                                                         "text": "Profile Updates",
                                                         "userCls": [
                                                             "rotate-grid-headers"
@@ -1778,7 +1873,8 @@
                                                         "dataIndex": "datafield",
                                                         "text": "string",
                                                         "userCls": "typedarray",
-                                                        "width": "auto"
+                                                        "width": "auto",
+                                                        "exportRenderer": "boolean"
                                                     },
                                                     "name": "MyColumn23",
                                                     "designerId": "cb333b26-7f6e-4bda-a4cb-e88d6884f209",
@@ -1827,6 +1923,7 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "AutoConfirmImports",
+                                                        "exportRenderer": true,
                                                         "text": "Auto Confirm",
                                                         "userCls": [
                                                             "rotate-grid-headers"
@@ -1837,7 +1934,8 @@
                                                         "dataIndex": "datafield",
                                                         "text": "string",
                                                         "userCls": "typedarray",
-                                                        "width": "auto"
+                                                        "width": "auto",
+                                                        "exportRenderer": "boolean"
                                                     },
                                                     "name": "MyColumn29",
                                                     "designerId": "26af5ff5-a8dc-4c70-be44-16e0d502250c",
@@ -1886,6 +1984,7 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "ReactivateUsers",
+                                                        "exportRenderer": true,
                                                         "text": "Reactivation",
                                                         "userCls": [
                                                             "rotate-grid-headers"
@@ -1896,7 +1995,8 @@
                                                         "dataIndex": "datafield",
                                                         "text": "string",
                                                         "userCls": "typedarray",
-                                                        "width": "auto"
+                                                        "width": "auto",
+                                                        "exportRenderer": "boolean"
                                                     },
                                                     "name": "MyColumn28",
                                                     "designerId": "bc9cd5f7-11f1-4c03-8efc-979779aaefbe",
@@ -1965,11 +2065,13 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "dataIndex": "accessWorkflowsCompatible",
+                                                "exportRenderer": true,
                                                 "text": "Workflows"
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
-                                                "text": "string"
+                                                "text": "string",
+                                                "exportRenderer": "boolean"
                                             },
                                             "name": "MyColumn39",
                                             "designerId": "c3ba8e98-d0cd-40f9-8343-b70f60f12a43",
@@ -2018,13 +2120,15 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "dataIndex": "Description",
+                                                "ignoreExport": true,
                                                 "text": "Description",
                                                 "width": 275
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
                                                 "text": "string",
-                                                "width": "auto"
+                                                "width": "auto",
+                                                "ignoreExport": "boolean"
                                             },
                                             "name": "MyColumn11",
                                             "designerId": "6e63a9cc-faee-45c1-b38a-15e74ae6fe27"
@@ -2037,14 +2141,15 @@
                                             },
                                             "codeClass": null,
                                             "userConfig": {
-                                                "dataIndex": "DisplayName",
+                                                "dataIndex": "path",
                                                 "text": "OIN",
                                                 "width": 55
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
                                                 "text": "string",
-                                                "width": "auto"
+                                                "width": "auto",
+                                                "exportRenderer": "function"
                                             },
                                             "name": "MyColumn53",
                                             "designerId": "8ab27fa8-dfe0-4684-9171-7546300b68ab",
@@ -2068,7 +2173,7 @@
                                                         ],
                                                         "fn": "renderer",
                                                         "implHandler": [
-                                                            "return '<a href=\"https://www.okta.com/'+record.data.path+'/#capabilities\" target=\"_blank\">OIN</a>';"
+                                                            "return '<a href=\"https://www.okta.com'+value+'/#capabilities\" target=\"_blank\">OIN</a>';"
                                                         ]
                                                     },
                                                     "configAlternates": {
@@ -2078,6 +2183,36 @@
                                                     },
                                                     "name": "renderer",
                                                     "designerId": "9ce6a865-10d3-435a-be52-9dd892349918"
+                                                },
+                                                {
+                                                    "type": "fixedfunction",
+                                                    "reference": {
+                                                        "name": "items",
+                                                        "type": "array"
+                                                    },
+                                                    "codeClass": null,
+                                                    "userConfig": {
+                                                        "designer|params": [
+                                                            "value",
+                                                            "metaData",
+                                                            "record",
+                                                            "rowIndex",
+                                                            "colIndex",
+                                                            "store",
+                                                            "view"
+                                                        ],
+                                                        "fn": "exportRenderer",
+                                                        "implHandler": [
+                                                            "return 'https://www.okta.com'+value;"
+                                                        ]
+                                                    },
+                                                    "configAlternates": {
+                                                        "designer|params": "typedarray",
+                                                        "fn": "string",
+                                                        "implHandler": "code"
+                                                    },
+                                                    "name": "exportRenderer",
+                                                    "designerId": "1a0dc12d-a31c-4a20-824c-721739cc237e"
                                                 }
                                             ]
                                         },
@@ -2090,11 +2225,13 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "dataIndex": "AppCategoryLabel",
+                                                "ignoreExport": true,
                                                 "text": "App Category Label"
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
-                                                "text": "string"
+                                                "text": "string",
+                                                "ignoreExport": "boolean"
                                             },
                                             "name": "MyColumn13",
                                             "designerId": "f87743bb-c0d7-478c-81c0-81519bd18b01"
@@ -2108,11 +2245,13 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "dataIndex": "Custom",
+                                                "ignoreExport": true,
                                                 "text": "Custom"
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
-                                                "text": "string"
+                                                "text": "string",
+                                                "ignoreExport": "boolean"
                                             },
                                             "name": "MyColumn14",
                                             "designerId": "c0e8beab-4a22-4605-8caa-1f02db17b307"
@@ -2126,11 +2265,13 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "dataIndex": "SecurePasswordStore",
+                                                "ignoreExport": true,
                                                 "text": "Secure Password Store"
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
-                                                "text": "string"
+                                                "text": "string",
+                                                "ignoreExport": "boolean"
                                             },
                                             "name": "MyColumn15",
                                             "designerId": "e97b262d-0e3d-407b-a73b-00c4b043af0e"
@@ -2144,11 +2285,13 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "dataIndex": "SAML_2_0",
+                                                "ignoreExport": true,
                                                 "text": "Saml 2 0"
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
-                                                "text": "string"
+                                                "text": "string",
+                                                "ignoreExport": "boolean"
                                             },
                                             "name": "MyColumn16",
                                             "designerId": "35c0b47d-7b45-4b78-acc6-9e5ce7c50059"
@@ -2162,11 +2305,13 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "dataIndex": "SAML_1_1",
+                                                "ignoreExport": true,
                                                 "text": "Saml 1 1"
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
-                                                "text": "string"
+                                                "text": "string",
+                                                "ignoreExport": "boolean"
                                             },
                                             "name": "MyColumn17",
                                             "designerId": "c6607cb9-9667-4c7e-84d4-81ef3062032a"
@@ -2180,11 +2325,13 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "dataIndex": "BookMark",
+                                                "ignoreExport": true,
                                                 "text": "Book Mark"
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
-                                                "text": "string"
+                                                "text": "string",
+                                                "ignoreExport": "boolean"
                                             },
                                             "name": "MyColumn18",
                                             "designerId": "c64d0a83-0f0e-4459-b26c-b398118b7f8a"
@@ -2198,11 +2345,13 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "dataIndex": "BrowserPlugin",
+                                                "ignoreExport": true,
                                                 "text": "Browser Plugin"
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
-                                                "text": "string"
+                                                "text": "string",
+                                                "ignoreExport": "boolean"
                                             },
                                             "name": "MyColumn19",
                                             "designerId": "9b44f193-8293-43d8-8148-c2600c2ea10e"
@@ -2216,11 +2365,13 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "dataIndex": "BasicAuth",
+                                                "ignoreExport": true,
                                                 "text": "Basic Auth"
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
-                                                "text": "string"
+                                                "text": "string",
+                                                "ignoreExport": "boolean"
                                             },
                                             "name": "MyColumn21",
                                             "designerId": "f588874d-092e-48a6-bcde-9bf95d9111ad"
@@ -2234,11 +2385,13 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "dataIndex": "PushProfileUpdates",
+                                                "ignoreExport": true,
                                                 "text": "Push Profile Updates"
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
-                                                "text": "string"
+                                                "text": "string",
+                                                "ignoreExport": "boolean"
                                             },
                                             "name": "MyColumn25",
                                             "designerId": "2d897446-8e2f-4823-b24f-e4ffebc0c7ad"
@@ -2252,11 +2405,13 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "dataIndex": "Ranking",
+                                                "ignoreExport": true,
                                                 "text": "Ranking"
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
-                                                "text": "string"
+                                                "text": "string",
+                                                "ignoreExport": "boolean"
                                             },
                                             "name": "MyColumn30",
                                             "designerId": "40a3c581-b770-4ab5-9669-aa1b3d9cbabd"
@@ -2270,11 +2425,13 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "dataIndex": "OMM",
+                                                "ignoreExport": true,
                                                 "text": "Omm"
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
-                                                "text": "string"
+                                                "text": "string",
+                                                "ignoreExport": "boolean"
                                             },
                                             "name": "MyColumn31",
                                             "designerId": "5e24f1bc-800e-4bec-bc5d-e811b56a5b51"
@@ -2288,11 +2445,13 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "dataIndex": "Name",
+                                                "ignoreExport": true,
                                                 "text": "Name"
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
-                                                "text": "string"
+                                                "text": "string",
+                                                "ignoreExport": "boolean"
                                             },
                                             "name": "MyColumn7",
                                             "designerId": "a5a8c5b4-000b-4b53-bf43-5bf2e245665b"
@@ -2306,11 +2465,13 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "dataIndex": "Website",
+                                                "ignoreExport": true,
                                                 "text": "Website"
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
-                                                "text": "string"
+                                                "text": "string",
+                                                "ignoreExport": "boolean"
                                             },
                                             "name": "MyColumn2",
                                             "designerId": "16f53fd1-2c29-4134-b00a-7cde9e8e4e3b"
@@ -2324,11 +2485,13 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "dataIndex": "Version",
+                                                "ignoreExport": true,
                                                 "text": "Version"
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
-                                                "text": "string"
+                                                "text": "string",
+                                                "ignoreExport": "boolean"
                                             },
                                             "name": "MyColumn32",
                                             "designerId": "35a629dd-901a-459c-9f82-e44e31c6c137"
@@ -2342,11 +2505,13 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "dataIndex": "VerificationStatus",
+                                                "ignoreExport": true,
                                                 "text": "Verification Status"
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
-                                                "text": "string"
+                                                "text": "string",
+                                                "ignoreExport": "boolean"
                                             },
                                             "name": "MyColumn66",
                                             "designerId": "ca42a20d-863b-4891-a22c-d88bdd1c696c"
@@ -2360,11 +2525,13 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "dataIndex": "GroupPush",
+                                                "ignoreExport": true,
                                                 "text": "Group Push"
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
-                                                "text": "string"
+                                                "text": "string",
+                                                "ignoreExport": "boolean"
                                             },
                                             "name": "MyColumn67",
                                             "designerId": "edae9ca6-fe82-4add-ae27-874349c1700e"
@@ -2378,11 +2545,13 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "dataIndex": "GroupSync",
+                                                "ignoreExport": true,
                                                 "text": "Group Sync"
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
-                                                "text": "string"
+                                                "text": "string",
+                                                "ignoreExport": "boolean"
                                             },
                                             "name": "MyColumn68",
                                             "designerId": "90034ea0-a164-4673-8a55-6a1613e82db2"
@@ -2396,11 +2565,13 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "dataIndex": "ImportUserSchema",
+                                                "ignoreExport": true,
                                                 "text": "Import User Schema"
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
-                                                "text": "string"
+                                                "text": "string",
+                                                "ignoreExport": "boolean"
                                             },
                                             "name": "MyColumn69",
                                             "designerId": "66b508b6-2a51-4942-a972-0aae160b66c6"
@@ -2414,11 +2585,13 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "dataIndex": "ProfileMastering",
+                                                "ignoreExport": true,
                                                 "text": "Profile Mastering"
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
-                                                "text": "string"
+                                                "text": "string",
+                                                "ignoreExport": "boolean"
                                             },
                                             "name": "MyColumn70",
                                             "designerId": "812bd8b4-3c9e-4d82-a81d-c25699926417"
@@ -2432,11 +2605,13 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "dataIndex": "SCIM",
+                                                "ignoreExport": true,
                                                 "text": "Scim"
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
-                                                "text": "string"
+                                                "text": "string",
+                                                "ignoreExport": "boolean"
                                             },
                                             "name": "MyColumn71",
                                             "designerId": "35a3d13e-bc0d-4f65-939d-81d22b93f9cb"
@@ -2450,11 +2625,13 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "dataIndex": "IntegrationApp",
+                                                "ignoreExport": true,
                                                 "text": "Integration App"
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
-                                                "text": "string"
+                                                "text": "string",
+                                                "ignoreExport": "boolean"
                                             },
                                             "name": "MyColumn72",
                                             "designerId": "415af435-db0f-4dec-aec9-92fe4b4b14e7"
@@ -2468,11 +2645,13 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "dataIndex": "AppLinksJSON",
+                                                "ignoreExport": true,
                                                 "text": "App Links Json"
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
-                                                "text": "string"
+                                                "text": "string",
+                                                "ignoreExport": "boolean"
                                             },
                                             "name": "MyColumn73",
                                             "designerId": "b9045260-fd8e-4021-a9e6-a46a6e0912d3"
@@ -2486,11 +2665,13 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "dataIndex": "VersionCreatedDate",
+                                                "ignoreExport": true,
                                                 "text": "Version Created Date"
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
-                                                "text": "string"
+                                                "text": "string",
+                                                "ignoreExport": "boolean"
                                             },
                                             "name": "MyColumn74",
                                             "designerId": "6336ab41-0e46-4622-bfb1-3e240b81b2c6"
@@ -2504,11 +2685,13 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "dataIndex": "DeepLinkUrl",
+                                                "ignoreExport": true,
                                                 "text": "Deep Link Url"
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
-                                                "text": "string"
+                                                "text": "string",
+                                                "ignoreExport": "boolean"
                                             },
                                             "name": "MyColumn75",
                                             "designerId": "5e541c9a-220c-4886-aaa2-6d97233a6ad8"
@@ -2522,11 +2705,13 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "dataIndex": "AppCatalogDiscoverable",
+                                                "ignoreExport": true,
                                                 "text": "App Catalog Discoverable"
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
-                                                "text": "string"
+                                                "text": "string",
+                                                "ignoreExport": "boolean"
                                             },
                                             "name": "MyColumn76",
                                             "designerId": "e92c9569-14a9-4887-a67a-a5808d20bb2e"
@@ -2540,11 +2725,13 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "dataIndex": "accessSAML",
+                                                "ignoreExport": true,
                                                 "text": "A SAML"
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
-                                                "text": "string"
+                                                "text": "string",
+                                                "ignoreExport": "boolean"
                                             },
                                             "name": "MyColumn45",
                                             "designerId": "c2cd1e91-48ad-4d0b-87c2-ef639c01a6dc"
@@ -2558,11 +2745,13 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "dataIndex": "accessSWA",
+                                                "ignoreExport": true,
                                                 "text": "A SWA"
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
-                                                "text": "string"
+                                                "text": "string",
+                                                "ignoreExport": "boolean"
                                             },
                                             "name": "MyColumn46",
                                             "designerId": "35ae8eff-a338-4390-bb8d-4815767388c2"
@@ -2576,11 +2765,13 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "dataIndex": "accessProvisioning",
+                                                "ignoreExport": true,
                                                 "text": "A Provisioning"
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
-                                                "text": "string"
+                                                "text": "string",
+                                                "ignoreExport": "boolean"
                                             },
                                             "name": "MyColumn47",
                                             "designerId": "1fcfbcbe-842c-4c27-8a1c-d53ae99a8d64"
@@ -2594,11 +2785,13 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "dataIndex": "accessWSFederation",
+                                                "ignoreExport": true,
                                                 "text": "A WSFederation"
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
-                                                "text": "string"
+                                                "text": "string",
+                                                "ignoreExport": "boolean"
                                             },
                                             "name": "MyColumn48",
                                             "designerId": "578eb035-be90-4552-85f0-8c24cccbb501"
@@ -2612,11 +2805,13 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "dataIndex": "provisioningCreate",
+                                                "ignoreExport": true,
                                                 "text": "P Create"
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
-                                                "text": "string"
+                                                "text": "string",
+                                                "ignoreExport": "boolean"
                                             },
                                             "name": "MyColumn49",
                                             "designerId": "0a30f118-14d6-427d-b05a-edde41d1b471"
@@ -2630,11 +2825,13 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "dataIndex": "provisioningUpdate",
+                                                "ignoreExport": true,
                                                 "text": "P Update"
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
-                                                "text": "string"
+                                                "text": "string",
+                                                "ignoreExport": "boolean"
                                             },
                                             "name": "MyColumn50",
                                             "designerId": "65339d9e-00d9-482e-999d-b65c133bc160"
@@ -2648,11 +2845,13 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "dataIndex": "provisioningDeactivate",
+                                                "ignoreExport": true,
                                                 "text": "P Deactivate"
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
-                                                "text": "string"
+                                                "text": "string",
+                                                "ignoreExport": "boolean"
                                             },
                                             "name": "MyColumn51",
                                             "designerId": "40294483-2f93-4375-afac-1b0677192f79"
@@ -2666,11 +2865,13 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "dataIndex": "provisioningSyncPassword",
+                                                "ignoreExport": true,
                                                 "text": "P SyncPassword"
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
-                                                "text": "string"
+                                                "text": "string",
+                                                "ignoreExport": "boolean"
                                             },
                                             "name": "MyColumn52",
                                             "designerId": "eef3bee5-e448-48b8-a857-a6a2d9a75fcf"
@@ -2684,11 +2885,13 @@
                                             "codeClass": null,
                                             "userConfig": {
                                                 "dataIndex": "SupportLevel",
+                                                "ignoreExport": true,
                                                 "text": "Support Level"
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
-                                                "text": "string"
+                                                "text": "string",
+                                                "ignoreExport": "boolean"
                                             },
                                             "name": "MyColumn77",
                                             "designerId": "b7ed4a5c-2a3d-475e-8d45-c5ccb074c8eb"
@@ -2726,6 +2929,16 @@
                                             "codeClass": null,
                                             "name": "MyRowSelectionModel",
                                             "designerId": "c2093b03-fa82-40e9-b770-4be192de68a3"
+                                        },
+                                        {
+                                            "type": "Ext.grid.plugin.Exporter",
+                                            "reference": {
+                                                "name": "plugins",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "name": "MyGridExporterPlugin1",
+                                            "designerId": "c069a8f4-a63f-4bab-8a61-51c1c950bc14"
                                         }
                                     ]
                                 }

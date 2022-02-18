@@ -28,8 +28,10 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		'Ext.form.field.Tag',
 		'Ext.tab.Tab',
 		'Ext.toolbar.Toolbar',
+		'Ext.toolbar.Fill',
+		'Ext.grid.plugin.Exporter',
 		'Ext.toolbar.TextItem',
-		'Ext.grid.plugin.Exporter'
+		'Ext.exporter.text.CSV'
 	],
 
 	viewModel: {
@@ -237,6 +239,16 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 													listeners: {
 														click: 'onButtonClick1'
 													}
+												},
+												{
+													xtype: 'tbfill'
+												},
+												{
+													xtype: 'button',
+													text: 'Export All OIN',
+													listeners: {
+														click: 'onButtonClick5'
+													}
 												}
 											]
 										}
@@ -249,6 +261,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 											},
 											width: 145,
 											dataIndex: 'LogoImage',
+											ignoreExport: true,
 											text: 'Logo'
 										},
 										{
@@ -280,6 +293,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 													userCls: 'rotate-grid-headers',
 													width: 50,
 													dataIndex: 'AutoLogin',
+													exportRenderer: true,
 													text: 'SWA'
 												},
 												{
@@ -292,6 +306,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 													userCls: 'rotate-grid-headers',
 													width: 50,
 													dataIndex: 'SAML_2_0',
+													exportRenderer: true,
 													text: 'SAML'
 												},
 												{
@@ -305,6 +320,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 													userCls: 'rotate-grid-headers',
 													width: 50,
 													dataIndex: 'OIDC',
+													exportRenderer: true,
 													text: 'OIDC'
 												},
 												{
@@ -338,6 +354,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 													userCls: 'rotate-grid-headers',
 													width: 50,
 													dataIndex: 'PushNewUsers',
+													exportRenderer: true,
 													text: 'Create Users'
 												},
 												{
@@ -351,6 +368,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 													userCls: 'rotate-grid-headers',
 													width: 50,
 													dataIndex: 'PushPasswordUpdates',
+													exportRenderer: true,
 													text: 'Password'
 												},
 												{
@@ -364,6 +382,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 													userCls: 'rotate-grid-headers',
 													width: 50,
 													dataIndex: 'PushUserDeactivation',
+													exportRenderer: true,
 													text: 'Deactivation'
 												},
 												{
@@ -377,6 +396,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 													userCls: 'rotate-grid-headers',
 													width: 50,
 													dataIndex: 'provisioningSchemaDiscovery',
+													exportRenderer: true,
 													text: 'Schema Disco'
 												},
 												{
@@ -390,6 +410,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 													userCls: 'rotate-grid-headers',
 													width: 50,
 													dataIndex: 'provisioningGroupPush',
+													exportRenderer: true,
 													text: 'Group Push'
 												},
 												{
@@ -403,6 +424,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 													userCls: 'rotate-grid-headers',
 													width: 50,
 													dataIndex: 'provisioningGroupLinking',
+													exportRenderer: true,
 													text: 'Group Link'
 												},
 												{
@@ -416,6 +438,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 													userCls: 'rotate-grid-headers',
 													width: 50,
 													dataIndex: 'provisioningAttributeSourcing',
+													exportRenderer: true,
 													text: 'Attr Sourcing'
 												},
 												{
@@ -429,6 +452,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 													userCls: 'rotate-grid-headers',
 													width: 50,
 													dataIndex: 'provisioningAttributeWriteback',
+													exportRenderer: true,
 													text: 'Attr Writeback'
 												}
 											]
@@ -448,6 +472,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 													userCls: 'rotate-grid-headers',
 													width: 50,
 													dataIndex: 'ImportNewUsers',
+													exportRenderer: true,
 													text: 'Import Users'
 												},
 												{
@@ -461,6 +486,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 													userCls: 'rotate-grid-headers',
 													width: 50,
 													dataIndex: 'ImportProfileUpdates',
+													exportRenderer: true,
 													text: 'Profile Updates'
 												},
 												{
@@ -474,6 +500,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 													userCls: 'rotate-grid-headers',
 													width: 50,
 													dataIndex: 'AutoConfirmImports',
+													exportRenderer: true,
 													text: 'Auto Confirm'
 												},
 												{
@@ -487,6 +514,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 													userCls: 'rotate-grid-headers',
 													width: 50,
 													dataIndex: 'ReactivateUsers',
+													exportRenderer: true,
 													text: 'Reactivation'
 												}
 											]
@@ -500,191 +528,230 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 												return '';
 											},
 											dataIndex: 'accessWorkflowsCompatible',
+											exportRenderer: true,
 											text: 'Workflows'
 										},
 										{
 											xtype: 'gridcolumn',
 											width: 275,
 											dataIndex: 'Description',
+											ignoreExport: true,
 											text: 'Description'
 										},
 										{
 											xtype: 'gridcolumn',
 											renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-												return '<a href="https://www.okta.com/'+record.data.path+'/#capabilities" target="_blank">OIN</a>';
+												return '<a href="https://www.okta.com'+value+'/#capabilities" target="_blank">OIN</a>';
+											},
+											exportRenderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+												return 'https://www.okta.com'+value;
 											},
 											width: 55,
-											dataIndex: 'DisplayName',
+											dataIndex: 'path',
 											text: 'OIN'
 										},
 										{
 											xtype: 'gridcolumn',
 											dataIndex: 'AppCategoryLabel',
+											ignoreExport: true,
 											text: 'App Category Label'
 										},
 										{
 											xtype: 'gridcolumn',
 											dataIndex: 'Custom',
+											ignoreExport: true,
 											text: 'Custom'
 										},
 										{
 											xtype: 'gridcolumn',
 											dataIndex: 'SecurePasswordStore',
+											ignoreExport: true,
 											text: 'Secure Password Store'
 										},
 										{
 											xtype: 'gridcolumn',
 											dataIndex: 'SAML_2_0',
+											ignoreExport: true,
 											text: 'Saml 2 0'
 										},
 										{
 											xtype: 'gridcolumn',
 											dataIndex: 'SAML_1_1',
+											ignoreExport: true,
 											text: 'Saml 1 1'
 										},
 										{
 											xtype: 'gridcolumn',
 											dataIndex: 'BookMark',
+											ignoreExport: true,
 											text: 'Book Mark'
 										},
 										{
 											xtype: 'gridcolumn',
 											dataIndex: 'BrowserPlugin',
+											ignoreExport: true,
 											text: 'Browser Plugin'
 										},
 										{
 											xtype: 'gridcolumn',
 											dataIndex: 'BasicAuth',
+											ignoreExport: true,
 											text: 'Basic Auth'
 										},
 										{
 											xtype: 'gridcolumn',
 											dataIndex: 'PushProfileUpdates',
+											ignoreExport: true,
 											text: 'Push Profile Updates'
 										},
 										{
 											xtype: 'gridcolumn',
 											dataIndex: 'Ranking',
+											ignoreExport: true,
 											text: 'Ranking'
 										},
 										{
 											xtype: 'gridcolumn',
 											dataIndex: 'OMM',
+											ignoreExport: true,
 											text: 'Omm'
 										},
 										{
 											xtype: 'gridcolumn',
 											dataIndex: 'Name',
+											ignoreExport: true,
 											text: 'Name'
 										},
 										{
 											xtype: 'gridcolumn',
 											dataIndex: 'Website',
+											ignoreExport: true,
 											text: 'Website'
 										},
 										{
 											xtype: 'gridcolumn',
 											dataIndex: 'Version',
+											ignoreExport: true,
 											text: 'Version'
 										},
 										{
 											xtype: 'gridcolumn',
 											dataIndex: 'VerificationStatus',
+											ignoreExport: true,
 											text: 'Verification Status'
 										},
 										{
 											xtype: 'gridcolumn',
 											dataIndex: 'GroupPush',
+											ignoreExport: true,
 											text: 'Group Push'
 										},
 										{
 											xtype: 'gridcolumn',
 											dataIndex: 'GroupSync',
+											ignoreExport: true,
 											text: 'Group Sync'
 										},
 										{
 											xtype: 'gridcolumn',
 											dataIndex: 'ImportUserSchema',
+											ignoreExport: true,
 											text: 'Import User Schema'
 										},
 										{
 											xtype: 'gridcolumn',
 											dataIndex: 'ProfileMastering',
+											ignoreExport: true,
 											text: 'Profile Mastering'
 										},
 										{
 											xtype: 'gridcolumn',
 											dataIndex: 'SCIM',
+											ignoreExport: true,
 											text: 'Scim'
 										},
 										{
 											xtype: 'gridcolumn',
 											dataIndex: 'IntegrationApp',
+											ignoreExport: true,
 											text: 'Integration App'
 										},
 										{
 											xtype: 'gridcolumn',
 											dataIndex: 'AppLinksJSON',
+											ignoreExport: true,
 											text: 'App Links Json'
 										},
 										{
 											xtype: 'gridcolumn',
 											dataIndex: 'VersionCreatedDate',
+											ignoreExport: true,
 											text: 'Version Created Date'
 										},
 										{
 											xtype: 'gridcolumn',
 											dataIndex: 'DeepLinkUrl',
+											ignoreExport: true,
 											text: 'Deep Link Url'
 										},
 										{
 											xtype: 'gridcolumn',
 											dataIndex: 'AppCatalogDiscoverable',
+											ignoreExport: true,
 											text: 'App Catalog Discoverable'
 										},
 										{
 											xtype: 'gridcolumn',
 											dataIndex: 'accessSAML',
+											ignoreExport: true,
 											text: 'A SAML'
 										},
 										{
 											xtype: 'gridcolumn',
 											dataIndex: 'accessSWA',
+											ignoreExport: true,
 											text: 'A SWA'
 										},
 										{
 											xtype: 'gridcolumn',
 											dataIndex: 'accessProvisioning',
+											ignoreExport: true,
 											text: 'A Provisioning'
 										},
 										{
 											xtype: 'gridcolumn',
 											dataIndex: 'accessWSFederation',
+											ignoreExport: true,
 											text: 'A WSFederation'
 										},
 										{
 											xtype: 'gridcolumn',
 											dataIndex: 'provisioningCreate',
+											ignoreExport: true,
 											text: 'P Create'
 										},
 										{
 											xtype: 'gridcolumn',
 											dataIndex: 'provisioningUpdate',
+											ignoreExport: true,
 											text: 'P Update'
 										},
 										{
 											xtype: 'gridcolumn',
 											dataIndex: 'provisioningDeactivate',
+											ignoreExport: true,
 											text: 'P Deactivate'
 										},
 										{
 											xtype: 'gridcolumn',
 											dataIndex: 'provisioningSyncPassword',
+											ignoreExport: true,
 											text: 'P SyncPassword'
 										},
 										{
 											xtype: 'gridcolumn',
 											dataIndex: 'SupportLevel',
+											ignoreExport: true,
 											text: 'Support Level'
 										}
 									],
@@ -697,7 +764,12 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 									},
 									selModel: {
 										selType: 'rowmodel'
-									}
+									},
+									plugins: [
+										{
+											ptype: 'gridexporter'
+										}
+									]
 								}
 							],
 							tabConfig: {
@@ -1271,6 +1343,14 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 
 		this.addAppToMyApps(sel[0]);
 
+	},
+
+	onButtonClick5: function(button, e, eOpts) {
+		this.queryById('oinAppGrid').saveDocumentAs({
+		     type: 'csv',
+		     title: 'All OIN Apps',
+		     fileName: 'All_OIN_Apps_'+Ext.util.Format.date(new Date(), 'Y-m-d_g-ia')+'.csv'
+		 });
 	},
 
 	onOinAppGridRowDblClick: function(tableview, record, element, rowIndex, e, eOpts) {
