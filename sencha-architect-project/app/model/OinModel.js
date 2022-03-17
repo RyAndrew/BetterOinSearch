@@ -155,7 +155,10 @@ Ext.define('BetterOinSearch.model.OinModel', {
 			name: 'accessOIDC'
 		},
 		{
-			name: 'accessWorkflowsCompatible'
+			name: 'accessWorkflowsConnectors'
+		},
+		{
+			name: 'accessWorkflowsTemplates'
 		},
 		{
 			name: 'accessWSFederation'

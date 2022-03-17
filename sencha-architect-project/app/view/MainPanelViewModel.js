@@ -59,8 +59,12 @@ Ext.define('BetterOinSearch.view.MainPanelViewModel', {
 					'WSFED'
 				],
 				[
-					'Workflows',
-					'accessWorkflowsCompatible'
+					'Workflows Connector',
+					'accessWorkflowsConnectors'
+				],
+				[
+					'Workflow Template',
+					'accessWorkflowsTemplates'
 				],
 				[
 					'Provisioning',

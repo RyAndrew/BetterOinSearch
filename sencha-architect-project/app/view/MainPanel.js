@@ -521,15 +521,37 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 										},
 										{
 											xtype: 'gridcolumn',
-											renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-												if(value===1){
-													return String.fromCodePoint(0x2705);
+											text: 'Workflows',
+											columns: [
+												{
+													xtype: 'gridcolumn',
+													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+														if(value===1){
+															return String.fromCodePoint(0x2705);
+														}
+														return '';
+													},
+													userCls: 'rotate-grid-headers',
+													width: 50,
+													dataIndex: 'accessWorkflowsConnectors',
+													exportRenderer: true,
+													text: 'Connectors'
+												},
+												{
+													xtype: 'gridcolumn',
+													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+														if(value===1){
+															return String.fromCodePoint(0x2705);
+														}
+														return '';
+													},
+													userCls: 'rotate-grid-headers',
+													width: 50,
+													dataIndex: 'accessWorkflowsTemplates',
+													exportRenderer: true,
+													text: 'Templates'
 												}
-												return '';
-											},
-											dataIndex: 'accessWorkflowsCompatible',
-											exportRenderer: true,
-											text: 'Workflows'
+											]
 										},
 										{
 											xtype: 'gridcolumn',
@@ -1102,14 +1124,37 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 								},
 								{
 									xtype: 'gridcolumn',
-									renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-										if(value===1){
-											return String.fromCodePoint(0x2705);
+									text: 'Workflows',
+									columns: [
+										{
+											xtype: 'gridcolumn',
+											renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+												if(value===1){
+													return String.fromCodePoint(0x2705);
+												}
+												return '';
+											},
+											userCls: 'rotate-grid-headers',
+											width: 50,
+											dataIndex: 'accessWorkflowsConnectors',
+											exportRenderer: true,
+											text: 'Connectors'
+										},
+										{
+											xtype: 'gridcolumn',
+											renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+												if(value===1){
+													return String.fromCodePoint(0x2705);
+												}
+												return '';
+											},
+											userCls: 'rotate-grid-headers',
+											width: 50,
+											dataIndex: 'accessWorkflowsTemplates',
+											exportRenderer: true,
+											text: 'Templates'
 										}
-										return '';
-									},
-									dataIndex: 'accessWorkflowsCompatible',
-									text: 'Workflows'
+									]
 								},
 								{
 									xtype: 'gridcolumn',
@@ -1256,7 +1301,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 	onGridpanelSelectionChange1: function(model, selected, eOpts) {
 		this.capabilityFilter = [];
 
-		const OneZeroCols = ['accessSAML','accessSWA','accessProvisioning','accessOIDC','accessWorkflowsCompatible','accessWSFederation','provisioningCreate','provisioningUpdate','provisioningDeactivate','provisioningSyncPassword','provisioningGroupPush','provisioningGroupLinking','provisioningAttributeSourcing','provisioningAttributeWriteback','provisioningSchemaDiscovery'];
+		const OneZeroCols = ['accessSAML','accessSWA','accessProvisioning','accessOIDC','accessWorkflowsConnectors','accessWorkflowsTemplates','accessWSFederation','provisioningCreate','provisioningUpdate','provisioningDeactivate','provisioningSyncPassword','provisioningGroupPush','provisioningGroupLinking','provisioningAttributeSourcing','provisioningAttributeWriteback','provisioningSchemaDiscovery'];
 
 		Ext.each(selected, function(sel){
 			let val;

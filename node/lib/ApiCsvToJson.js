@@ -28,7 +28,8 @@ export default class ApiCsvToJson {
 		'SWA',
 		'Provisioning',
 		'OIDC',
-		'Workflows Compatible',
+		'Workflows Connectors',
+		'Workflow Templates',
 		'WS-Federation'
 	]
 	static provisioningColumns = [

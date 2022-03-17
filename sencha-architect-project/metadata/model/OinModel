@@ -726,13 +726,29 @@
             },
             "codeClass": null,
             "userConfig": {
-                "name": "accessWorkflowsCompatible"
+                "name": "accessWorkflowsConnectors"
             },
             "configAlternates": {
                 "name": "string"
             },
             "name": "MyField9",
             "designerId": "046d350a-15e0-411b-b54b-b039d53ceca7"
+        },
+        {
+            "type": "Ext.data.field.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "accessWorkflowsTemplates"
+            },
+            "configAlternates": {
+                "name": "string"
+            },
+            "name": "MyField23",
+            "designerId": "4c0ff154-6799-4959-b9dc-3efd90d05fba"
         },
         {
             "type": "Ext.data.field.Field",
