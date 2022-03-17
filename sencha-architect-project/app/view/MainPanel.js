@@ -775,6 +775,18 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 											dataIndex: 'SupportLevel',
 											ignoreExport: true,
 											text: 'Support Level'
+										},
+										{
+											xtype: 'gridcolumn',
+											dataIndex: 'productLifecycleManagement',
+											ignoreExport: true,
+											text: 'Prod LCM'
+										},
+										{
+											xtype: 'gridcolumn',
+											dataIndex: 'productSingleSignOn',
+											ignoreExport: true,
+											text: 'Prod SSO'
 										}
 									],
 									viewConfig: {
@@ -1301,7 +1313,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 	onGridpanelSelectionChange1: function(model, selected, eOpts) {
 		this.capabilityFilter = [];
 
-		const OneZeroCols = ['accessSAML','accessSWA','accessProvisioning','accessOIDC','accessWorkflowsConnectors','accessWorkflowsTemplates','accessWSFederation','provisioningCreate','provisioningUpdate','provisioningDeactivate','provisioningSyncPassword','provisioningGroupPush','provisioningGroupLinking','provisioningAttributeSourcing','provisioningAttributeWriteback','provisioningSchemaDiscovery'];
+		const OneZeroCols = ['accessSAML','accessSWA','accessProvisioning','accessOIDC','accessWorkflowsConnectors','accessWorkflowsTemplates','accessWSFederation','provisioningCreate','provisioningUpdate','provisioningDeactivate','provisioningSyncPassword','provisioningGroupPush','provisioningGroupLinking','provisioningAttributeSourcing','provisioningAttributeWriteback','provisioningSchemaDiscovery','productSingleSignOn','productLifecycleManagement'];
 
 		Ext.each(selected, function(sel){
 			let val;

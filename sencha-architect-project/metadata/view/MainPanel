@@ -276,7 +276,7 @@
                                         "implHandler": [
                                             "this.capabilityFilter = [];",
                                             "",
-                                            "const OneZeroCols = ['accessSAML','accessSWA','accessProvisioning','accessOIDC','accessWorkflowsConnectors','accessWorkflowsTemplates','accessWSFederation','provisioningCreate','provisioningUpdate','provisioningDeactivate','provisioningSyncPassword','provisioningGroupPush','provisioningGroupLinking','provisioningAttributeSourcing','provisioningAttributeWriteback','provisioningSchemaDiscovery'];",
+                                            "const OneZeroCols = ['accessSAML','accessSWA','accessProvisioning','accessOIDC','accessWorkflowsConnectors','accessWorkflowsTemplates','accessWSFederation','provisioningCreate','provisioningUpdate','provisioningDeactivate','provisioningSyncPassword','provisioningGroupPush','provisioningGroupLinking','provisioningAttributeSourcing','provisioningAttributeWriteback','provisioningSchemaDiscovery','productSingleSignOn','productLifecycleManagement'];",
                                             "",
                                             "Ext.each(selected, function(sel){",
                                             "\tlet val;",
@@ -2980,6 +2980,46 @@
                                             },
                                             "name": "MyColumn77",
                                             "designerId": "b7ed4a5c-2a3d-475e-8d45-c5ccb074c8eb"
+                                        },
+                                        {
+                                            "type": "Ext.grid.column.Column",
+                                            "reference": {
+                                                "name": "columns",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "dataIndex": "productLifecycleManagement",
+                                                "ignoreExport": true,
+                                                "text": "Prod LCM"
+                                            },
+                                            "configAlternates": {
+                                                "dataIndex": "datafield",
+                                                "text": "string",
+                                                "ignoreExport": "boolean"
+                                            },
+                                            "name": "MyColumn54",
+                                            "designerId": "9268435e-4179-4660-8123-d265ce3ae313"
+                                        },
+                                        {
+                                            "type": "Ext.grid.column.Column",
+                                            "reference": {
+                                                "name": "columns",
+                                                "type": "array"
+                                            },
+                                            "codeClass": null,
+                                            "userConfig": {
+                                                "dataIndex": "productSingleSignOn",
+                                                "ignoreExport": true,
+                                                "text": "Prod SSO"
+                                            },
+                                            "configAlternates": {
+                                                "dataIndex": "datafield",
+                                                "text": "string",
+                                                "ignoreExport": "boolean"
+                                            },
+                                            "name": "MyColumn64",
+                                            "designerId": "5e2b96c6-9330-4864-8e61-86130126e80e"
                                         },
                                         {
                                             "type": "basiceventbinding",

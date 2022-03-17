@@ -43,6 +43,10 @@ export default class ApiCsvToJson {
 		'Attribute Writeback',
 		'Schema Discovery'
 	]
+	static productColumns = [
+		'Lifecycle Management',
+		'Single Sign-On'
+	]
 
 	static async fetchAllApiData(){
 
@@ -173,13 +177,30 @@ export default class ApiCsvToJson {
 		}
 
 		/////////////
-		// 3. combine results
+		// 3. process product property
+		let appproduct = app.product+'';
+		let product = appproduct.split(",").map(element => {
+			return element.trim()
+		})
+		let productHash = {}
+		for(let i in product){
+			if(product[i] == ''){ 
+				continue
+			}
+			productHash[product[i]] = true
+		}
+
+		/////////////
+		// 4. combine results
 		let allCapabilities = {}
 		this.accessColumns.forEach(attr => {
 			allCapabilities['access-'+attr] = accessHash[attr] ? 1 : 0
 		})
 		this.provisioningColumns.forEach(attr => {
 			allCapabilities['provisioning-'+attr] = provisioningHash[attr] ? 1 : 0
+		})
+		this.productColumns.forEach(attr => {
+			allCapabilities['product-'+attr] = productHash[attr] ? 1 : 0
 		})
 
 

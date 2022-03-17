@@ -191,6 +191,12 @@ Ext.define('BetterOinSearch.model.OinModel', {
 			name: 'provisioningSchemaDiscovery'
 		},
 		{
+			name: 'productLifecycleManagement'
+		},
+		{
+			name: 'productSingleSignOn'
+		},
+		{
 			name: 'path'
 		}
 	]

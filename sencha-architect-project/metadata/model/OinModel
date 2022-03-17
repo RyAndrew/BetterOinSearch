@@ -918,6 +918,38 @@
             },
             "codeClass": null,
             "userConfig": {
+                "name": "productLifecycleManagement"
+            },
+            "configAlternates": {
+                "name": "string"
+            },
+            "name": "MyField24",
+            "designerId": "14916d1b-8394-4c0c-ad4c-c62df1d401c8"
+        },
+        {
+            "type": "Ext.data.field.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "productSingleSignOn"
+            },
+            "configAlternates": {
+                "name": "string"
+            },
+            "name": "MyField25",
+            "designerId": "0812824e-98a6-4494-a2ae-ad5d8c6eb2c4"
+        },
+        {
+            "type": "Ext.data.field.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
                 "name": "path"
             },
             "configAlternates": {

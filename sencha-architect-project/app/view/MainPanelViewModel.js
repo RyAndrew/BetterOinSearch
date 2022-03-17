@@ -54,10 +54,8 @@ Ext.define('BetterOinSearch.view.MainPanelViewModel', {
 					'SSO - OIDC',
 					'OIDC'
 				],
-				[
-					'SSO - WS-Federation',
-					'WSFED'
-				],
+				//['Single Sign-On','productSingleSignOn'], - every app is on this list? why?
+				//['SSO - WS-Federation','WSFED'],
 				[
 					'Workflows Connector',
 					'accessWorkflowsConnectors'
@@ -66,9 +64,10 @@ Ext.define('BetterOinSearch.view.MainPanelViewModel', {
 					'Workflow Template',
 					'accessWorkflowsTemplates'
 				],
+				//['Provisioning','accessProvisioning'],
 				[
-					'Provisioning',
-					'accessProvisioning'
+					'Lifecycle Management',
+					'productLifecycleManagement'
 				],
 				[
 					'Group Linking',
