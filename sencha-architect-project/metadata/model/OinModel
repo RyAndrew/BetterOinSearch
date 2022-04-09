@@ -438,6 +438,22 @@
             },
             "codeClass": null,
             "userConfig": {
+                "name": "Creatable"
+            },
+            "configAlternates": {
+                "name": "string"
+            },
+            "name": "MyField30",
+            "designerId": "77368995-05d7-4fca-8b05-86904c690520"
+        },
+        {
+            "type": "Ext.data.field.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
                 "name": "WSFED"
             },
             "configAlternates": {

@@ -101,6 +101,9 @@ Ext.define('BetterOinSearch.model.OinModel', {
 			name: 'Version'
 		},
 		{
+			name: 'Creatable'
+		},
+		{
 			name: 'WSFED'
 		},
 		{
