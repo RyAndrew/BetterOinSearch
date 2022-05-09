@@ -30,6 +30,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		'Ext.toolbar.Toolbar',
 		'Ext.toolbar.Fill',
 		'Ext.grid.plugin.Exporter',
+		'Ext.XTemplate',
 		'Ext.toolbar.TextItem',
 		'Ext.exporter.text.CSV'
 	],
@@ -116,6 +117,19 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 							listeners: {
 								selectionchange: 'onGridpanelSelectionChange1'
 							}
+						},
+						{
+							xtype: 'panel',
+							frame: true,
+							height: 53,
+							html: '&nbsp; Made with &#x2764; by<BR><a href="https://www.linkedin.com/in/andrew-rymarczyk-b7063513">Andrew Rymarczyk</a>',
+							bodyPadding: '6 0 0 0',
+							bodyStyle: {
+								color: 'red !important',
+								'text-align': 'center',
+								'font-size': '20px'
+							},
+							title: ''
 						}
 					]
 				},
@@ -220,12 +234,677 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 									]
 								},
 								{
+									xtype: 'container',
+									flex: 1,
+									layout: {
+										type: 'hbox',
+										align: 'stretch'
+									},
+									items: [
+										{
+											xtype: 'gridpanel',
+											flex: 1,
+											itemId: 'oinAppGrid',
+											title: '',
+											bind: {
+												store: '{oinAppStore}'
+											},
+											dockedItems: [
+												{
+													xtype: 'toolbar',
+													dock: 'top',
+													items: [
+														{
+															xtype: 'button',
+															iconCls: 'x-fa fa-plus-square',
+															text: 'Add to My Apps',
+															listeners: {
+																click: 'onButtonClick1'
+															}
+														},
+														{
+															xtype: 'tbfill'
+														},
+														{
+															xtype: 'button',
+															text: 'Export All OIN',
+															listeners: {
+																click: 'onButtonClick5'
+															}
+														}
+													]
+												}
+											],
+											columns: [
+												{
+													xtype: 'gridcolumn',
+													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+														return '<img src="'+store.cdnUrl + value+'" height="34" />';
+													},
+													width: 145,
+													dataIndex: 'LogoImage',
+													ignoreExport: true,
+													text: 'Logo'
+												},
+												{
+													xtype: 'gridcolumn',
+													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+														if(record.data.Website !== ''){
+															return '<a href="'+record.data.Website+'" target="_blank">'+value+'</a>';
+														}
+														return value;
+													},
+													width: 157,
+													dataIndex: 'DisplayName',
+													text: 'Name'
+												},
+												{
+													xtype: 'gridcolumn',
+													text: 'SSO',
+													columns: [
+														{
+															xtype: 'gridcolumn',
+															renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+																if(record.data['AutoLogin'] === 'YES' || record.data['BrowserPlugin'] === 'YES'){
+																	return String.fromCodePoint(0x2705);
+																	//return '&#x2705;';
+																	//return '<img src="/inc/img/silk_icons/tick.png">';
+																}
+																return '';
+															},
+															userCls: 'rotate-grid-headers',
+															width: 50,
+															dataIndex: 'AutoLogin',
+															exportRenderer: true,
+															text: 'SWA'
+														},
+														{
+															xtype: 'gridcolumn',
+															renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+																if(record.data['SAML_2_0'] === 'YES' || record.data['SAML_1_1'] === 'YES'){
+																	return String.fromCodePoint(0x2705);
+																}
+															},
+															userCls: 'rotate-grid-headers',
+															width: 50,
+															dataIndex: 'SAML_2_0',
+															exportRenderer: true,
+															text: 'SAML'
+														},
+														{
+															xtype: 'gridcolumn',
+															renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+																if(value==='YES'){
+																	return String.fromCodePoint(0x2705);
+																}
+																return '';
+															},
+															userCls: 'rotate-grid-headers',
+															width: 50,
+															dataIndex: 'OIDC',
+															exportRenderer: true,
+															text: 'OIDC'
+														},
+														{
+															xtype: 'gridcolumn',
+															renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+																if(value==='YES'){
+																	return String.fromCodePoint(0x2705);
+																}
+																return '';
+															},
+															userCls: 'rotate-grid-headers',
+															width: 50,
+															dataIndex: 'WSFED',
+															exportRenderer: true,
+															text: 'WS Fed'
+														}
+													]
+												},
+												{
+													xtype: 'gridcolumn',
+													text: 'Provisioning',
+													columns: [
+														{
+															xtype: 'gridcolumn',
+															renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+																if(value==='YES'){
+																	return String.fromCodePoint(0x2705);
+																}
+																return '';
+															},
+															userCls: 'rotate-grid-headers',
+															width: 50,
+															dataIndex: 'PushNewUsers',
+															exportRenderer: true,
+															text: 'Create Users'
+														},
+														{
+															xtype: 'gridcolumn',
+															renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+																if(value==='YES'){
+																	return String.fromCodePoint(0x2705);
+																}
+																return '';
+															},
+															userCls: 'rotate-grid-headers',
+															width: 50,
+															dataIndex: 'PushPasswordUpdates',
+															exportRenderer: true,
+															text: 'Password'
+														},
+														{
+															xtype: 'gridcolumn',
+															renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+																if(value==='YES'){
+																	return String.fromCodePoint(0x2705);
+																}
+																return '';
+															},
+															userCls: 'rotate-grid-headers',
+															width: 50,
+															dataIndex: 'PushUserDeactivation',
+															exportRenderer: true,
+															text: 'Deactivation'
+														},
+														{
+															xtype: 'gridcolumn',
+															renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+																if(value===1){
+																	return String.fromCodePoint(0x2705);
+																}
+																return '';
+															},
+															userCls: 'rotate-grid-headers',
+															width: 50,
+															dataIndex: 'provisioningSchemaDiscovery',
+															exportRenderer: true,
+															text: 'Schema Disco'
+														},
+														{
+															xtype: 'gridcolumn',
+															renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+																if(value===1){
+																	return String.fromCodePoint(0x2705);
+																}
+																return '';
+															},
+															userCls: 'rotate-grid-headers',
+															width: 50,
+															dataIndex: 'provisioningGroupPush',
+															exportRenderer: true,
+															text: 'Group Push'
+														},
+														{
+															xtype: 'gridcolumn',
+															renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+																if(value===1){
+																	return String.fromCodePoint(0x2705);
+																}
+																return '';
+															},
+															userCls: 'rotate-grid-headers',
+															width: 50,
+															dataIndex: 'provisioningGroupLinking',
+															exportRenderer: true,
+															text: 'Group Link'
+														},
+														{
+															xtype: 'gridcolumn',
+															renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+																if(value===1){
+																	return String.fromCodePoint(0x2705);
+																}
+																return '';
+															},
+															userCls: 'rotate-grid-headers',
+															width: 50,
+															dataIndex: 'provisioningAttributeSourcing',
+															exportRenderer: true,
+															text: 'Attr Sourcing'
+														},
+														{
+															xtype: 'gridcolumn',
+															renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+																if(value===1){
+																	return String.fromCodePoint(0x2705);
+																}
+																return '';
+															},
+															userCls: 'rotate-grid-headers',
+															width: 50,
+															dataIndex: 'provisioningAttributeWriteback',
+															exportRenderer: true,
+															text: 'Attr Writeback'
+														}
+													]
+												},
+												{
+													xtype: 'gridcolumn',
+													text: 'Importing',
+													columns: [
+														{
+															xtype: 'gridcolumn',
+															renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+																if(value==='YES'){
+																	return String.fromCodePoint(0x2705);
+																}
+																return '';
+															},
+															userCls: 'rotate-grid-headers',
+															width: 50,
+															dataIndex: 'ImportNewUsers',
+															exportRenderer: true,
+															text: 'Import Users'
+														},
+														{
+															xtype: 'gridcolumn',
+															renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+																if(value==='YES'){
+																	return String.fromCodePoint(0x2705);
+																}
+																return '';
+															},
+															userCls: 'rotate-grid-headers',
+															width: 50,
+															dataIndex: 'ImportProfileUpdates',
+															exportRenderer: true,
+															text: 'Profile Updates'
+														},
+														{
+															xtype: 'gridcolumn',
+															renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+																if(value==='YES'){
+																	return String.fromCodePoint(0x2705);
+																}
+																return '';
+															},
+															userCls: 'rotate-grid-headers',
+															width: 50,
+															dataIndex: 'AutoConfirmImports',
+															exportRenderer: true,
+															text: 'Auto Confirm'
+														},
+														{
+															xtype: 'gridcolumn',
+															renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+																if(value==='YES'){
+																	return String.fromCodePoint(0x2705);
+																}
+																return '';
+															},
+															userCls: 'rotate-grid-headers',
+															width: 50,
+															dataIndex: 'ReactivateUsers',
+															exportRenderer: true,
+															text: 'Reactivation'
+														}
+													]
+												},
+												{
+													xtype: 'gridcolumn',
+													text: 'Workflows',
+													columns: [
+														{
+															xtype: 'gridcolumn',
+															renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+																if(value===1){
+																	return '<a href="#" class="workflowlink">'+String.fromCodePoint(0x2705)+'</a>';
+																}
+																return '';
+															},
+															userCls: 'rotate-grid-headers',
+															width: 50,
+															dataIndex: 'accessWorkflowsConnectors',
+															exportRenderer: true,
+															text: 'Connectors'
+														},
+														{
+															xtype: 'gridcolumn',
+															renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+																if(value===1){
+																	return String.fromCodePoint(0x2705);
+																}
+																return '';
+															},
+															userCls: 'rotate-grid-headers',
+															width: 50,
+															dataIndex: 'accessWorkflowsTemplates',
+															exportRenderer: true,
+															text: 'Templates'
+														}
+													]
+												},
+												{
+													xtype: 'gridcolumn',
+													width: 275,
+													dataIndex: 'Description',
+													ignoreExport: true,
+													text: 'Description'
+												},
+												{
+													xtype: 'gridcolumn',
+													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+														return '<a href="https://www.okta.com'+value+'/#capabilities" target="_blank">OIN</a>';
+													},
+													exportRenderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+														return 'https://www.okta.com'+value;
+													},
+													width: 55,
+													dataIndex: 'path',
+													text: 'OIN'
+												},
+												{
+													xtype: 'gridcolumn',
+													dataIndex: 'AppCategoryLabel',
+													ignoreExport: true,
+													text: 'App Category Label'
+												},
+												{
+													xtype: 'gridcolumn',
+													dataIndex: 'Custom',
+													ignoreExport: true,
+													text: 'Custom'
+												},
+												{
+													xtype: 'gridcolumn',
+													dataIndex: 'SecurePasswordStore',
+													ignoreExport: true,
+													text: 'Secure Password Store'
+												},
+												{
+													xtype: 'gridcolumn',
+													dataIndex: 'SAML_2_0',
+													ignoreExport: true,
+													text: 'Saml 2 0'
+												},
+												{
+													xtype: 'gridcolumn',
+													dataIndex: 'SAML_1_1',
+													ignoreExport: true,
+													text: 'Saml 1 1'
+												},
+												{
+													xtype: 'gridcolumn',
+													dataIndex: 'BookMark',
+													ignoreExport: true,
+													text: 'Book Mark'
+												},
+												{
+													xtype: 'gridcolumn',
+													dataIndex: 'BrowserPlugin',
+													ignoreExport: true,
+													text: 'Browser Plugin'
+												},
+												{
+													xtype: 'gridcolumn',
+													dataIndex: 'BasicAuth',
+													ignoreExport: true,
+													text: 'Basic Auth'
+												},
+												{
+													xtype: 'gridcolumn',
+													dataIndex: 'PushProfileUpdates',
+													ignoreExport: true,
+													text: 'Push Profile Updates'
+												},
+												{
+													xtype: 'gridcolumn',
+													dataIndex: 'Ranking',
+													ignoreExport: true,
+													text: 'Ranking'
+												},
+												{
+													xtype: 'gridcolumn',
+													dataIndex: 'OMM',
+													ignoreExport: true,
+													text: 'Omm'
+												},
+												{
+													xtype: 'gridcolumn',
+													dataIndex: 'Name',
+													ignoreExport: true,
+													text: 'Name'
+												},
+												{
+													xtype: 'gridcolumn',
+													dataIndex: 'Website',
+													ignoreExport: true,
+													text: 'Website'
+												},
+												{
+													xtype: 'gridcolumn',
+													dataIndex: 'Version',
+													ignoreExport: true,
+													text: 'Version'
+												},
+												{
+													xtype: 'gridcolumn',
+													dataIndex: 'VerificationStatus',
+													ignoreExport: true,
+													text: 'Verification Status'
+												},
+												{
+													xtype: 'gridcolumn',
+													dataIndex: 'GroupPush',
+													ignoreExport: true,
+													text: 'Group Push'
+												},
+												{
+													xtype: 'gridcolumn',
+													dataIndex: 'GroupSync',
+													ignoreExport: true,
+													text: 'Group Sync'
+												},
+												{
+													xtype: 'gridcolumn',
+													dataIndex: 'ImportUserSchema',
+													ignoreExport: true,
+													text: 'Import User Schema'
+												},
+												{
+													xtype: 'gridcolumn',
+													dataIndex: 'ProfileMastering',
+													ignoreExport: true,
+													text: 'Profile Mastering'
+												},
+												{
+													xtype: 'gridcolumn',
+													dataIndex: 'SCIM',
+													ignoreExport: true,
+													text: 'Scim'
+												},
+												{
+													xtype: 'gridcolumn',
+													dataIndex: 'IntegrationApp',
+													ignoreExport: true,
+													text: 'Integration App'
+												},
+												{
+													xtype: 'gridcolumn',
+													dataIndex: 'AppLinksJSON',
+													ignoreExport: true,
+													text: 'App Links Json'
+												},
+												{
+													xtype: 'gridcolumn',
+													dataIndex: 'VersionCreatedDate',
+													ignoreExport: true,
+													text: 'Version Created Date'
+												},
+												{
+													xtype: 'gridcolumn',
+													dataIndex: 'DeepLinkUrl',
+													ignoreExport: true,
+													text: 'Deep Link Url'
+												},
+												{
+													xtype: 'gridcolumn',
+													dataIndex: 'AppCatalogDiscoverable',
+													ignoreExport: true,
+													text: 'App Catalog Discoverable'
+												},
+												{
+													xtype: 'gridcolumn',
+													dataIndex: 'accessSAML',
+													ignoreExport: true,
+													text: 'A SAML'
+												},
+												{
+													xtype: 'gridcolumn',
+													dataIndex: 'accessSWA',
+													ignoreExport: true,
+													text: 'A SWA'
+												},
+												{
+													xtype: 'gridcolumn',
+													dataIndex: 'accessProvisioning',
+													ignoreExport: true,
+													text: 'A Provisioning'
+												},
+												{
+													xtype: 'gridcolumn',
+													dataIndex: 'accessWSFederation',
+													ignoreExport: true,
+													text: 'A WSFederation'
+												},
+												{
+													xtype: 'gridcolumn',
+													dataIndex: 'provisioningCreate',
+													ignoreExport: true,
+													text: 'P Create'
+												},
+												{
+													xtype: 'gridcolumn',
+													dataIndex: 'provisioningUpdate',
+													ignoreExport: true,
+													text: 'P Update'
+												},
+												{
+													xtype: 'gridcolumn',
+													dataIndex: 'provisioningDeactivate',
+													ignoreExport: true,
+													text: 'P Deactivate'
+												},
+												{
+													xtype: 'gridcolumn',
+													dataIndex: 'provisioningSyncPassword',
+													ignoreExport: true,
+													text: 'P SyncPassword'
+												},
+												{
+													xtype: 'gridcolumn',
+													dataIndex: 'SupportLevel',
+													ignoreExport: true,
+													text: 'Support Level'
+												},
+												{
+													xtype: 'gridcolumn',
+													dataIndex: 'productLifecycleManagement',
+													ignoreExport: true,
+													text: 'Prod LCM'
+												},
+												{
+													xtype: 'gridcolumn',
+													dataIndex: 'productSingleSignOn',
+													ignoreExport: true,
+													text: 'Prod SSO'
+												}
+											],
+											viewConfig: {
+												width: 742,
+												enableTextSelection: true,
+												listeners: {
+													cellclick: 'onTableCellClick'
+												}
+											},
+											listeners: {
+												rowdblclick: 'onOinAppGridRowDblClick',
+												selectionchange: 'onOinAppGridSelectionChange'
+											},
+											selModel: {
+												selType: 'rowmodel'
+											},
+											plugins: [
+												{
+													ptype: 'gridexporter'
+												}
+											]
+										},
+										{
+											xtype: 'panel',
+											autoScroll: true,
+											frame: true,
+											html: '<center>Select an app supporting <BR\>workflows to view details.</center>',
+											itemId: 'workflowDetails',
+											resizable: true,
+											resizeHandles: 'w',
+											tpl: [
+												'<tpl if="values.events.length &gt; 0">',
+												'	<h2><U>Events:</U></h2>',
+												'</tpl>',
+												'<tpl for="events">',
+												'	<p><B>{displayname}</B> - {description}</p>',
+												'</tpl>',
+												'</p>',
+												'<p>',
+												'<tpl if="values.actions.length &gt; 0">',
+												'	<h2><U>Actions:</U></h2>',
+												'</tpl>',
+												'<tpl for="actions">',
+												'	<p><B>{displayname}</B> - {description}</p>',
+												'</tpl>',
+												'</p>'
+											],
+											width: 275,
+											animCollapse: 0,
+											bodyBorder: true,
+											bodyPadding: 6,
+											collapsed: true,
+											collapseDirection: 'right',
+											collapsible: true,
+											title: 'Workflow Details',
+											titleCollapse: true
+										}
+									]
+								}
+							],
+							tabConfig: {
+								xtype: 'tab',
+								margin: '0 0 0 5',
+								userCls: 'tab-with-border',
+								width: 125
+							}
+						},
+						{
+							xtype: 'panel',
+							itemId: 'myApps',
+							userCls: 'force-grid-border',
+							iconCls: 'x-fa fa-clipboard-list',
+							title: 'My Apps (0)',
+							layout: {
+								type: 'hbox',
+								align: 'stretch'
+							},
+							tabConfig: {
+								xtype: 'tab',
+								margin: '0 0 0 5',
+								userCls: 'tab-with-border',
+								width: 125
+							},
+							items: [
+								{
 									xtype: 'gridpanel',
 									flex: 1,
-									itemId: 'oinAppGrid',
+									itemId: 'myAppsGrid',
+									resizable: true,
+									resizeHandles: 'w',
+									userCls: 'force-grid-border',
+									width: 400,
+									iconCls: '',
 									title: '',
 									bind: {
-										store: '{oinAppStore}'
+										store: '{myApps}'
 									},
 									dockedItems: [
 										{
@@ -233,21 +912,49 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 											dock: 'top',
 											items: [
 												{
+													xtype: 'tbtext',
+													itemId: 'appListName',
+													margin: '4 0 0 30',
+													userCls: 'app-list-name'
+												}
+											]
+										},
+										{
+											xtype: 'toolbar',
+											dock: 'top',
+											items: [
+												{
 													xtype: 'button',
-													iconCls: 'x-fa fa-plus-square',
-													text: 'Add to My Apps',
+													iconCls: 'x-fa fa-file-excel',
+													text: 'Export',
 													listeners: {
-														click: 'onButtonClick1'
+														click: 'onButtonClick2'
 													}
 												},
 												{
-													xtype: 'tbfill'
+													xtype: 'button',
+													iconCls: 'x-fa fa-save',
+													text: 'Save List',
+													listeners: {
+														click: 'onButtonClick3'
+													}
 												},
 												{
 													xtype: 'button',
-													text: 'Export All OIN',
+													margin: '0 0 0 20',
+													iconCls: 'x-fa fa-minus-square',
+													text: 'Remove',
 													listeners: {
-														click: 'onButtonClick5'
+														click: 'onButtonClick11'
+													}
+												},
+												{
+													xtype: 'button',
+													margin: '0 0 0 30',
+													iconCls: 'x-fa fa-trash-alt',
+													text: 'Remove All',
+													listeners: {
+														click: 'onButtonClick111'
 													}
 												}
 											]
@@ -266,12 +973,6 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 										},
 										{
 											xtype: 'gridcolumn',
-											renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-												if(record.data.Website !== ''){
-													return '<a href="'+record.data.Website+'" target="_blank">'+value+'</a>';
-												}
-												return value;
-											},
 											width: 157,
 											dataIndex: 'DisplayName',
 											text: 'Name'
@@ -396,7 +1097,6 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 													userCls: 'rotate-grid-headers',
 													width: 50,
 													dataIndex: 'provisioningSchemaDiscovery',
-													exportRenderer: true,
 													text: 'Schema Disco'
 												},
 												{
@@ -410,7 +1110,6 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 													userCls: 'rotate-grid-headers',
 													width: 50,
 													dataIndex: 'provisioningGroupPush',
-													exportRenderer: true,
 													text: 'Group Push'
 												},
 												{
@@ -424,7 +1123,6 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 													userCls: 'rotate-grid-headers',
 													width: 50,
 													dataIndex: 'provisioningGroupLinking',
-													exportRenderer: true,
 													text: 'Group Link'
 												},
 												{
@@ -438,7 +1136,6 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 													userCls: 'rotate-grid-headers',
 													width: 50,
 													dataIndex: 'provisioningAttributeSourcing',
-													exportRenderer: true,
 													text: 'Attr Sourcing'
 												},
 												{
@@ -452,7 +1149,6 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 													userCls: 'rotate-grid-headers',
 													width: 50,
 													dataIndex: 'provisioningAttributeWriteback',
-													exportRenderer: true,
 													text: 'Attr Writeback'
 												}
 											]
@@ -527,7 +1223,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 													xtype: 'gridcolumn',
 													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
 														if(value===1){
-															return String.fromCodePoint(0x2705);
+															return '<a href="#" class="workflowlink">'+String.fromCodePoint(0x2705)+'</a>';
 														}
 														return '';
 													},
@@ -557,648 +1253,67 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 											xtype: 'gridcolumn',
 											width: 275,
 											dataIndex: 'Description',
-											ignoreExport: true,
 											text: 'Description'
 										},
 										{
 											xtype: 'gridcolumn',
 											renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-												return '<a href="https://www.okta.com'+value+'/#capabilities" target="_blank">OIN</a>';
-											},
-											exportRenderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-												return 'https://www.okta.com'+value;
+												return '<a href="https://www.okta.com/'+record.data.path+'/#capabilities" target="_blank">OIN</a>';
 											},
 											width: 55,
-											dataIndex: 'path',
+											dataIndex: 'DisplayName',
 											text: 'OIN'
-										},
-										{
-											xtype: 'gridcolumn',
-											dataIndex: 'AppCategoryLabel',
-											ignoreExport: true,
-											text: 'App Category Label'
-										},
-										{
-											xtype: 'gridcolumn',
-											dataIndex: 'Custom',
-											ignoreExport: true,
-											text: 'Custom'
-										},
-										{
-											xtype: 'gridcolumn',
-											dataIndex: 'SecurePasswordStore',
-											ignoreExport: true,
-											text: 'Secure Password Store'
-										},
-										{
-											xtype: 'gridcolumn',
-											dataIndex: 'SAML_2_0',
-											ignoreExport: true,
-											text: 'Saml 2 0'
-										},
-										{
-											xtype: 'gridcolumn',
-											dataIndex: 'SAML_1_1',
-											ignoreExport: true,
-											text: 'Saml 1 1'
-										},
-										{
-											xtype: 'gridcolumn',
-											dataIndex: 'BookMark',
-											ignoreExport: true,
-											text: 'Book Mark'
-										},
-										{
-											xtype: 'gridcolumn',
-											dataIndex: 'BrowserPlugin',
-											ignoreExport: true,
-											text: 'Browser Plugin'
-										},
-										{
-											xtype: 'gridcolumn',
-											dataIndex: 'BasicAuth',
-											ignoreExport: true,
-											text: 'Basic Auth'
-										},
-										{
-											xtype: 'gridcolumn',
-											dataIndex: 'PushProfileUpdates',
-											ignoreExport: true,
-											text: 'Push Profile Updates'
-										},
-										{
-											xtype: 'gridcolumn',
-											dataIndex: 'Ranking',
-											ignoreExport: true,
-											text: 'Ranking'
-										},
-										{
-											xtype: 'gridcolumn',
-											dataIndex: 'OMM',
-											ignoreExport: true,
-											text: 'Omm'
-										},
-										{
-											xtype: 'gridcolumn',
-											dataIndex: 'Name',
-											ignoreExport: true,
-											text: 'Name'
-										},
-										{
-											xtype: 'gridcolumn',
-											dataIndex: 'Website',
-											ignoreExport: true,
-											text: 'Website'
-										},
-										{
-											xtype: 'gridcolumn',
-											dataIndex: 'Version',
-											ignoreExport: true,
-											text: 'Version'
-										},
-										{
-											xtype: 'gridcolumn',
-											dataIndex: 'VerificationStatus',
-											ignoreExport: true,
-											text: 'Verification Status'
-										},
-										{
-											xtype: 'gridcolumn',
-											dataIndex: 'GroupPush',
-											ignoreExport: true,
-											text: 'Group Push'
-										},
-										{
-											xtype: 'gridcolumn',
-											dataIndex: 'GroupSync',
-											ignoreExport: true,
-											text: 'Group Sync'
-										},
-										{
-											xtype: 'gridcolumn',
-											dataIndex: 'ImportUserSchema',
-											ignoreExport: true,
-											text: 'Import User Schema'
-										},
-										{
-											xtype: 'gridcolumn',
-											dataIndex: 'ProfileMastering',
-											ignoreExport: true,
-											text: 'Profile Mastering'
-										},
-										{
-											xtype: 'gridcolumn',
-											dataIndex: 'SCIM',
-											ignoreExport: true,
-											text: 'Scim'
-										},
-										{
-											xtype: 'gridcolumn',
-											dataIndex: 'IntegrationApp',
-											ignoreExport: true,
-											text: 'Integration App'
-										},
-										{
-											xtype: 'gridcolumn',
-											dataIndex: 'AppLinksJSON',
-											ignoreExport: true,
-											text: 'App Links Json'
-										},
-										{
-											xtype: 'gridcolumn',
-											dataIndex: 'VersionCreatedDate',
-											ignoreExport: true,
-											text: 'Version Created Date'
-										},
-										{
-											xtype: 'gridcolumn',
-											dataIndex: 'DeepLinkUrl',
-											ignoreExport: true,
-											text: 'Deep Link Url'
-										},
-										{
-											xtype: 'gridcolumn',
-											dataIndex: 'AppCatalogDiscoverable',
-											ignoreExport: true,
-											text: 'App Catalog Discoverable'
-										},
-										{
-											xtype: 'gridcolumn',
-											dataIndex: 'accessSAML',
-											ignoreExport: true,
-											text: 'A SAML'
-										},
-										{
-											xtype: 'gridcolumn',
-											dataIndex: 'accessSWA',
-											ignoreExport: true,
-											text: 'A SWA'
-										},
-										{
-											xtype: 'gridcolumn',
-											dataIndex: 'accessProvisioning',
-											ignoreExport: true,
-											text: 'A Provisioning'
-										},
-										{
-											xtype: 'gridcolumn',
-											dataIndex: 'accessWSFederation',
-											ignoreExport: true,
-											text: 'A WSFederation'
-										},
-										{
-											xtype: 'gridcolumn',
-											dataIndex: 'provisioningCreate',
-											ignoreExport: true,
-											text: 'P Create'
-										},
-										{
-											xtype: 'gridcolumn',
-											dataIndex: 'provisioningUpdate',
-											ignoreExport: true,
-											text: 'P Update'
-										},
-										{
-											xtype: 'gridcolumn',
-											dataIndex: 'provisioningDeactivate',
-											ignoreExport: true,
-											text: 'P Deactivate'
-										},
-										{
-											xtype: 'gridcolumn',
-											dataIndex: 'provisioningSyncPassword',
-											ignoreExport: true,
-											text: 'P SyncPassword'
-										},
-										{
-											xtype: 'gridcolumn',
-											dataIndex: 'SupportLevel',
-											ignoreExport: true,
-											text: 'Support Level'
-										},
-										{
-											xtype: 'gridcolumn',
-											dataIndex: 'productLifecycleManagement',
-											ignoreExport: true,
-											text: 'Prod LCM'
-										},
-										{
-											xtype: 'gridcolumn',
-											dataIndex: 'productSingleSignOn',
-											ignoreExport: true,
-											text: 'Prod SSO'
 										}
 									],
 									viewConfig: {
-										width: 742,
 										enableTextSelection: true
-									},
-									listeners: {
-										rowdblclick: 'onOinAppGridRowDblClick'
-									},
-									selModel: {
-										selType: 'rowmodel'
 									},
 									plugins: [
 										{
 											ptype: 'gridexporter'
 										}
-									]
-								}
-							],
-							tabConfig: {
-								xtype: 'tab',
-								margin: '0 0 0 5',
-								userCls: 'tab-with-border',
-								width: 125
-							}
-						},
-						{
-							xtype: 'gridpanel',
-							itemId: 'myApps',
-							resizable: true,
-							resizeHandles: 'w',
-							userCls: 'force-grid-border',
-							width: 400,
-							iconCls: 'x-fa fa-clipboard-list',
-							title: 'My Apps (0)',
-							bind: {
-								store: '{myApps}'
-							},
-							dockedItems: [
-								{
-									xtype: 'toolbar',
-									dock: 'top',
-									items: [
-										{
-											xtype: 'tbtext',
-											itemId: 'appListName',
-											margin: '4 0 0 30',
-											userCls: 'app-list-name'
-										}
-									]
+									],
+									listeners: {
+										selectionchange: 'onOinAppGridSelectionChange1',
+										cellclick: 'onMyAppsGridCellClick'
+									}
 								},
 								{
-									xtype: 'toolbar',
-									dock: 'top',
-									items: [
-										{
-											xtype: 'button',
-											iconCls: 'x-fa fa-file-excel',
-											text: 'Export',
-											listeners: {
-												click: 'onButtonClick2'
-											}
-										},
-										{
-											xtype: 'button',
-											iconCls: 'x-fa fa-save',
-											text: 'Save List',
-											listeners: {
-												click: 'onButtonClick3'
-											}
-										},
-										{
-											xtype: 'button',
-											margin: '0 0 0 20',
-											iconCls: 'x-fa fa-minus-square',
-											text: 'Remove',
-											listeners: {
-												click: 'onButtonClick11'
-											}
-										},
-										{
-											xtype: 'button',
-											margin: '0 0 0 30',
-											iconCls: 'x-fa fa-trash-alt',
-											text: 'Remove All',
-											listeners: {
-												click: 'onButtonClick111'
-											}
-										}
-									]
-								}
-							],
-							columns: [
-								{
-									xtype: 'gridcolumn',
-									renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-										return '<img src="'+store.cdnUrl + value+'" height="34" />';
-									},
-									width: 145,
-									dataIndex: 'LogoImage',
-									ignoreExport: true,
-									text: 'Logo'
-								},
-								{
-									xtype: 'gridcolumn',
-									width: 157,
-									dataIndex: 'DisplayName',
-									text: 'Name'
-								},
-								{
-									xtype: 'gridcolumn',
-									text: 'SSO',
-									columns: [
-										{
-											xtype: 'gridcolumn',
-											renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-												if(record.data['AutoLogin'] === 'YES' || record.data['BrowserPlugin'] === 'YES'){
-													return String.fromCodePoint(0x2705);
-													//return '&#x2705;';
-													//return '<img src="/inc/img/silk_icons/tick.png">';
-												}
-												return '';
-											},
-											userCls: 'rotate-grid-headers',
-											width: 50,
-											dataIndex: 'AutoLogin',
-											exportRenderer: true,
-											text: 'SWA'
-										},
-										{
-											xtype: 'gridcolumn',
-											renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-												if(record.data['SAML_2_0'] === 'YES' || record.data['SAML_1_1'] === 'YES'){
-													return String.fromCodePoint(0x2705);
-												}
-											},
-											userCls: 'rotate-grid-headers',
-											width: 50,
-											dataIndex: 'SAML_2_0',
-											exportRenderer: true,
-											text: 'SAML'
-										},
-										{
-											xtype: 'gridcolumn',
-											renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-												if(value==='YES'){
-													return String.fromCodePoint(0x2705);
-												}
-												return '';
-											},
-											userCls: 'rotate-grid-headers',
-											width: 50,
-											dataIndex: 'OIDC',
-											exportRenderer: true,
-											text: 'OIDC'
-										},
-										{
-											xtype: 'gridcolumn',
-											renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-												if(value==='YES'){
-													return String.fromCodePoint(0x2705);
-												}
-												return '';
-											},
-											userCls: 'rotate-grid-headers',
-											width: 50,
-											dataIndex: 'WSFED',
-											exportRenderer: true,
-											text: 'WS Fed'
-										}
-									]
-								},
-								{
-									xtype: 'gridcolumn',
-									text: 'Provisioning',
-									columns: [
-										{
-											xtype: 'gridcolumn',
-											renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-												if(value==='YES'){
-													return String.fromCodePoint(0x2705);
-												}
-												return '';
-											},
-											userCls: 'rotate-grid-headers',
-											width: 50,
-											dataIndex: 'PushNewUsers',
-											exportRenderer: true,
-											text: 'Create Users'
-										},
-										{
-											xtype: 'gridcolumn',
-											renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-												if(value==='YES'){
-													return String.fromCodePoint(0x2705);
-												}
-												return '';
-											},
-											userCls: 'rotate-grid-headers',
-											width: 50,
-											dataIndex: 'PushPasswordUpdates',
-											exportRenderer: true,
-											text: 'Password'
-										},
-										{
-											xtype: 'gridcolumn',
-											renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-												if(value==='YES'){
-													return String.fromCodePoint(0x2705);
-												}
-												return '';
-											},
-											userCls: 'rotate-grid-headers',
-											width: 50,
-											dataIndex: 'PushUserDeactivation',
-											exportRenderer: true,
-											text: 'Deactivation'
-										},
-										{
-											xtype: 'gridcolumn',
-											renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-												if(value===1){
-													return String.fromCodePoint(0x2705);
-												}
-												return '';
-											},
-											userCls: 'rotate-grid-headers',
-											width: 50,
-											dataIndex: 'provisioningSchemaDiscovery',
-											text: 'Schema Disco'
-										},
-										{
-											xtype: 'gridcolumn',
-											renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-												if(value===1){
-													return String.fromCodePoint(0x2705);
-												}
-												return '';
-											},
-											userCls: 'rotate-grid-headers',
-											width: 50,
-											dataIndex: 'provisioningGroupPush',
-											text: 'Group Push'
-										},
-										{
-											xtype: 'gridcolumn',
-											renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-												if(value===1){
-													return String.fromCodePoint(0x2705);
-												}
-												return '';
-											},
-											userCls: 'rotate-grid-headers',
-											width: 50,
-											dataIndex: 'provisioningGroupLinking',
-											text: 'Group Link'
-										},
-										{
-											xtype: 'gridcolumn',
-											renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-												if(value===1){
-													return String.fromCodePoint(0x2705);
-												}
-												return '';
-											},
-											userCls: 'rotate-grid-headers',
-											width: 50,
-											dataIndex: 'provisioningAttributeSourcing',
-											text: 'Attr Sourcing'
-										},
-										{
-											xtype: 'gridcolumn',
-											renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-												if(value===1){
-													return String.fromCodePoint(0x2705);
-												}
-												return '';
-											},
-											userCls: 'rotate-grid-headers',
-											width: 50,
-											dataIndex: 'provisioningAttributeWriteback',
-											text: 'Attr Writeback'
-										}
-									]
-								},
-								{
-									xtype: 'gridcolumn',
-									text: 'Importing',
-									columns: [
-										{
-											xtype: 'gridcolumn',
-											renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-												if(value==='YES'){
-													return String.fromCodePoint(0x2705);
-												}
-												return '';
-											},
-											userCls: 'rotate-grid-headers',
-											width: 50,
-											dataIndex: 'ImportNewUsers',
-											exportRenderer: true,
-											text: 'Import Users'
-										},
-										{
-											xtype: 'gridcolumn',
-											renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-												if(value==='YES'){
-													return String.fromCodePoint(0x2705);
-												}
-												return '';
-											},
-											userCls: 'rotate-grid-headers',
-											width: 50,
-											dataIndex: 'ImportProfileUpdates',
-											exportRenderer: true,
-											text: 'Profile Updates'
-										},
-										{
-											xtype: 'gridcolumn',
-											renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-												if(value==='YES'){
-													return String.fromCodePoint(0x2705);
-												}
-												return '';
-											},
-											userCls: 'rotate-grid-headers',
-											width: 50,
-											dataIndex: 'AutoConfirmImports',
-											exportRenderer: true,
-											text: 'Auto Confirm'
-										},
-										{
-											xtype: 'gridcolumn',
-											renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-												if(value==='YES'){
-													return String.fromCodePoint(0x2705);
-												}
-												return '';
-											},
-											userCls: 'rotate-grid-headers',
-											width: 50,
-											dataIndex: 'ReactivateUsers',
-											exportRenderer: true,
-											text: 'Reactivation'
-										}
-									]
-								},
-								{
-									xtype: 'gridcolumn',
-									text: 'Workflows',
-									columns: [
-										{
-											xtype: 'gridcolumn',
-											renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-												if(value===1){
-													return String.fromCodePoint(0x2705);
-												}
-												return '';
-											},
-											userCls: 'rotate-grid-headers',
-											width: 50,
-											dataIndex: 'accessWorkflowsConnectors',
-											exportRenderer: true,
-											text: 'Connectors'
-										},
-										{
-											xtype: 'gridcolumn',
-											renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-												if(value===1){
-													return String.fromCodePoint(0x2705);
-												}
-												return '';
-											},
-											userCls: 'rotate-grid-headers',
-											width: 50,
-											dataIndex: 'accessWorkflowsTemplates',
-											exportRenderer: true,
-											text: 'Templates'
-										}
-									]
-								},
-								{
-									xtype: 'gridcolumn',
+									xtype: 'panel',
+									autoScroll: true,
+									frame: true,
+									html: '<center>Select an app supporting <BR\>workflows to view details.</center>',
+									itemId: 'workflowDetailsMyApps',
+									resizable: true,
+									resizeHandles: 'w',
+									tpl: [
+										'<tpl if="values.events.length &gt; 0">',
+										'	<h2><U>Events:</U></h2>',
+										'</tpl>',
+										'<tpl for="events">',
+										'	<p><B>{displayname}</B> - {description}</p>',
+										'</tpl>',
+										'</p>',
+										'<p>',
+										'<tpl if="values.actions.length &gt; 0">',
+										'	<h2><U>Actions:</U></h2>',
+										'</tpl>',
+										'<tpl for="actions">',
+										'	<p><B>{displayname}</B> - {description}</p>',
+										'</tpl>',
+										'</p>'
+									],
 									width: 275,
-									dataIndex: 'Description',
-									text: 'Description'
-								},
-								{
-									xtype: 'gridcolumn',
-									renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-										return '<a href="https://www.okta.com/'+record.data.path+'/#capabilities" target="_blank">OIN</a>';
-									},
-									width: 55,
-									dataIndex: 'DisplayName',
-									text: 'OIN'
+									animCollapse: 0,
+									bodyBorder: true,
+									bodyPadding: 6,
+									collapsed: true,
+									collapseDirection: 'right',
+									collapsible: true,
+									title: 'Workflow Details',
+									titleCollapse: true
 								}
-							],
-							viewConfig: {
-								enableTextSelection: true
-							},
-							plugins: [
-								{
-									ptype: 'gridexporter'
-								}
-							],
-							tabConfig: {
-								xtype: 'tab',
-								dock: 'left',
-								margin: '0 0 0 10',
-								userCls: 'tab-with-border',
-								width: 128
-							}
+							]
 						},
 						{
 							xtype: 'gridpanel',
@@ -1335,7 +1450,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 	},
 
 	onTextfieldKeyup: function(textfield, e, eOpts) {
-		console.log('keyup');
+		//console.log('keyup');
 
 		if(this.delayTimer){
 			Ext.undefer(this.delayTimer);
@@ -1346,7 +1461,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		//dont search for comma since that triggers a tag to be created
 		if(key !== 188){
 			this.delayTimer = Ext.defer(function(){
-				console.log('keyup search!', e.getKey());
+				//console.log('keyup search!', e.getKey());
 
 				this.delayTimer = false;
 
@@ -1363,7 +1478,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 	},
 
 	onSearchChange: function(field, newValue, oldValue, eOpts) {
-		console.log('change!');
+		//console.log('change!');
 
 		if(newValue.indexOf(' ') !== -1){
 			field.removeValue(' ');
@@ -1410,8 +1525,41 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		 });
 	},
 
+	onTableCellClick: function(tableview, td, cellIndex, record, tr, rowIndex, e, eOpts) {
+		//workflow col?
+		//class = workflowlink
+		if(cellIndex === 18){
+			let details = this.queryById('workflowDetails');
+
+			//details.update(record.data.DisplayName+' Workflows');
+			details.expand();
+		}
+	},
+
 	onOinAppGridRowDblClick: function(tableview, record, element, rowIndex, e, eOpts) {
 		this.addAppToMyApps(record);
+	},
+
+	onOinAppGridSelectionChange: function(model, selected, eOpts) {
+		if(selected.length < 1){
+			return;
+		}
+		let data = selected[0].data;
+
+		let details = this.queryById('workflowDetails');
+
+		let workflowRef = data.Name;
+		if(this.workflowsTranslate.hasOwnProperty(data.Name) ){
+			workflowRef = this.workflowsTranslate[data.Name];
+		}
+
+		if(this.workflowData[workflowRef]){
+			let wf = this.workflowData[workflowRef];
+			//console.log('showing wf data',wf);
+			details.update(wf);
+		}else{
+			details.update('<center>Select an app supporting <BR\>workflows to view details.</center>');
+		}
 	},
 
 	onButtonClick2: function(button, e, eOpts) {
@@ -1443,6 +1591,39 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		let store = this.getViewModel().getStore('myApps');
 		store.removeAll();
 		store.sync();
+	},
+
+	onOinAppGridSelectionChange1: function(model, selected, eOpts) {
+		if(selected.length < 1){
+			return;
+		}
+		let data = selected[0].data;
+
+		let details = this.queryById('workflowDetailsMyApps');
+
+		let workflowRef = data.Name;
+		if(this.workflowsTranslate.hasOwnProperty(data.Name) ){
+			workflowRef = this.workflowsTranslate[data.Name];
+		}
+
+		if(this.workflowData[workflowRef]){
+			let wf = this.workflowData[workflowRef];
+			//console.log('showing wf data',wf);
+			details.update(wf);
+		}else{
+			details.update('<center>Select an app supporting <BR\>workflows to view details.</center>');
+		}
+	},
+
+	onMyAppsGridCellClick: function(tableview, td, cellIndex, record, tr, rowIndex, e, eOpts) {
+		//workflow col?
+		//class = workflowlink
+		if(cellIndex === 18){
+			let details = this.queryById('workflowDetailsMyApps');
+
+			//details.update(record.data.DisplayName+' Workflows');
+			details.expand();
+		}
 	},
 
 	onButtonClick21: function(button, e, eOpts) {
@@ -1501,6 +1682,10 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		this.capabilityFilter = [];
 
 		let cdnUrl = 'https://ok14static.oktacdn.com';
+
+		this.workflowData = {};
+		this.workflowsTranslate = {};
+		this.readWorkflowData();
 
 		//load my apps
 		let myAppStore = this.getViewModel().getStore('myApps');
@@ -1726,7 +1911,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 
 		filters = filters.concat(this.capabilityFilter);
 
-		console.log(filters);
+		//console.log(filters);
 
 		let store = this.getViewModel().getStore('oinAppStore');
 
@@ -1806,7 +1991,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 	},
 
 	getLastApiRefresh: function() {
-		let appVer = '1.0.3';
+		let appVer = '1.0.4';
 
 		AERP.Ajax.request({
 			url:'lastApiUpdate',
@@ -1814,6 +1999,54 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 			rawResponse:true,
 			success:function(resp){
 				this.queryById('lastUpdate').update('App v'+appVer+'<BR>Data Refreshed '+resp);
+			},
+			scope:this
+		});
+	},
+
+	readWorkflowData: function() {
+		this.workflowsTranslate = {
+			'boxnet':'box',
+			'salesforce':'salesforce2_29',
+			'shopiffy':'shopify',
+			'evident':'evidentidverify',
+			'servicenow_ud':'servicenow',
+			'mixpanelprovisioning':'mixpanel',
+			'jira_onprem':'jira2',
+			'marketo':'marketo2_29',
+			'atlassianservicedesk':'jiraservicedesk',
+			'google':'googledrive', // ?
+			'cloudconsole':'googledirectory', // ?
+			'inboxbygmail':'gmail',
+			'atlassian':'atlassianadmin',
+			'amazon_aws_sso':'amazons3_29', // ?
+			'msoutlook':'office365mail', //?
+			'office365':'office365admin',
+			'ghecenterprisesaml':'github',
+			'OpsGenie':'opsgenie',
+			'dropbox_for_business':'dropboxforbusiness',
+			'jamfsoftwareserver':'jamfproclassicapi_3d816a0a0b7a410fa88c3de81a4aeccb',
+			'smartrecruiterssaml':'smartrecruiters',
+			'hubspotsaml':'hubspotcrm',
+			'scaleft':'advancedserveraccess',
+			'zoomus':'zoom',
+			'duoadminpanel':'duosecurityadmin',
+			'zendesk':'zendeskoauth2',
+			'docusign':'docusign2'
+		};
+
+		AERP.Ajax.request({
+			url:'workflow-all.json',
+			method:'GET',
+			rawResponse:true,
+			success:function(resp){
+				let workflowData;
+				try {
+					workflowData = JSON.parse(resp);
+					this.workflowData = workflowData;
+				} catch (error) {
+					console.error(error);
+				}
 			},
 			scope:this
 		});
