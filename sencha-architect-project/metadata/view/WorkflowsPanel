@@ -16,10 +16,9 @@
         "designer|userAlias": "workflowspanel",
         "designer|userClassName": "WorkflowsPanel",
         "frame": true,
-        "html": "<center>Select an app supporting <BR\\>workflows to view details.</center>",
         "resizable": true,
         "resizeHandles": "w",
-        "title": "Workflow Details",
+        "title": "Workflows",
         "titleCollapse": true,
         "width": 275
     },

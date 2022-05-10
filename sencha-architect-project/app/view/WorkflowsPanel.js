@@ -30,7 +30,6 @@ Ext.define('BetterOinSearch.view.WorkflowsPanel', {
 		type: 'workflowspanel'
 	},
 	frame: true,
-	html: '<center>Select an app supporting <BR\>workflows to view details.</center>',
 	resizable: true,
 	resizeHandles: 'w',
 	tpl: [
@@ -62,7 +61,7 @@ Ext.define('BetterOinSearch.view.WorkflowsPanel', {
 	collapsed: true,
 	collapseDirection: 'right',
 	collapsible: true,
-	title: 'Workflow Details',
+	title: 'Workflows',
 	titleCollapse: true
 
 });
