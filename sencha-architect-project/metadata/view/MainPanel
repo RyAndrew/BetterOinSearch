@@ -320,11 +320,11 @@
                             "userConfig": {
                                 "bodyPadding": "6 0 0 0",
                                 "bodyStyle": [
-                                    "{'color':'red !important','text-align':'center','font-size':'20px'}"
+                                    "{'text-align':'center','font-size':'18px'}"
                                 ],
                                 "frame": true,
                                 "height": 53,
-                                "html": "&nbsp; Made with &#x2764; by<BR><a href=\"https://github.com/RyAndrew/BetterOinSearch\">Andrew Rymarczyk</a>",
+                                "html": "&nbsp; Made with <font color=red>&#x2764;</font> by<BR><a href=\"https://github.com/RyAndrew/BetterOinSearch\">Andrew Rymarczyk</a>",
                                 "title": ""
                             },
                             "configAlternates": {
@@ -3161,7 +3161,7 @@
                                                             "\treturn;",
                                                             "}",
                                                             "",
-                                                            "this.showWorkflowDetails(selected[0].data,'workflowDetails');"
+                                                            "this.showWorkflowDetails(selected[0].data.Name,'workflowDetails');"
                                                         ],
                                                         "name": "selectionchange",
                                                         "scope": "me"
@@ -3185,12 +3185,10 @@
                                             },
                                             "codeClass": null,
                                             "userConfig": {
-                                                "itemId": "workflowDetails",
-                                                "layout|flex": 1
+                                                "itemId": "workflowDetails"
                                             },
                                             "configAlternates": {
-                                                "itemId": "string",
-                                                "layout|flex": "number"
+                                                "itemId": "string"
                                             },
                                             "name": "workflowspanel",
                                             "designerId": "656efaf7-de87-442b-ad84-a01bb5a14e75",
@@ -4896,7 +4894,7 @@
                                                     "\treturn;",
                                                     "}",
                                                     "",
-                                                    "this.showWorkflowDetails(selected[0].data,'workflowDetailsMyApps');"
+                                                    "this.showWorkflowDetails(selected[0].data.Name,'workflowDetailsMyApps');"
                                                 ],
                                                 "name": "selectionchange",
                                                 "scope": "me"
@@ -5861,6 +5859,10 @@
             "userConfig": {
                 "fn": "readWorkflowData",
                 "implHandler": [
+                    "this.workflowData = {};",
+                    "this.workflowsTranslate = {};",
+                    "this.workflowTemplates = {};",
+                    "",
                     "this.workflowsTranslate = {",
                     "\t'boxnet':'box',",
                     "\t'salesforce':'salesforce2_29',",
@@ -5903,25 +5905,31 @@
                     "\t\t} catch (error) {",
                     "\t\t\tconsole.error(error);",
                     "\t\t}",
+                    "\t\t",
+                    "\t\tAERP.Ajax.request({",
+                    "\t\t\turl:'workflow-templates.json',",
+                    "\t\t\tmethod:'GET',",
+                    "\t\t\trawResponse:true,",
+                    "\t\t\tsuccess:function(resp){",
+                    "\t\t\t\tlet workflowTemplates;",
+                    "\t\t\t\ttry {",
+                    "\t\t\t\t\tworkflowTemplates = JSON.parse(resp);",
+                    "\t\t\t\t\tthis.workflowTemplates = workflowTemplates;",
+                    "\t\t\t\t} catch (error) {",
+                    "\t\t\t\t\tconsole.error(error);",
+                    "\t\t\t\t}",
+                    "",
+                    "\t\t\t\tthis.showWorkflowDetails('okta','workflowDetailsMyApps');",
+                    "\t\t\t\tthis.showWorkflowDetails('okta','workflowDetails');",
+                    "\t\t\t},",
+                    "\t\t\tscope:this",
+                    "\t\t});",
+                    "\t\t",
                     "\t},",
                     "\tscope:this",
                     "});",
                     "",
-                    "AERP.Ajax.request({",
-                    "\turl:'workflow-templates.json',",
-                    "\tmethod:'GET',",
-                    "\trawResponse:true,",
-                    "\tsuccess:function(resp){",
-                    "\t\tlet workflowTemplates;",
-                    "\t\ttry {",
-                    "\t\t\tworkflowTemplates = JSON.parse(resp);",
-                    "\t\t\tthis.workflowTemplates = workflowTemplates;",
-                    "\t\t} catch (error) {",
-                    "\t\t\tconsole.error(error);",
-                    "\t\t}",
-                    "\t},",
-                    "\tscope:this",
-                    "});"
+                    ""
                 ]
             },
             "configAlternates": {
@@ -6002,26 +6010,27 @@
             "codeClass": null,
             "userConfig": {
                 "designer|params": [
-                    "data",
+                    "appName",
                     "panelId"
                 ],
                 "fn": "showWorkflowDetails",
                 "implHandler": [
                     "let details = this.queryById(panelId);",
                     "",
-                    "let workflowRef = data.Name;",
-                    "if(this.workflowsTranslate.hasOwnProperty(data.Name) ){",
-                    "\tworkflowRef = this.workflowsTranslate[data.Name];",
+                    "if(this.workflowsTranslate.hasOwnProperty(appName) ){",
+                    "\tappName = this.workflowsTranslate[appName];",
                     "}",
                     "",
-                    "if(this.workflowData[workflowRef]){",
-                    "\tlet wf = this.workflowData[workflowRef];",
+                    "if(this.workflowData[appName]){",
+                    "\tlet wf = this.workflowData[appName];",
                     "",
-                    "\twf.templates = this.filterWorkflowTemplates(workflowRef);",
+                    "\twf.templates = this.filterWorkflowTemplates(appName);",
                     "",
                     "\t//console.log('showing wf data',wf);",
+                    "\tdetails.setTitle('Workflows for '+wf.displayname);",
                     "\tdetails.update(wf);",
                     "}else{",
+                    "\tdetails.setTitle('Workflows');",
                     "\tdetails.update('<center>Select an app supporting <BR\\>workflows to view details.</center>');",
                     "}"
                 ]
@@ -6076,9 +6085,6 @@
                     "",
                     "let cdnUrl = 'https://ok14static.oktacdn.com';",
                     "",
-                    "this.workflowData = {};",
-                    "this.workflowsTranslate = {};",
-                    "this.workflowTemplates = {};",
                     "this.readWorkflowData();",
                     "",
                     "//load my apps",

@@ -122,12 +122,11 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 							xtype: 'panel',
 							frame: true,
 							height: 53,
-							html: '&nbsp; Made with &#x2764; by<BR><a href="https://github.com/RyAndrew/BetterOinSearch">Andrew Rymarczyk</a>',
+							html: '&nbsp; Made with <font color=red>&#x2764;</font> by<BR><a href="https://github.com/RyAndrew/BetterOinSearch">Andrew Rymarczyk</a>',
 							bodyPadding: '6 0 0 0',
 							bodyStyle: {
-								color: 'red !important',
 								'text-align': 'center',
-								'font-size': '20px'
+								'font-size': '18px'
 							},
 							title: ''
 						}
@@ -833,7 +832,6 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 										},
 										{
 											xtype: 'workflowspanel',
-											flex: 1,
 											itemId: 'workflowDetails'
 										}
 									]
@@ -1484,7 +1482,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 			return;
 		}
 
-		this.showWorkflowDetails(selected[0].data,'workflowDetails');
+		this.showWorkflowDetails(selected[0].data.Name,'workflowDetails');
 	},
 
 	onButtonClick2: function(button, e, eOpts) {
@@ -1523,7 +1521,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 			return;
 		}
 
-		this.showWorkflowDetails(selected[0].data,'workflowDetailsMyApps');
+		this.showWorkflowDetails(selected[0].data.Name,'workflowDetailsMyApps');
 	},
 
 	onMyAppsGridCellClick: function(tableview, td, cellIndex, record, tr, rowIndex, e, eOpts) {
@@ -1594,9 +1592,6 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 
 		let cdnUrl = 'https://ok14static.oktacdn.com';
 
-		this.workflowData = {};
-		this.workflowsTranslate = {};
-		this.workflowTemplates = {};
 		this.readWorkflowData();
 
 		//load my apps
@@ -1917,6 +1912,10 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 	},
 
 	readWorkflowData: function() {
+		this.workflowData = {};
+		this.workflowsTranslate = {};
+		this.workflowTemplates = {};
+
 		this.workflowsTranslate = {
 			'boxnet':'box',
 			'salesforce':'salesforce2_29',
@@ -1959,25 +1958,31 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 				} catch (error) {
 					console.error(error);
 				}
+
+				AERP.Ajax.request({
+					url:'workflow-templates.json',
+					method:'GET',
+					rawResponse:true,
+					success:function(resp){
+						let workflowTemplates;
+						try {
+							workflowTemplates = JSON.parse(resp);
+							this.workflowTemplates = workflowTemplates;
+						} catch (error) {
+							console.error(error);
+						}
+
+						this.showWorkflowDetails('okta','workflowDetailsMyApps');
+						this.showWorkflowDetails('okta','workflowDetails');
+					},
+					scope:this
+				});
+
 			},
 			scope:this
 		});
 
-		AERP.Ajax.request({
-			url:'workflow-templates.json',
-			method:'GET',
-			rawResponse:true,
-			success:function(resp){
-				let workflowTemplates;
-				try {
-					workflowTemplates = JSON.parse(resp);
-					this.workflowTemplates = workflowTemplates;
-				} catch (error) {
-					console.error(error);
-				}
-			},
-			scope:this
-		});
+
 	},
 
 	updateMyAppCount: function(store) {
@@ -2002,22 +2007,23 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		return matches;
 	},
 
-	showWorkflowDetails: function(data, panelId) {
+	showWorkflowDetails: function(appName, panelId) {
 		let details = this.queryById(panelId);
 
-		let workflowRef = data.Name;
-		if(this.workflowsTranslate.hasOwnProperty(data.Name) ){
-			workflowRef = this.workflowsTranslate[data.Name];
+		if(this.workflowsTranslate.hasOwnProperty(appName) ){
+			appName = this.workflowsTranslate[appName];
 		}
 
-		if(this.workflowData[workflowRef]){
-			let wf = this.workflowData[workflowRef];
+		if(this.workflowData[appName]){
+			let wf = this.workflowData[appName];
 
-			wf.templates = this.filterWorkflowTemplates(workflowRef);
+			wf.templates = this.filterWorkflowTemplates(appName);
 
 			//console.log('showing wf data',wf);
+			details.setTitle('Workflows for '+wf.displayname);
 			details.update(wf);
 		}else{
+			details.setTitle('Workflows');
 			details.update('<center>Select an app supporting <BR\>workflows to view details.</center>');
 		}
 	},
