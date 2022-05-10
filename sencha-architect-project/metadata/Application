@@ -13,7 +13,8 @@
         "views": [
             "MyViewport",
             "MainPanel",
-            "SaveWindow"
+            "SaveWindow",
+            "WorkflowsPanel"
         ]
     },
     "configAlternates": {

@@ -324,7 +324,7 @@
                                 ],
                                 "frame": true,
                                 "height": 53,
-                                "html": "&nbsp; Made with &#x2764; by<BR><a href=\"https://www.linkedin.com/in/andrew-rymarczyk-b7063513\">Andrew Rymarczyk</a>",
+                                "html": "&nbsp; Made with &#x2764; by<BR><a href=\"https://github.com/RyAndrew/BetterOinSearch\">Andrew Rymarczyk</a>",
                                 "title": ""
                             },
                             "configAlternates": {
@@ -3160,22 +3160,8 @@
                                                             "if(selected.length < 1){",
                                                             "\treturn;",
                                                             "}",
-                                                            "let data = selected[0].data;",
                                                             "",
-                                                            "let details = this.queryById('workflowDetails');",
-                                                            "",
-                                                            "let workflowRef = data.Name;",
-                                                            "if(this.workflowsTranslate.hasOwnProperty(data.Name) ){",
-                                                            "\tworkflowRef = this.workflowsTranslate[data.Name];",
-                                                            "}",
-                                                            "",
-                                                            "if(this.workflowData[workflowRef]){",
-                                                            "\tlet wf = this.workflowData[workflowRef];",
-                                                            "\t//console.log('showing wf data',wf);",
-                                                            "\tdetails.update(wf);",
-                                                            "}else{",
-                                                            "\tdetails.update('<center>Select an app supporting <BR\\>workflows to view details.</center>');",
-                                                            "}"
+                                                            "this.showWorkflowDetails(selected[0].data,'workflowDetails');"
                                                         ],
                                                         "name": "selectionchange",
                                                         "scope": "me"
@@ -3192,91 +3178,23 @@
                                             ]
                                         },
                                         {
-                                            "type": "Ext.panel.Panel",
+                                            "type": "linkedinstance",
                                             "reference": {
                                                 "name": "items",
                                                 "type": "array"
                                             },
                                             "codeClass": null,
                                             "userConfig": {
-                                                "animCollapse": 0,
-                                                "autoScroll": true,
-                                                "bodyBorder": true,
-                                                "bodyPadding": 6,
-                                                "collapseDirection": "right",
-                                                "collapsed": true,
-                                                "collapsible": true,
-                                                "frame": true,
-                                                "html": "<center>Select an app supporting <BR\\>workflows to view details.</center>",
                                                 "itemId": "workflowDetails",
-                                                "resizable": true,
-                                                "resizeHandles": "w",
-                                                "title": "Workflow Details",
-                                                "titleCollapse": true,
-                                                "width": 275
+                                                "layout|flex": 1
                                             },
                                             "configAlternates": {
-                                                "autoScroll": "boolean",
-                                                "animCollapse": "auto",
-                                                "bodyBorder": "boolean",
-                                                "bodyPadding": "auto",
-                                                "collapseDirection": "string",
-                                                "collapsed": "boolean",
-                                                "collapsible": "boolean",
-                                                "frame": "boolean",
-                                                "html": "string",
                                                 "itemId": "string",
-                                                "resizable": "boolean",
-                                                "resizeHandles": "string",
-                                                "title": "string",
-                                                "titleCollapse": "boolean",
-                                                "width": "auto"
+                                                "layout|flex": "number"
                                             },
-                                            "name": "MyPanel",
-                                            "designerId": "e703ca3f-497f-416d-b6e0-1e3b7b52287d",
-                                            "customConfigs": [
-                                                {
-                                                    "group": "(Custom Properties)",
-                                                    "name": "autoScroll",
-                                                    "type": "string"
-                                                }
-                                            ],
-                                            "cn": [
-                                                {
-                                                    "type": "Ext.XTemplate",
-                                                    "reference": {
-                                                        "name": "tpl",
-                                                        "type": "object"
-                                                    },
-                                                    "codeClass": null,
-                                                    "userConfig": {
-                                                        "designer|displayName": "tpl",
-                                                        "implHandler": [
-                                                            "<tpl if=\"values.events.length &gt; 0\">",
-                                                            "\t<h2><U>Events:</U></h2>",
-                                                            "</tpl>",
-                                                            "<tpl for=\"events\">",
-                                                            "\t<p><B>{displayname}</B> - {description}</p>",
-                                                            "</tpl>",
-                                                            "</p>",
-                                                            "<p>",
-                                                            "<tpl if=\"values.actions.length &gt; 0\">",
-                                                            "\t<h2><U>Actions:</U></h2>",
-                                                            "</tpl>",
-                                                            "<tpl for=\"actions\">",
-                                                            "\t<p><B>{displayname}</B> - {description}</p>",
-                                                            "</tpl>",
-                                                            "</p>"
-                                                        ]
-                                                    },
-                                                    "configAlternates": {
-                                                        "designer|displayName": "string",
-                                                        "implHandler": "code"
-                                                    },
-                                                    "name": "tpl",
-                                                    "designerId": "d4e35eda-cdce-4d39-89de-cd397d9fccf9"
-                                                }
-                                            ]
+                                            "name": "workflowspanel",
+                                            "designerId": "656efaf7-de87-442b-ad84-a01bb5a14e75",
+                                            "masterInstanceId": "54f01c45-1ce9-4dbd-ac19-bc778e17fca0"
                                         }
                                     ]
                                 }
@@ -4977,22 +4895,8 @@
                                                     "if(selected.length < 1){",
                                                     "\treturn;",
                                                     "}",
-                                                    "let data = selected[0].data;",
                                                     "",
-                                                    "let details = this.queryById('workflowDetailsMyApps');",
-                                                    "",
-                                                    "let workflowRef = data.Name;",
-                                                    "if(this.workflowsTranslate.hasOwnProperty(data.Name) ){",
-                                                    "\tworkflowRef = this.workflowsTranslate[data.Name];",
-                                                    "}",
-                                                    "",
-                                                    "if(this.workflowData[workflowRef]){",
-                                                    "\tlet wf = this.workflowData[workflowRef];",
-                                                    "\t//console.log('showing wf data',wf);",
-                                                    "\tdetails.update(wf);",
-                                                    "}else{",
-                                                    "\tdetails.update('<center>Select an app supporting <BR\\>workflows to view details.</center>');",
-                                                    "}"
+                                                    "this.showWorkflowDetails(selected[0].data,'workflowDetailsMyApps');"
                                                 ],
                                                 "name": "selectionchange",
                                                 "scope": "me"
@@ -5040,91 +4944,21 @@
                                     ]
                                 },
                                 {
-                                    "type": "Ext.panel.Panel",
+                                    "type": "linkedinstance",
                                     "reference": {
                                         "name": "items",
                                         "type": "array"
                                     },
                                     "codeClass": null,
                                     "userConfig": {
-                                        "animCollapse": 0,
-                                        "autoScroll": true,
-                                        "bodyBorder": true,
-                                        "bodyPadding": 6,
-                                        "collapseDirection": "right",
-                                        "collapsed": true,
-                                        "collapsible": true,
-                                        "frame": true,
-                                        "html": "<center>Select an app supporting <BR\\>workflows to view details.</center>",
-                                        "itemId": "workflowDetailsMyApps",
-                                        "resizable": true,
-                                        "resizeHandles": "w",
-                                        "title": "Workflow Details",
-                                        "titleCollapse": true,
-                                        "width": 275
+                                        "itemId": "workflowDetailsMyApps"
                                     },
                                     "configAlternates": {
-                                        "autoScroll": "boolean",
-                                        "bodyBorder": "boolean",
-                                        "bodyPadding": "auto",
-                                        "collapseDirection": "string",
-                                        "collapsed": "boolean",
-                                        "collapsible": "boolean",
-                                        "frame": "boolean",
-                                        "html": "string",
-                                        "itemId": "string",
-                                        "resizable": "boolean",
-                                        "resizeHandles": "string",
-                                        "title": "string",
-                                        "titleCollapse": "boolean",
-                                        "width": "auto",
-                                        "animCollapse": "auto"
+                                        "itemId": "string"
                                     },
-                                    "name": "MyPanel4",
-                                    "designerId": "caab6c47-e0b7-434d-b54b-f5bccbd6997b",
-                                    "customConfigs": [
-                                        {
-                                            "group": "(Custom Properties)",
-                                            "name": "autoScroll",
-                                            "type": "string"
-                                        }
-                                    ],
-                                    "cn": [
-                                        {
-                                            "type": "Ext.XTemplate",
-                                            "reference": {
-                                                "name": "tpl",
-                                                "type": "object"
-                                            },
-                                            "codeClass": null,
-                                            "userConfig": {
-                                                "designer|displayName": "tpl",
-                                                "implHandler": [
-                                                    "<tpl if=\"values.events.length &gt; 0\">",
-                                                    "\t<h2><U>Events:</U></h2>",
-                                                    "</tpl>",
-                                                    "<tpl for=\"events\">",
-                                                    "\t<p><B>{displayname}</B> - {description}</p>",
-                                                    "</tpl>",
-                                                    "</p>",
-                                                    "<p>",
-                                                    "<tpl if=\"values.actions.length &gt; 0\">",
-                                                    "\t<h2><U>Actions:</U></h2>",
-                                                    "</tpl>",
-                                                    "<tpl for=\"actions\">",
-                                                    "\t<p><B>{displayname}</B> - {description}</p>",
-                                                    "</tpl>",
-                                                    "</p>"
-                                                ]
-                                            },
-                                            "configAlternates": {
-                                                "designer|displayName": "string",
-                                                "implHandler": "code"
-                                            },
-                                            "name": "tpl",
-                                            "designerId": "86d5df7c-1aa1-496c-979e-e5f32c7f1288"
-                                        }
-                                    ]
+                                    "name": "WorkflowsPanel",
+                                    "designerId": "84b0b190-1c00-4fea-9430-42736b6cfb35",
+                                    "masterInstanceId": "54f01c45-1ce9-4dbd-ac19-bc778e17fca0"
                                 }
                             ]
                         },
@@ -6071,6 +5905,22 @@
                     "\t\t}",
                     "\t},",
                     "\tscope:this",
+                    "});",
+                    "",
+                    "AERP.Ajax.request({",
+                    "\turl:'workflow-templates.json',",
+                    "\tmethod:'GET',",
+                    "\trawResponse:true,",
+                    "\tsuccess:function(resp){",
+                    "\t\tlet workflowTemplates;",
+                    "\t\ttry {",
+                    "\t\t\tworkflowTemplates = JSON.parse(resp);",
+                    "\t\t\tthis.workflowTemplates = workflowTemplates;",
+                    "\t\t} catch (error) {",
+                    "\t\t\tconsole.error(error);",
+                    "\t\t}",
+                    "\t},",
+                    "\tscope:this",
                     "});"
                 ]
             },
@@ -6104,6 +5954,85 @@
             },
             "name": "updateMyAppCount",
             "designerId": "efdec7a4-b8ec-403c-8438-bdafa425d246"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
+                    "app"
+                ],
+                "fn": "filterWorkflowTemplates",
+                "implHandler": [
+                    "let matches = [];",
+                    "",
+                    "Ext.each(this.workflowTemplates,function(flow){",
+                    "\tExt.each(flow.connectors,function(con){",
+                    "\t\tif(con.name === app){",
+                    "\t\t\tmatches.push({",
+                    "\t\t\t\ttitle:flow.title,",
+                    "\t\t\t\tname:flow.name,",
+                    "\t\t\t\tdescription:flow.description",
+                    "\t\t\t});",
+                    "\t\t}",
+                    "\t});",
+                    "},this);",
+                    "",
+                    "return matches;"
+                ]
+            },
+            "configAlternates": {
+                "designer|params": "typedarray",
+                "fn": "string",
+                "implHandler": "code"
+            },
+            "name": "filterWorkflowTemplates",
+            "designerId": "622cbf58-8006-4561-ad97-f8a4794cde2c"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
+                    "data",
+                    "panelId"
+                ],
+                "fn": "showWorkflowDetails",
+                "implHandler": [
+                    "let details = this.queryById(panelId);",
+                    "",
+                    "let workflowRef = data.Name;",
+                    "if(this.workflowsTranslate.hasOwnProperty(data.Name) ){",
+                    "\tworkflowRef = this.workflowsTranslate[data.Name];",
+                    "}",
+                    "",
+                    "if(this.workflowData[workflowRef]){",
+                    "\tlet wf = this.workflowData[workflowRef];",
+                    "",
+                    "\twf.templates = this.filterWorkflowTemplates(workflowRef);",
+                    "",
+                    "\t//console.log('showing wf data',wf);",
+                    "\tdetails.update(wf);",
+                    "}else{",
+                    "\tdetails.update('<center>Select an app supporting <BR\\>workflows to view details.</center>');",
+                    "}"
+                ]
+            },
+            "configAlternates": {
+                "designer|params": "typedarray",
+                "fn": "string",
+                "implHandler": "code"
+            },
+            "name": "showWorkflowDetails",
+            "designerId": "9e04d2e0-36f6-4946-a76b-1696b6a759c2"
         },
         {
             "type": "basicfunction",
@@ -6149,6 +6078,7 @@
                     "",
                     "this.workflowData = {};",
                     "this.workflowsTranslate = {};",
+                    "this.workflowTemplates = {};",
                     "this.readWorkflowData();",
                     "",
                     "//load my apps",

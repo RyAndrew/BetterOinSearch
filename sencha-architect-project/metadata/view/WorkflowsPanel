@@ -1,0 +1,97 @@
+{
+    "type": "Ext.panel.Panel",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "animCollapse": 0,
+        "autoScroll": true,
+        "bodyBorder": true,
+        "bodyPadding": 6,
+        "collapseDirection": "right",
+        "collapsed": true,
+        "collapsible": true,
+        "designer|userAlias": "workflowspanel",
+        "designer|userClassName": "WorkflowsPanel",
+        "frame": true,
+        "html": "<center>Select an app supporting <BR\\>workflows to view details.</center>",
+        "resizable": true,
+        "resizeHandles": "w",
+        "title": "Workflow Details",
+        "titleCollapse": true,
+        "width": 275
+    },
+    "configAlternates": {
+        "autoScroll": "boolean",
+        "bodyBorder": "boolean",
+        "bodyPadding": "auto",
+        "collapseDirection": "string",
+        "collapsed": "boolean",
+        "collapsible": "boolean",
+        "frame": "boolean",
+        "html": "string",
+        "itemId": "string",
+        "resizable": "boolean",
+        "resizeHandles": "string",
+        "title": "string",
+        "titleCollapse": "boolean",
+        "width": "auto",
+        "animCollapse": "auto",
+        "designer|userAlias": "string",
+        "designer|userClassName": "string"
+    },
+    "name": "MyPanel4",
+    "designerId": "54f01c45-1ce9-4dbd-ac19-bc778e17fca0",
+    "customConfigs": [
+        {
+            "group": "(Custom Properties)",
+            "name": "autoScroll",
+            "type": "string"
+        }
+    ],
+    "viewControllerInstanceId": "1d4e0c76-6928-48a3-bfac-61c5a0bffa75",
+    "viewModelInstanceId": "aeaef59a-847d-4dab-b2af-c1b7d0c56f20",
+    "cn": [
+        {
+            "type": "Ext.XTemplate",
+            "reference": {
+                "name": "tpl",
+                "type": "object"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|displayName": "tpl",
+                "implHandler": [
+                    "<tpl if=\"values.templates.length &gt; 0\">",
+                    "\t<h2><U>Templates:</U></h2>",
+                    "</tpl>",
+                    "<tpl for=\"templates\">",
+                    "\t<p><B>{title}</B> - {description}</p>",
+                    "</tpl>",
+                    "",
+                    "<tpl if=\"values.events.length &gt; 0\">",
+                    "\t<h2><U>Events:</U></h2>",
+                    "</tpl>",
+                    "<tpl for=\"events\">",
+                    "\t<p><B>{displayname}</B> - {description}</p>",
+                    "</tpl>",
+                    "",
+                    "<tpl if=\"values.actions.length &gt; 0\">",
+                    "\t<h2><U>Actions:</U></h2>",
+                    "</tpl>",
+                    "<tpl for=\"actions\">",
+                    "\t<p><B>{displayname}</B> - {description}</p>",
+                    "</tpl>"
+                ]
+            },
+            "configAlternates": {
+                "designer|displayName": "string",
+                "implHandler": "code"
+            },
+            "name": "tpl",
+            "designerId": "86d5df7c-1aa1-496c-979e-e5f32c7f1288"
+        }
+    ]
+}

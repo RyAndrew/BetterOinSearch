@@ -19,6 +19,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 
 	requires: [
 		'BetterOinSearch.view.MainPanelViewModel',
+		'BetterOinSearch.view.WorkflowsPanel',
 		'Ext.grid.Panel',
 		'Ext.grid.column.Number',
 		'Ext.view.Table',
@@ -30,7 +31,6 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		'Ext.toolbar.Toolbar',
 		'Ext.toolbar.Fill',
 		'Ext.grid.plugin.Exporter',
-		'Ext.XTemplate',
 		'Ext.toolbar.TextItem',
 		'Ext.exporter.text.CSV'
 	],
@@ -122,7 +122,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 							xtype: 'panel',
 							frame: true,
 							height: 53,
-							html: '&nbsp; Made with &#x2764; by<BR><a href="https://www.linkedin.com/in/andrew-rymarczyk-b7063513">Andrew Rymarczyk</a>',
+							html: '&nbsp; Made with &#x2764; by<BR><a href="https://github.com/RyAndrew/BetterOinSearch">Andrew Rymarczyk</a>',
 							bodyPadding: '6 0 0 0',
 							bodyStyle: {
 								color: 'red !important',
@@ -832,39 +832,9 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 											]
 										},
 										{
-											xtype: 'panel',
-											autoScroll: true,
-											frame: true,
-											html: '<center>Select an app supporting <BR\>workflows to view details.</center>',
-											itemId: 'workflowDetails',
-											resizable: true,
-											resizeHandles: 'w',
-											tpl: [
-												'<tpl if="values.events.length &gt; 0">',
-												'	<h2><U>Events:</U></h2>',
-												'</tpl>',
-												'<tpl for="events">',
-												'	<p><B>{displayname}</B> - {description}</p>',
-												'</tpl>',
-												'</p>',
-												'<p>',
-												'<tpl if="values.actions.length &gt; 0">',
-												'	<h2><U>Actions:</U></h2>',
-												'</tpl>',
-												'<tpl for="actions">',
-												'	<p><B>{displayname}</B> - {description}</p>',
-												'</tpl>',
-												'</p>'
-											],
-											width: 275,
-											animCollapse: 0,
-											bodyBorder: true,
-											bodyPadding: 6,
-											collapsed: true,
-											collapseDirection: 'right',
-											collapsible: true,
-											title: 'Workflow Details',
-											titleCollapse: true
+											xtype: 'workflowspanel',
+											flex: 1,
+											itemId: 'workflowDetails'
 										}
 									]
 								}
@@ -1279,39 +1249,8 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 									}
 								},
 								{
-									xtype: 'panel',
-									autoScroll: true,
-									frame: true,
-									html: '<center>Select an app supporting <BR\>workflows to view details.</center>',
-									itemId: 'workflowDetailsMyApps',
-									resizable: true,
-									resizeHandles: 'w',
-									tpl: [
-										'<tpl if="values.events.length &gt; 0">',
-										'	<h2><U>Events:</U></h2>',
-										'</tpl>',
-										'<tpl for="events">',
-										'	<p><B>{displayname}</B> - {description}</p>',
-										'</tpl>',
-										'</p>',
-										'<p>',
-										'<tpl if="values.actions.length &gt; 0">',
-										'	<h2><U>Actions:</U></h2>',
-										'</tpl>',
-										'<tpl for="actions">',
-										'	<p><B>{displayname}</B> - {description}</p>',
-										'</tpl>',
-										'</p>'
-									],
-									width: 275,
-									animCollapse: 0,
-									bodyBorder: true,
-									bodyPadding: 6,
-									collapsed: true,
-									collapseDirection: 'right',
-									collapsible: true,
-									title: 'Workflow Details',
-									titleCollapse: true
+									xtype: 'workflowspanel',
+									itemId: 'workflowDetailsMyApps'
 								}
 							]
 						},
@@ -1544,22 +1483,8 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		if(selected.length < 1){
 			return;
 		}
-		let data = selected[0].data;
 
-		let details = this.queryById('workflowDetails');
-
-		let workflowRef = data.Name;
-		if(this.workflowsTranslate.hasOwnProperty(data.Name) ){
-			workflowRef = this.workflowsTranslate[data.Name];
-		}
-
-		if(this.workflowData[workflowRef]){
-			let wf = this.workflowData[workflowRef];
-			//console.log('showing wf data',wf);
-			details.update(wf);
-		}else{
-			details.update('<center>Select an app supporting <BR\>workflows to view details.</center>');
-		}
+		this.showWorkflowDetails(selected[0].data,'workflowDetails');
 	},
 
 	onButtonClick2: function(button, e, eOpts) {
@@ -1597,22 +1522,8 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		if(selected.length < 1){
 			return;
 		}
-		let data = selected[0].data;
 
-		let details = this.queryById('workflowDetailsMyApps');
-
-		let workflowRef = data.Name;
-		if(this.workflowsTranslate.hasOwnProperty(data.Name) ){
-			workflowRef = this.workflowsTranslate[data.Name];
-		}
-
-		if(this.workflowData[workflowRef]){
-			let wf = this.workflowData[workflowRef];
-			//console.log('showing wf data',wf);
-			details.update(wf);
-		}else{
-			details.update('<center>Select an app supporting <BR\>workflows to view details.</center>');
-		}
+		this.showWorkflowDetails(selected[0].data,'workflowDetailsMyApps');
 	},
 
 	onMyAppsGridCellClick: function(tableview, td, cellIndex, record, tr, rowIndex, e, eOpts) {
@@ -1685,6 +1596,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 
 		this.workflowData = {};
 		this.workflowsTranslate = {};
+		this.workflowTemplates = {};
 		this.readWorkflowData();
 
 		//load my apps
@@ -2050,10 +1962,64 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 			},
 			scope:this
 		});
+
+		AERP.Ajax.request({
+			url:'workflow-templates.json',
+			method:'GET',
+			rawResponse:true,
+			success:function(resp){
+				let workflowTemplates;
+				try {
+					workflowTemplates = JSON.parse(resp);
+					this.workflowTemplates = workflowTemplates;
+				} catch (error) {
+					console.error(error);
+				}
+			},
+			scope:this
+		});
 	},
 
 	updateMyAppCount: function(store) {
 		this.queryById('myApps').setTitle('My Apps ('+store.getCount()+')');
+	},
+
+	filterWorkflowTemplates: function(app) {
+		let matches = [];
+
+		Ext.each(this.workflowTemplates,function(flow){
+			Ext.each(flow.connectors,function(con){
+				if(con.name === app){
+					matches.push({
+						title:flow.title,
+						name:flow.name,
+						description:flow.description
+					});
+				}
+			});
+		},this);
+
+		return matches;
+	},
+
+	showWorkflowDetails: function(data, panelId) {
+		let details = this.queryById(panelId);
+
+		let workflowRef = data.Name;
+		if(this.workflowsTranslate.hasOwnProperty(data.Name) ){
+			workflowRef = this.workflowsTranslate[data.Name];
+		}
+
+		if(this.workflowData[workflowRef]){
+			let wf = this.workflowData[workflowRef];
+
+			wf.templates = this.filterWorkflowTemplates(workflowRef);
+
+			//console.log('showing wf data',wf);
+			details.update(wf);
+		}else{
+			details.update('<center>Select an app supporting <BR\>workflows to view details.</center>');
+		}
 	},
 
 	updateMyListsCount: function(store) {
