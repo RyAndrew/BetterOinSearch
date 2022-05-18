@@ -304,22 +304,6 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 														{
 															xtype: 'gridcolumn',
 															renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-																if(record.data['AutoLogin'] === 'YES' || record.data['BrowserPlugin'] === 'YES'){
-																	return String.fromCodePoint(0x2705);
-																	//return '&#x2705;';
-																	//return '<img src="/inc/img/silk_icons/tick.png">';
-																}
-																return '';
-															},
-															userCls: 'rotate-grid-headers',
-															width: 50,
-															dataIndex: 'AutoLogin',
-															exportRenderer: true,
-															text: 'SWA'
-														},
-														{
-															xtype: 'gridcolumn',
-															renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
 																if(record.data['SAML_2_0'] === 'YES' || record.data['SAML_1_1'] === 'YES'){
 																	return String.fromCodePoint(0x2705);
 																}
@@ -352,11 +336,27 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 																}
 																return '';
 															},
+															dataIndex: 'WSFED',
 															userCls: 'rotate-grid-headers',
 															width: 50,
-															dataIndex: 'WSFED',
 															exportRenderer: true,
 															text: 'WS Fed'
+														},
+														{
+															xtype: 'gridcolumn',
+															renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+																if(record.data['AutoLogin'] === 'YES' || record.data['BrowserPlugin'] === 'YES'){
+																	return String.fromCodePoint(0x2705);
+																	//return '&#x2705;';
+																	//return '<img src="/inc/img/silk_icons/tick.png">';
+																}
+																return '';
+															},
+															userCls: 'rotate-grid-headers',
+															width: 50,
+															dataIndex: 'AutoLogin',
+															exportRenderer: true,
+															text: 'SWA'
 														}
 													]
 												},
@@ -846,7 +846,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 						},
 						{
 							xtype: 'panel',
-							itemId: 'myApps',
+							itemId: 'myAppsTab',
 							userCls: 'force-grid-border',
 							iconCls: 'x-fa fa-clipboard-list',
 							title: 'My Apps (0)',
@@ -952,22 +952,6 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 												{
 													xtype: 'gridcolumn',
 													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-														if(record.data['AutoLogin'] === 'YES' || record.data['BrowserPlugin'] === 'YES'){
-															return String.fromCodePoint(0x2705);
-															//return '&#x2705;';
-															//return '<img src="/inc/img/silk_icons/tick.png">';
-														}
-														return '';
-													},
-													userCls: 'rotate-grid-headers',
-													width: 50,
-													dataIndex: 'AutoLogin',
-													exportRenderer: true,
-													text: 'SWA'
-												},
-												{
-													xtype: 'gridcolumn',
-													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
 														if(record.data['SAML_2_0'] === 'YES' || record.data['SAML_1_1'] === 'YES'){
 															return String.fromCodePoint(0x2705);
 														}
@@ -986,9 +970,9 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 														}
 														return '';
 													},
+													dataIndex: 'OIDC',
 													userCls: 'rotate-grid-headers',
 													width: 50,
-													dataIndex: 'OIDC',
 													exportRenderer: true,
 													text: 'OIDC'
 												},
@@ -1000,11 +984,27 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 														}
 														return '';
 													},
+													dataIndex: 'WSFED',
 													userCls: 'rotate-grid-headers',
 													width: 50,
-													dataIndex: 'WSFED',
 													exportRenderer: true,
 													text: 'WS Fed'
+												},
+												{
+													xtype: 'gridcolumn',
+													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+														if(record.data['AutoLogin'] === 'YES' || record.data['BrowserPlugin'] === 'YES'){
+															return String.fromCodePoint(0x2705);
+															//return '&#x2705;';
+															//return '<img src="/inc/img/silk_icons/tick.png">';
+														}
+														return '';
+													},
+													userCls: 'rotate-grid-headers',
+													width: 50,
+													dataIndex: 'AutoLogin',
+													exportRenderer: true,
+													text: 'SWA'
 												}
 											]
 										},
@@ -1486,7 +1486,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 	},
 
 	onButtonClick2: function(button, e, eOpts) {
-		this.queryById('myApps').saveDocumentAs({
+		this.queryById('myAppsGrid').saveDocumentAs({
 		     type: 'xlsx',
 		     title: 'My Apps',
 		     fileName: 'My_Apps_'+Ext.util.Format.date(new Date(), 'Y-m-d_g-ia')+'.xlsx'
@@ -1498,7 +1498,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 	},
 
 	onButtonClick11: function(button, e, eOpts) {
-		let sel = this.queryById('myApps').getSelectionModel().getSelection();
+		let sel = this.queryById('myAppsGrid').getSelectionModel().getSelection();
 
 		if(sel.length < 1){
 			Ext.Msg.alert(' ','Please select an app!');
@@ -1833,7 +1833,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 	},
 
 	loadAppsFromAppList: function(appList, listName) {
-		this.queryById('tabs').setActiveItem('myApps');
+		this.queryById('tabs').setActiveItem('myAppsTab');
 		this.queryById('appListName').setHtml(listName);
 
 		let foundRecs = [];
@@ -1986,7 +1986,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 	},
 
 	updateMyAppCount: function(store) {
-		this.queryById('myApps').setTitle('My Apps ('+store.getCount()+')');
+		this.queryById('myAppsTab').setTitle('My Apps ('+store.getCount()+')');
 	},
 
 	filterWorkflowTemplates: function(app) {
