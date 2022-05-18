@@ -14,8 +14,7 @@
         "minHeight": 500,
         "minWidth": 500,
         "requires": [
-            "Ext.exporter.text.CSV",
-            "Ext.grid.plugin.Exporter"
+            "Ext.exporter.text.CSV"
         ],
         "title": ""
     },
