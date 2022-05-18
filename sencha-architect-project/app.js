@@ -26,7 +26,8 @@ Ext.application({
 	views: [
 		'MyViewport',
 		'MainPanel',
-		'SaveWindow'
+		'SaveWindow',
+		'WorkflowsPanel'
 	],
 	name: 'BetterOinSearch',
 
