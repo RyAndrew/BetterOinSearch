@@ -5413,6 +5413,30 @@
                                     },
                                     "name": "TabConfig4",
                                     "designerId": "97e8f200-03bb-419f-81a5-0efb69b3e819"
+                                },
+                                {
+                                    "type": "basiceventbinding",
+                                    "reference": {
+                                        "name": "listeners",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "fn": "onMyAppListsRowDblClick",
+                                        "implHandler": [
+                                            "this.loadAppsFromAppList(record.data.appList, record.data.listName);"
+                                        ],
+                                        "name": "rowdblclick",
+                                        "scope": "me"
+                                    },
+                                    "configAlternates": {
+                                        "fn": "string",
+                                        "implHandler": "code",
+                                        "name": "string",
+                                        "scope": "string"
+                                    },
+                                    "name": "onMyAppListsRowDblClick",
+                                    "designerId": "b6bb0abb-741b-4b20-a718-50f019381c66"
                                 }
                             ]
                         }

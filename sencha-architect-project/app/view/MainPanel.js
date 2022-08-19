@@ -1348,6 +1348,9 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 								dock: 'left',
 								margin: '0 0 0 10',
 								userCls: 'tab-with-border'
+							},
+							listeners: {
+								rowdblclick: 'onMyAppListsRowDblClick'
 							}
 						}
 					]
@@ -1594,6 +1597,10 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		});
 
 
+	},
+
+	onMyAppListsRowDblClick: function(tableview, record, element, rowIndex, e, eOpts) {
+		this.loadAppsFromAppList(record.data.appList, record.data.listName);
 	},
 
 	onPanelAfterRender: function(component, eOpts) {
