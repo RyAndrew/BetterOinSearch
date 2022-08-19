@@ -5806,7 +5806,7 @@
                     "\t\tclone.phantom = true;",
                     "\t\tfoundRecs.push(clone);",
                     "\t}",
-                    "});",
+                    "},this,{filtered:true});",
                     "",
                     "let MyAppsStore = this.getViewModel().getStore('myApps');",
                     "MyAppsStore.removeAll();",

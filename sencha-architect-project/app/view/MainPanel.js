@@ -1871,7 +1871,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 				clone.phantom = true;
 				foundRecs.push(clone);
 			}
-		});
+		},this,{filtered:true});
 
 		let MyAppsStore = this.getViewModel().getStore('myApps');
 		MyAppsStore.removeAll();
