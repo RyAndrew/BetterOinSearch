@@ -1681,7 +1681,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 
 		let searchByNameListRegexArr = [];
 		Ext.each(searchByNameList,function(searchName){
-			searchByNameListRegexArr.push(Ext.String.createRegex(searchName, false, false, true));
+			searchByNameListRegexArr.push(Ext.String.createRegex(searchName.trim(), false, false, true));
 		});
 
 		//console.log('searchByNameList',searchByNameList);
