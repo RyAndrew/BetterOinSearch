@@ -1418,9 +1418,9 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 
 				this.delayTimer = false;
 
-				if(textfield.inputEl.getValue().length >= 2 ){
+				//if(textfield.inputEl.getValue().length >= 2 ){
 					this.searchAppsByName();
-				}
+				//}
 
 			}, 200, this);
 		}
@@ -1692,6 +1692,13 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		});
 
 		//console.log('searchByNameList',searchByNameList);
+		//console.log('searchByNameListRegexArr',searchByNameListRegexArr);
+
+		//if the search params have not changed, dont search
+		if(searchByNameListRegexArr === this.lastSearch){
+			return;
+		}
+		this.lastSearch = searchByNameListRegexArr;
 
 		if(searchByNameList.length < 1){
 			this.searchByNameFilter = null;
