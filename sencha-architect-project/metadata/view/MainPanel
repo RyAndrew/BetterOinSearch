@@ -2112,7 +2112,6 @@
                                                             "codeClass": null,
                                                             "userConfig": {
                                                                 "dataIndex": "accessWorkflowsConnectors",
-                                                                "exportRenderer": true,
                                                                 "text": "Connectors",
                                                                 "userCls": [
                                                                     "rotate-grid-headers"
@@ -2122,7 +2121,7 @@
                                                             "configAlternates": {
                                                                 "dataIndex": "datafield",
                                                                 "text": "string",
-                                                                "exportRenderer": "boolean",
+                                                                "exportRenderer": "function",
                                                                 "userCls": "typedarray",
                                                                 "width": "auto"
                                                             },
@@ -2161,6 +2160,39 @@
                                                                     },
                                                                     "name": "renderer",
                                                                     "designerId": "999278c2-f2e0-4e15-9c5b-5f09600ecda5"
+                                                                },
+                                                                {
+                                                                    "type": "fixedfunction",
+                                                                    "reference": {
+                                                                        "name": "items",
+                                                                        "type": "array"
+                                                                    },
+                                                                    "codeClass": null,
+                                                                    "userConfig": {
+                                                                        "designer|params": [
+                                                                            "value",
+                                                                            "metaData",
+                                                                            "record",
+                                                                            "rowIndex",
+                                                                            "colIndex",
+                                                                            "store",
+                                                                            "view"
+                                                                        ],
+                                                                        "fn": "exportRenderer",
+                                                                        "implHandler": [
+                                                                            "if(value===1){",
+                                                                            "\treturn String.fromCodePoint(0x2705);",
+                                                                            "}",
+                                                                            "return '';"
+                                                                        ]
+                                                                    },
+                                                                    "configAlternates": {
+                                                                        "designer|params": "typedarray",
+                                                                        "fn": "string",
+                                                                        "implHandler": "code"
+                                                                    },
+                                                                    "name": "exportRenderer",
+                                                                    "designerId": "473ed42a-7748-4dac-9341-f63f25c7a6f8"
                                                                 }
                                                             ]
                                                         },
@@ -4118,6 +4150,7 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "provisioningSchemaDiscovery",
+                                                        "exportRenderer": true,
                                                         "text": "Schema Disco",
                                                         "userCls": [
                                                             "rotate-grid-headers"
@@ -4128,7 +4161,8 @@
                                                         "dataIndex": "datafield",
                                                         "text": "string",
                                                         "userCls": "typedarray",
-                                                        "width": "auto"
+                                                        "width": "auto",
+                                                        "exportRenderer": "boolean"
                                                     },
                                                     "name": "MyColumn56",
                                                     "designerId": "53e972e4-e0f9-47b6-b3de-e6c6c5c96e06",
@@ -4177,6 +4211,7 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "provisioningGroupPush",
+                                                        "exportRenderer": true,
                                                         "text": "Group Push",
                                                         "userCls": [
                                                             "rotate-grid-headers"
@@ -4187,7 +4222,8 @@
                                                         "dataIndex": "datafield",
                                                         "text": "string",
                                                         "userCls": "typedarray",
-                                                        "width": "auto"
+                                                        "width": "auto",
+                                                        "exportRenderer": "boolean"
                                                     },
                                                     "name": "MyColumn57",
                                                     "designerId": "1aed3d55-144a-4f63-bf13-8c52ad8fc1f1",
@@ -4236,6 +4272,7 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "provisioningGroupLinking",
+                                                        "exportRenderer": true,
                                                         "text": "Group Link",
                                                         "userCls": [
                                                             "rotate-grid-headers"
@@ -4246,7 +4283,8 @@
                                                         "dataIndex": "datafield",
                                                         "text": "string",
                                                         "userCls": "typedarray",
-                                                        "width": "auto"
+                                                        "width": "auto",
+                                                        "exportRenderer": "boolean"
                                                     },
                                                     "name": "MyColumn58",
                                                     "designerId": "f08aaf59-4f2f-462e-a0f5-c7d260933fcc",
@@ -4295,6 +4333,7 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "provisioningAttributeSourcing",
+                                                        "exportRenderer": true,
                                                         "text": "Attr Sourcing",
                                                         "userCls": [
                                                             "rotate-grid-headers"
@@ -4305,7 +4344,8 @@
                                                         "dataIndex": "datafield",
                                                         "text": "string",
                                                         "userCls": "typedarray",
-                                                        "width": "auto"
+                                                        "width": "auto",
+                                                        "exportRenderer": "boolean"
                                                     },
                                                     "name": "MyColumn59",
                                                     "designerId": "9b98c210-3695-4db9-bb3b-e494b71383a8",
@@ -4354,6 +4394,7 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "provisioningAttributeWriteback",
+                                                        "exportRenderer": true,
                                                         "text": "Attr Writeback",
                                                         "userCls": [
                                                             "rotate-grid-headers"
@@ -4364,7 +4405,8 @@
                                                         "dataIndex": "datafield",
                                                         "text": "string",
                                                         "userCls": "typedarray",
-                                                        "width": "auto"
+                                                        "width": "auto",
+                                                        "exportRenderer": "boolean"
                                                     },
                                                     "name": "MyColumn60",
                                                     "designerId": "9ef3b9ed-daad-4da1-96f8-0e3c59380ec4",
@@ -4836,14 +4878,15 @@
                                             },
                                             "codeClass": null,
                                             "userConfig": {
-                                                "dataIndex": "DisplayName",
+                                                "dataIndex": "path",
                                                 "text": "OIN",
                                                 "width": 55
                                             },
                                             "configAlternates": {
                                                 "dataIndex": "datafield",
                                                 "text": "string",
-                                                "width": "auto"
+                                                "width": "auto",
+                                                "exportRenderer": "function"
                                             },
                                             "name": "MyColumn55",
                                             "designerId": "59fe13a8-245b-4126-bda0-ca9a4c7a29da",
@@ -4867,7 +4910,7 @@
                                                         ],
                                                         "fn": "renderer",
                                                         "implHandler": [
-                                                            "return '<a href=\"https://www.okta.com/'+record.data.path+'/#capabilities\" target=\"_blank\">OIN</a>';"
+                                                            "return '<a href=\"https://www.okta.com'+value+'/#capabilities\" target=\"_blank\">OIN</a>';"
                                                         ]
                                                     },
                                                     "configAlternates": {
@@ -4877,6 +4920,36 @@
                                                     },
                                                     "name": "renderer",
                                                     "designerId": "852f789e-327d-4dba-9cec-162cfac64f10"
+                                                },
+                                                {
+                                                    "type": "fixedfunction",
+                                                    "reference": {
+                                                        "name": "items",
+                                                        "type": "array"
+                                                    },
+                                                    "codeClass": null,
+                                                    "userConfig": {
+                                                        "designer|params": [
+                                                            "value",
+                                                            "metaData",
+                                                            "record",
+                                                            "rowIndex",
+                                                            "colIndex",
+                                                            "store",
+                                                            "view"
+                                                        ],
+                                                        "fn": "exportRenderer",
+                                                        "implHandler": [
+                                                            "return 'https://www.okta.com'+value;"
+                                                        ]
+                                                    },
+                                                    "configAlternates": {
+                                                        "designer|params": "typedarray",
+                                                        "fn": "string",
+                                                        "implHandler": "code"
+                                                    },
+                                                    "name": "exportRenderer",
+                                                    "designerId": "23669259-9121-4432-8495-3e585a7ec315"
                                                 }
                                             ]
                                         },
@@ -5410,19 +5483,26 @@
                     "\tsearchByNameList.push(searchText.trim());",
                     "}",
                     "",
+                    "let searchByNameListRegexArr = [];",
+                    "Ext.each(searchByNameList,function(searchName){",
+                    "\tsearchByNameListRegexArr.push(Ext.String.createRegex(searchName, false, false, true));",
+                    "});",
+                    "\t\t\t\t",
+                    "//console.log('searchByNameList',searchByNameList);",
+                    "",
                     "if(searchByNameList.length < 1){",
                     "\tthis.searchByNameFilter = null;",
                     "}else{",
                     "\tthis.searchByNameFilter = {",
-                    "\t\tfilterNameVals: searchByNameList,",
+                    "\t\tfilterNameVals: searchByNameListRegexArr,",
                     "\t\tfilterFn: function(item) {",
                     "\t\t\tlet nameFound = false;",
                     "",
-                    "\t\t\tExt.each(this.filterNameVals,function(searchName){",
-                    "\t\t\t\tlet matcher = Ext.String.createRegex(searchName, false, false, true);",
+                    "\t\t\tExt.each(this.filterNameVals,function(matcher){",
                     "\t\t\t\tnameFound = matcher.test(item.data.DisplayName);",
                     "\t\t\t\tif(nameFound){",
-                    "\t\t\t\t\treturn false;",
+                    "\t\t\t\t\t//console.log(item.data.DisplayName, matcher, nameFound );",
+                    "\t\t\t\t\treturn false;//quit loop",
                     "\t\t\t\t}",
                     "\t\t\t});",
                     "",

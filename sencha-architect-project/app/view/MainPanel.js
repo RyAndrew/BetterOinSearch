@@ -336,9 +336,9 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 																}
 																return '';
 															},
-															dataIndex: 'WSFED',
 															userCls: 'rotate-grid-headers',
 															width: 50,
+															dataIndex: 'WSFED',
 															exportRenderer: true,
 															text: 'WS Fed'
 														},
@@ -552,10 +552,15 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 																}
 																return '';
 															},
+															exportRenderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+																if(value===1){
+																	return String.fromCodePoint(0x2705);
+																}
+																return '';
+															},
 															userCls: 'rotate-grid-headers',
 															width: 50,
 															dataIndex: 'accessWorkflowsConnectors',
-															exportRenderer: true,
 															text: 'Connectors'
 														},
 														{
@@ -970,9 +975,9 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 														}
 														return '';
 													},
-													dataIndex: 'OIDC',
 													userCls: 'rotate-grid-headers',
 													width: 50,
+													dataIndex: 'OIDC',
 													exportRenderer: true,
 													text: 'OIDC'
 												},
@@ -984,9 +989,9 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 														}
 														return '';
 													},
-													dataIndex: 'WSFED',
 													userCls: 'rotate-grid-headers',
 													width: 50,
+													dataIndex: 'WSFED',
 													exportRenderer: true,
 													text: 'WS Fed'
 												},
@@ -1065,6 +1070,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 													userCls: 'rotate-grid-headers',
 													width: 50,
 													dataIndex: 'provisioningSchemaDiscovery',
+													exportRenderer: true,
 													text: 'Schema Disco'
 												},
 												{
@@ -1078,6 +1084,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 													userCls: 'rotate-grid-headers',
 													width: 50,
 													dataIndex: 'provisioningGroupPush',
+													exportRenderer: true,
 													text: 'Group Push'
 												},
 												{
@@ -1091,6 +1098,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 													userCls: 'rotate-grid-headers',
 													width: 50,
 													dataIndex: 'provisioningGroupLinking',
+													exportRenderer: true,
 													text: 'Group Link'
 												},
 												{
@@ -1104,6 +1112,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 													userCls: 'rotate-grid-headers',
 													width: 50,
 													dataIndex: 'provisioningAttributeSourcing',
+													exportRenderer: true,
 													text: 'Attr Sourcing'
 												},
 												{
@@ -1117,6 +1126,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 													userCls: 'rotate-grid-headers',
 													width: 50,
 													dataIndex: 'provisioningAttributeWriteback',
+													exportRenderer: true,
 													text: 'Attr Writeback'
 												}
 											]
@@ -1226,10 +1236,13 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 										{
 											xtype: 'gridcolumn',
 											renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-												return '<a href="https://www.okta.com/'+record.data.path+'/#capabilities" target="_blank">OIN</a>';
+												return '<a href="https://www.okta.com'+value+'/#capabilities" target="_blank">OIN</a>';
 											},
+											exportRenderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+												return 'https://www.okta.com'+value;
+											},
+											dataIndex: 'path',
 											width: 55,
-											dataIndex: 'DisplayName',
 											text: 'OIN'
 										}
 									],
@@ -1666,19 +1679,26 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 			searchByNameList.push(searchText.trim());
 		}
 
+		let searchByNameListRegexArr = [];
+		Ext.each(searchByNameList,function(searchName){
+			searchByNameListRegexArr.push(Ext.String.createRegex(searchName, false, false, true));
+		});
+
+		//console.log('searchByNameList',searchByNameList);
+
 		if(searchByNameList.length < 1){
 			this.searchByNameFilter = null;
 		}else{
 			this.searchByNameFilter = {
-				filterNameVals: searchByNameList,
+				filterNameVals: searchByNameListRegexArr,
 				filterFn: function(item) {
 					let nameFound = false;
 
-					Ext.each(this.filterNameVals,function(searchName){
-						let matcher = Ext.String.createRegex(searchName, false, false, true);
+					Ext.each(this.filterNameVals,function(matcher){
 						nameFound = matcher.test(item.data.DisplayName);
 						if(nameFound){
-							return false;
+							//console.log(item.data.DisplayName, matcher, nameFound );
+							return false;//quit loop
 						}
 					});
 
