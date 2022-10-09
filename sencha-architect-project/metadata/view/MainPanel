@@ -2388,7 +2388,6 @@
                                                                     "if(cellText === 'Connectors' || cellText === 'Templates'){",
                                                                     "\tlet details = this.queryById('workflowDetails');",
                                                                     "",
-                                                                    "\t//details.update(record.data.DisplayName+' Workflows');",
                                                                     "\tdetails.expand();",
                                                                     "}"
                                                                 ],
@@ -4964,7 +4963,6 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "accessWorkflowsConnectors",
-                                                        "exportRenderer": true,
                                                         "text": "Connectors",
                                                         "userCls": [
                                                             "rotate-grid-headers"
@@ -4974,7 +4972,7 @@
                                                     "configAlternates": {
                                                         "dataIndex": "datafield",
                                                         "text": "string",
-                                                        "exportRenderer": "boolean",
+                                                        "exportRenderer": "function",
                                                         "userCls": "typedarray",
                                                         "width": "auto"
                                                     },
@@ -5001,7 +4999,8 @@
                                                                 "fn": "renderer",
                                                                 "implHandler": [
                                                                     "if(value===1){",
-                                                                    "\treturn '<a href=\"#\" class=\"workflowlink\">'+String.fromCodePoint(0x2705)+'</a>';",
+                                                                    "\tmetaData.tdCls = 'link-cursor';",
+                                                                    "\treturn '<a class=\"link-cursor\">'+String.fromCodePoint(0x2705)+'</a>';",
                                                                     "}",
                                                                     "return '';"
                                                                 ]
@@ -5013,6 +5012,39 @@
                                                             },
                                                             "name": "renderer",
                                                             "designerId": "91a6fd2c-35b1-4ce1-86c4-1f1b7641cdc6"
+                                                        },
+                                                        {
+                                                            "type": "fixedfunction",
+                                                            "reference": {
+                                                                "name": "items",
+                                                                "type": "array"
+                                                            },
+                                                            "codeClass": null,
+                                                            "userConfig": {
+                                                                "designer|params": [
+                                                                    "value",
+                                                                    "metaData",
+                                                                    "record",
+                                                                    "rowIndex",
+                                                                    "colIndex",
+                                                                    "store",
+                                                                    "view"
+                                                                ],
+                                                                "fn": "exportRenderer",
+                                                                "implHandler": [
+                                                                    "if(value===1){",
+                                                                    "\treturn String.fromCodePoint(0x2705);",
+                                                                    "}",
+                                                                    "return '';"
+                                                                ]
+                                                            },
+                                                            "configAlternates": {
+                                                                "designer|params": "typedarray",
+                                                                "fn": "string",
+                                                                "implHandler": "code"
+                                                            },
+                                                            "name": "exportRenderer",
+                                                            "designerId": "02685392-818c-47cb-8dd4-64a31df76ace"
                                                         }
                                                     ]
                                                 },
@@ -5025,7 +5057,6 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "accessWorkflowsTemplates",
-                                                        "exportRenderer": true,
                                                         "text": "Templates",
                                                         "userCls": [
                                                             "rotate-grid-headers"
@@ -5035,7 +5066,7 @@
                                                     "configAlternates": {
                                                         "dataIndex": "datafield",
                                                         "text": "string",
-                                                        "exportRenderer": "boolean",
+                                                        "exportRenderer": "function",
                                                         "userCls": "typedarray",
                                                         "width": "auto"
                                                     },
@@ -5062,7 +5093,8 @@
                                                                 "fn": "renderer",
                                                                 "implHandler": [
                                                                     "if(value===1){",
-                                                                    "\treturn String.fromCodePoint(0x2705);",
+                                                                    "\tmetaData.tdCls = 'link-cursor';",
+                                                                    "\treturn '<a class=\"link-cursor\">'+String.fromCodePoint(0x2705)+'</a>';",
                                                                     "}",
                                                                     "return '';"
                                                                 ]
@@ -5074,6 +5106,39 @@
                                                             },
                                                             "name": "renderer",
                                                             "designerId": "8e71e458-8d51-4991-b730-2cf2300e9603"
+                                                        },
+                                                        {
+                                                            "type": "fixedfunction",
+                                                            "reference": {
+                                                                "name": "items",
+                                                                "type": "array"
+                                                            },
+                                                            "codeClass": null,
+                                                            "userConfig": {
+                                                                "designer|params": [
+                                                                    "value",
+                                                                    "metaData",
+                                                                    "record",
+                                                                    "rowIndex",
+                                                                    "colIndex",
+                                                                    "store",
+                                                                    "view"
+                                                                ],
+                                                                "fn": "exportRenderer",
+                                                                "implHandler": [
+                                                                    "if(value===1){",
+                                                                    "\treturn String.fromCodePoint(0x2705);",
+                                                                    "}",
+                                                                    "return '';"
+                                                                ]
+                                                            },
+                                                            "configAlternates": {
+                                                                "designer|params": "typedarray",
+                                                                "fn": "string",
+                                                                "implHandler": "code"
+                                                            },
+                                                            "name": "exportRenderer",
+                                                            "designerId": "90ef4a1a-1582-4b13-b87d-ce51034a123d"
                                                         }
                                                     ]
                                                 }
@@ -5220,9 +5285,11 @@
                                             "userConfig": {
                                                 "fn": "onMyAppsGridCellClick",
                                                 "implHandler": [
-                                                    "//class = workflowlink",
-                                                    "if(cellIndex === 18){",
+                                                    "const cellText = e.position.column.text;",
+                                                    "",
+                                                    "if(cellText === 'Connectors' || cellText === 'Templates'){",
                                                     "\tlet details = this.queryById('workflowDetailsMyApps');",
+                                                    "",
                                                     "\tdetails.expand();",
                                                     "}"
                                                 ],

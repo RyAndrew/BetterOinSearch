@@ -1272,19 +1272,32 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 													xtype: 'gridcolumn',
 													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
 														if(value===1){
-															return '<a href="#" class="workflowlink">'+String.fromCodePoint(0x2705)+'</a>';
+															metaData.tdCls = 'link-cursor';
+															return '<a class="link-cursor">'+String.fromCodePoint(0x2705)+'</a>';
+														}
+														return '';
+													},
+													exportRenderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+														if(value===1){
+															return String.fromCodePoint(0x2705);
 														}
 														return '';
 													},
 													userCls: 'rotate-grid-headers',
 													width: 50,
 													dataIndex: 'accessWorkflowsConnectors',
-													exportRenderer: true,
 													text: 'Connectors'
 												},
 												{
 													xtype: 'gridcolumn',
 													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+														if(value===1){
+															metaData.tdCls = 'link-cursor';
+															return '<a class="link-cursor">'+String.fromCodePoint(0x2705)+'</a>';
+														}
+														return '';
+													},
+													exportRenderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
 														if(value===1){
 															return String.fromCodePoint(0x2705);
 														}
@@ -1293,7 +1306,6 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 													userCls: 'rotate-grid-headers',
 													width: 50,
 													dataIndex: 'accessWorkflowsTemplates',
-													exportRenderer: true,
 													text: 'Templates'
 												}
 											]
@@ -1555,7 +1567,6 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		if(cellText === 'Connectors' || cellText === 'Templates'){
 			let details = this.queryById('workflowDetails');
 
-			//details.update(record.data.DisplayName+' Workflows');
 			details.expand();
 		}
 	},
@@ -1612,9 +1623,11 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 	},
 
 	onMyAppsGridCellClick: function(tableview, td, cellIndex, record, tr, rowIndex, e, eOpts) {
-		//class = workflowlink
-		if(cellIndex === 18){
+		const cellText = e.position.column.text;
+
+		if(cellText === 'Connectors' || cellText === 'Templates'){
 			let details = this.queryById('workflowDetailsMyApps');
+
 			details.expand();
 		}
 	},
