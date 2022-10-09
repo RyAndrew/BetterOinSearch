@@ -47,6 +47,10 @@ Ext.define('BetterOinSearch.view.MainPanelViewModel', {
 		oinCapabilities: {
 			data: [
 				[
+					'Single Sign On',
+					'productSingleSignOn'
+				],
+				[
 					'SSO - SAML',
 					'accessSAML'
 				],

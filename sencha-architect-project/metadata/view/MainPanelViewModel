@@ -109,6 +109,7 @@
             "userConfig": {
                 "data": [
                     "[",
+                    "['Single Sign On','productSingleSignOn'],",
                     "['SSO - SAML','accessSAML'],",
                     "['SSO - OIDC','accessOIDC'],",
                     "//['Single Sign-On','productSingleSignOn'], - every app is on this list? why?",

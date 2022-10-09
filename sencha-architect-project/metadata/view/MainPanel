@@ -1080,7 +1080,7 @@
                                                             },
                                                             "codeClass": null,
                                                             "userConfig": {
-                                                                "dataIndex": "SAML_2_0",
+                                                                "dataIndex": "productSingleSignOn",
                                                                 "exportRenderer": true,
                                                                 "text": "Single Sign-On",
                                                                 "userCls": [
@@ -1117,7 +1117,7 @@
                                                                         ],
                                                                         "fn": "renderer",
                                                                         "implHandler": [
-                                                                            "if(record.data['SAML_2_0'] ===  1 || record.data['SAML_1_1'] === 1){",
+                                                                            "if(value === 1){",
                                                                             "\treturn String.fromCodePoint(0x2705);",
                                                                             "}"
                                                                         ]
@@ -1263,6 +1263,7 @@
                                                             "userConfig": {
                                                                 "dataIndex": "accessWSFederation",
                                                                 "exportRenderer": true,
+                                                                "hidden": true,
                                                                 "text": "WS Fed",
                                                                 "userCls": [
                                                                     "rotate-grid-headers"
@@ -1274,7 +1275,8 @@
                                                                 "width": "auto",
                                                                 "userCls": "typedarray",
                                                                 "dataIndex": "datafield",
-                                                                "exportRenderer": "boolean"
+                                                                "exportRenderer": "boolean",
+                                                                "hidden": "boolean"
                                                             },
                                                             "name": "MyColumn36",
                                                             "designerId": "233f54b4-2d64-41ed-a5f5-d0f659e0d0cc",
@@ -2208,7 +2210,8 @@
                                                                         "fn": "renderer",
                                                                         "implHandler": [
                                                                             "if(value===1){",
-                                                                            "\treturn '<a href=\"#\" class=\"workflowlink\">'+String.fromCodePoint(0x2705)+'</a>';",
+                                                                            "\tmetaData.tdCls = 'link-cursor';",
+                                                                            "\treturn '<a class=\"link-cursor\">'+String.fromCodePoint(0x2705)+'</a>';",
                                                                             "}",
                                                                             "return '';"
                                                                         ]
@@ -2301,7 +2304,8 @@
                                                                         "fn": "renderer",
                                                                         "implHandler": [
                                                                             "if(value===1){",
-                                                                            "\treturn '<a href=\"#\" class=\"workflowlink\">'+String.fromCodePoint(0x2705)+'</a>';",
+                                                                            "\tmetaData.tdCls = 'link-cursor';",
+                                                                            "\treturn '<a class=\"link-cursor\">'+String.fromCodePoint(0x2705)+'</a>';",
                                                                             "}",
                                                                             "return '';"
                                                                         ]
@@ -2518,12 +2522,14 @@
                                                     "userConfig": {
                                                         "dataIndex": "AppCategoryLabel",
                                                         "ignoreExport": true,
-                                                        "text": "App Category Label"
+                                                        "text": "Category",
+                                                        "width": 125
                                                     },
                                                     "configAlternates": {
                                                         "dataIndex": "datafield",
                                                         "text": "string",
-                                                        "ignoreExport": "boolean"
+                                                        "ignoreExport": "boolean",
+                                                        "width": "auto"
                                                     },
                                                     "name": "MyColumn13",
                                                     "designerId": "f87743bb-c0d7-478c-81c0-81519bd18b01"
@@ -2537,13 +2543,15 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "Custom",
+                                                        "hidden": true,
                                                         "ignoreExport": true,
                                                         "text": "Custom"
                                                     },
                                                     "configAlternates": {
                                                         "dataIndex": "datafield",
                                                         "text": "string",
-                                                        "ignoreExport": "boolean"
+                                                        "ignoreExport": "boolean",
+                                                        "hidden": "boolean"
                                                     },
                                                     "name": "MyColumn14",
                                                     "designerId": "c0e8beab-4a22-4605-8caa-1f02db17b307"
@@ -2557,13 +2565,15 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "SecurePasswordStore",
+                                                        "hidden": true,
                                                         "ignoreExport": true,
                                                         "text": "Secure Password Store"
                                                     },
                                                     "configAlternates": {
                                                         "dataIndex": "datafield",
                                                         "text": "string",
-                                                        "ignoreExport": "boolean"
+                                                        "ignoreExport": "boolean",
+                                                        "hidden": "boolean"
                                                     },
                                                     "name": "MyColumn15",
                                                     "designerId": "e97b262d-0e3d-407b-a73b-00c4b043af0e"
@@ -2577,13 +2587,15 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "SAML_2_0",
+                                                        "hidden": true,
                                                         "ignoreExport": true,
                                                         "text": "Saml 2 0"
                                                     },
                                                     "configAlternates": {
                                                         "dataIndex": "datafield",
                                                         "text": "string",
-                                                        "ignoreExport": "boolean"
+                                                        "ignoreExport": "boolean",
+                                                        "hidden": "boolean"
                                                     },
                                                     "name": "MyColumn16",
                                                     "designerId": "35c0b47d-7b45-4b78-acc6-9e5ce7c50059"
@@ -2597,13 +2609,15 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "SAML_1_1",
+                                                        "hidden": true,
                                                         "ignoreExport": true,
                                                         "text": "Saml 1 1"
                                                     },
                                                     "configAlternates": {
                                                         "dataIndex": "datafield",
                                                         "text": "string",
-                                                        "ignoreExport": "boolean"
+                                                        "ignoreExport": "boolean",
+                                                        "hidden": "boolean"
                                                     },
                                                     "name": "MyColumn17",
                                                     "designerId": "c6607cb9-9667-4c7e-84d4-81ef3062032a"
@@ -2617,13 +2631,15 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "BookMark",
+                                                        "hidden": true,
                                                         "ignoreExport": true,
                                                         "text": "Book Mark"
                                                     },
                                                     "configAlternates": {
                                                         "dataIndex": "datafield",
                                                         "text": "string",
-                                                        "ignoreExport": "boolean"
+                                                        "ignoreExport": "boolean",
+                                                        "hidden": "boolean"
                                                     },
                                                     "name": "MyColumn18",
                                                     "designerId": "c64d0a83-0f0e-4459-b26c-b398118b7f8a"
@@ -2637,13 +2653,15 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "BrowserPlugin",
+                                                        "hidden": true,
                                                         "ignoreExport": true,
                                                         "text": "Browser Plugin"
                                                     },
                                                     "configAlternates": {
                                                         "dataIndex": "datafield",
                                                         "text": "string",
-                                                        "ignoreExport": "boolean"
+                                                        "ignoreExport": "boolean",
+                                                        "hidden": "boolean"
                                                     },
                                                     "name": "MyColumn19",
                                                     "designerId": "9b44f193-8293-43d8-8148-c2600c2ea10e"
@@ -2657,13 +2675,15 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "BasicAuth",
+                                                        "hidden": true,
                                                         "ignoreExport": true,
                                                         "text": "Basic Auth"
                                                     },
                                                     "configAlternates": {
                                                         "dataIndex": "datafield",
                                                         "text": "string",
-                                                        "ignoreExport": "boolean"
+                                                        "ignoreExport": "boolean",
+                                                        "hidden": "boolean"
                                                     },
                                                     "name": "MyColumn21",
                                                     "designerId": "f588874d-092e-48a6-bcde-9bf95d9111ad"
@@ -2677,13 +2697,15 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "PushProfileUpdates",
+                                                        "hidden": true,
                                                         "ignoreExport": true,
                                                         "text": "Push Profile Updates"
                                                     },
                                                     "configAlternates": {
                                                         "dataIndex": "datafield",
                                                         "text": "string",
-                                                        "ignoreExport": "boolean"
+                                                        "ignoreExport": "boolean",
+                                                        "hidden": "boolean"
                                                     },
                                                     "name": "MyColumn25",
                                                     "designerId": "2d897446-8e2f-4823-b24f-e4ffebc0c7ad"
@@ -2697,13 +2719,15 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "Ranking",
+                                                        "hidden": true,
                                                         "ignoreExport": true,
                                                         "text": "Ranking"
                                                     },
                                                     "configAlternates": {
                                                         "dataIndex": "datafield",
                                                         "text": "string",
-                                                        "ignoreExport": "boolean"
+                                                        "ignoreExport": "boolean",
+                                                        "hidden": "boolean"
                                                     },
                                                     "name": "MyColumn30",
                                                     "designerId": "40a3c581-b770-4ab5-9669-aa1b3d9cbabd"
@@ -2717,13 +2741,15 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "OMM",
+                                                        "hidden": true,
                                                         "ignoreExport": true,
                                                         "text": "Omm"
                                                     },
                                                     "configAlternates": {
                                                         "dataIndex": "datafield",
                                                         "text": "string",
-                                                        "ignoreExport": "boolean"
+                                                        "ignoreExport": "boolean",
+                                                        "hidden": "boolean"
                                                     },
                                                     "name": "MyColumn31",
                                                     "designerId": "5e24f1bc-800e-4bec-bc5d-e811b56a5b51"
@@ -2737,13 +2763,15 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "Name",
+                                                        "hidden": true,
                                                         "ignoreExport": true,
                                                         "text": "Name"
                                                     },
                                                     "configAlternates": {
                                                         "dataIndex": "datafield",
                                                         "text": "string",
-                                                        "ignoreExport": "boolean"
+                                                        "ignoreExport": "boolean",
+                                                        "hidden": "boolean"
                                                     },
                                                     "name": "MyColumn7",
                                                     "designerId": "a5a8c5b4-000b-4b53-bf43-5bf2e245665b"
@@ -2757,13 +2785,15 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "Website",
+                                                        "hidden": true,
                                                         "ignoreExport": true,
                                                         "text": "Website"
                                                     },
                                                     "configAlternates": {
                                                         "dataIndex": "datafield",
                                                         "text": "string",
-                                                        "ignoreExport": "boolean"
+                                                        "ignoreExport": "boolean",
+                                                        "hidden": "boolean"
                                                     },
                                                     "name": "MyColumn2",
                                                     "designerId": "16f53fd1-2c29-4134-b00a-7cde9e8e4e3b"
@@ -2777,13 +2807,15 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "Version",
+                                                        "hidden": true,
                                                         "ignoreExport": true,
                                                         "text": "Version"
                                                     },
                                                     "configAlternates": {
                                                         "dataIndex": "datafield",
                                                         "text": "string",
-                                                        "ignoreExport": "boolean"
+                                                        "ignoreExport": "boolean",
+                                                        "hidden": "boolean"
                                                     },
                                                     "name": "MyColumn32",
                                                     "designerId": "35a629dd-901a-459c-9f82-e44e31c6c137"
@@ -2797,13 +2829,15 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "VerificationStatus",
+                                                        "hidden": true,
                                                         "ignoreExport": true,
                                                         "text": "Verification Status"
                                                     },
                                                     "configAlternates": {
                                                         "dataIndex": "datafield",
                                                         "text": "string",
-                                                        "ignoreExport": "boolean"
+                                                        "ignoreExport": "boolean",
+                                                        "hidden": "boolean"
                                                     },
                                                     "name": "MyColumn66",
                                                     "designerId": "ca42a20d-863b-4891-a22c-d88bdd1c696c"
@@ -2817,13 +2851,15 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "GroupPush",
+                                                        "hidden": true,
                                                         "ignoreExport": true,
                                                         "text": "Group Push"
                                                     },
                                                     "configAlternates": {
                                                         "dataIndex": "datafield",
                                                         "text": "string",
-                                                        "ignoreExport": "boolean"
+                                                        "ignoreExport": "boolean",
+                                                        "hidden": "boolean"
                                                     },
                                                     "name": "MyColumn67",
                                                     "designerId": "edae9ca6-fe82-4add-ae27-874349c1700e"
@@ -2837,13 +2873,15 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "GroupSync",
+                                                        "hidden": true,
                                                         "ignoreExport": true,
                                                         "text": "Group Sync"
                                                     },
                                                     "configAlternates": {
                                                         "dataIndex": "datafield",
                                                         "text": "string",
-                                                        "ignoreExport": "boolean"
+                                                        "ignoreExport": "boolean",
+                                                        "hidden": "boolean"
                                                     },
                                                     "name": "MyColumn68",
                                                     "designerId": "90034ea0-a164-4673-8a55-6a1613e82db2"
@@ -2857,13 +2895,15 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "ImportUserSchema",
+                                                        "hidden": true,
                                                         "ignoreExport": true,
                                                         "text": "Import User Schema"
                                                     },
                                                     "configAlternates": {
                                                         "dataIndex": "datafield",
                                                         "text": "string",
-                                                        "ignoreExport": "boolean"
+                                                        "ignoreExport": "boolean",
+                                                        "hidden": "boolean"
                                                     },
                                                     "name": "MyColumn69",
                                                     "designerId": "66b508b6-2a51-4942-a972-0aae160b66c6"
@@ -2877,13 +2917,15 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "ProfileMastering",
+                                                        "hidden": true,
                                                         "ignoreExport": true,
                                                         "text": "Profile Mastering"
                                                     },
                                                     "configAlternates": {
                                                         "dataIndex": "datafield",
                                                         "text": "string",
-                                                        "ignoreExport": "boolean"
+                                                        "ignoreExport": "boolean",
+                                                        "hidden": "boolean"
                                                     },
                                                     "name": "MyColumn70",
                                                     "designerId": "812bd8b4-3c9e-4d82-a81d-c25699926417"
@@ -2897,13 +2939,15 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "SCIM",
+                                                        "hidden": true,
                                                         "ignoreExport": true,
                                                         "text": "Scim"
                                                     },
                                                     "configAlternates": {
                                                         "dataIndex": "datafield",
                                                         "text": "string",
-                                                        "ignoreExport": "boolean"
+                                                        "ignoreExport": "boolean",
+                                                        "hidden": "boolean"
                                                     },
                                                     "name": "MyColumn71",
                                                     "designerId": "35a3d13e-bc0d-4f65-939d-81d22b93f9cb"
@@ -2917,13 +2961,15 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "IntegrationApp",
+                                                        "hidden": true,
                                                         "ignoreExport": true,
                                                         "text": "Integration App"
                                                     },
                                                     "configAlternates": {
                                                         "dataIndex": "datafield",
                                                         "text": "string",
-                                                        "ignoreExport": "boolean"
+                                                        "ignoreExport": "boolean",
+                                                        "hidden": "boolean"
                                                     },
                                                     "name": "MyColumn72",
                                                     "designerId": "415af435-db0f-4dec-aec9-92fe4b4b14e7"
@@ -2937,13 +2983,15 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "AppLinksJSON",
+                                                        "hidden": true,
                                                         "ignoreExport": true,
                                                         "text": "App Links Json"
                                                     },
                                                     "configAlternates": {
                                                         "dataIndex": "datafield",
                                                         "text": "string",
-                                                        "ignoreExport": "boolean"
+                                                        "ignoreExport": "boolean",
+                                                        "hidden": "boolean"
                                                     },
                                                     "name": "MyColumn73",
                                                     "designerId": "b9045260-fd8e-4021-a9e6-a46a6e0912d3"
@@ -2957,13 +3005,15 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "VersionCreatedDate",
+                                                        "hidden": true,
                                                         "ignoreExport": true,
                                                         "text": "Version Created Date"
                                                     },
                                                     "configAlternates": {
                                                         "dataIndex": "datafield",
                                                         "text": "string",
-                                                        "ignoreExport": "boolean"
+                                                        "ignoreExport": "boolean",
+                                                        "hidden": "boolean"
                                                     },
                                                     "name": "MyColumn74",
                                                     "designerId": "6336ab41-0e46-4622-bfb1-3e240b81b2c6"
@@ -2977,13 +3027,15 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "DeepLinkUrl",
+                                                        "hidden": true,
                                                         "ignoreExport": true,
                                                         "text": "Deep Link Url"
                                                     },
                                                     "configAlternates": {
                                                         "dataIndex": "datafield",
                                                         "text": "string",
-                                                        "ignoreExport": "boolean"
+                                                        "ignoreExport": "boolean",
+                                                        "hidden": "boolean"
                                                     },
                                                     "name": "MyColumn75",
                                                     "designerId": "5e541c9a-220c-4886-aaa2-6d97233a6ad8"
@@ -2997,13 +3049,15 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "AppCatalogDiscoverable",
+                                                        "hidden": true,
                                                         "ignoreExport": true,
                                                         "text": "App Catalog Discoverable"
                                                     },
                                                     "configAlternates": {
                                                         "dataIndex": "datafield",
                                                         "text": "string",
-                                                        "ignoreExport": "boolean"
+                                                        "ignoreExport": "boolean",
+                                                        "hidden": "boolean"
                                                     },
                                                     "name": "MyColumn76",
                                                     "designerId": "e92c9569-14a9-4887-a67a-a5808d20bb2e"
@@ -3017,13 +3071,15 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "accessSAML",
+                                                        "hidden": true,
                                                         "ignoreExport": true,
                                                         "text": "A SAML"
                                                     },
                                                     "configAlternates": {
                                                         "dataIndex": "datafield",
                                                         "text": "string",
-                                                        "ignoreExport": "boolean"
+                                                        "ignoreExport": "boolean",
+                                                        "hidden": "boolean"
                                                     },
                                                     "name": "MyColumn45",
                                                     "designerId": "c2cd1e91-48ad-4d0b-87c2-ef639c01a6dc"
@@ -3037,13 +3093,15 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "accessSWA",
+                                                        "hidden": true,
                                                         "ignoreExport": true,
                                                         "text": "A SWA"
                                                     },
                                                     "configAlternates": {
                                                         "dataIndex": "datafield",
                                                         "text": "string",
-                                                        "ignoreExport": "boolean"
+                                                        "ignoreExport": "boolean",
+                                                        "hidden": "boolean"
                                                     },
                                                     "name": "MyColumn46",
                                                     "designerId": "35ae8eff-a338-4390-bb8d-4815767388c2"
@@ -3057,13 +3115,15 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "accessProvisioning",
+                                                        "hidden": true,
                                                         "ignoreExport": true,
                                                         "text": "A Provisioning"
                                                     },
                                                     "configAlternates": {
                                                         "dataIndex": "datafield",
                                                         "text": "string",
-                                                        "ignoreExport": "boolean"
+                                                        "ignoreExport": "boolean",
+                                                        "hidden": "boolean"
                                                     },
                                                     "name": "MyColumn47",
                                                     "designerId": "1fcfbcbe-842c-4c27-8a1c-d53ae99a8d64"
@@ -3077,13 +3137,15 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "accessWSFederation",
+                                                        "hidden": true,
                                                         "ignoreExport": true,
                                                         "text": "A WSFederation"
                                                     },
                                                     "configAlternates": {
                                                         "dataIndex": "datafield",
                                                         "text": "string",
-                                                        "ignoreExport": "boolean"
+                                                        "ignoreExport": "boolean",
+                                                        "hidden": "boolean"
                                                     },
                                                     "name": "MyColumn48",
                                                     "designerId": "578eb035-be90-4552-85f0-8c24cccbb501"
@@ -3097,13 +3159,15 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "provisioningCreate",
+                                                        "hidden": true,
                                                         "ignoreExport": true,
                                                         "text": "P Create"
                                                     },
                                                     "configAlternates": {
                                                         "dataIndex": "datafield",
                                                         "text": "string",
-                                                        "ignoreExport": "boolean"
+                                                        "ignoreExport": "boolean",
+                                                        "hidden": "boolean"
                                                     },
                                                     "name": "MyColumn49",
                                                     "designerId": "0a30f118-14d6-427d-b05a-edde41d1b471"
@@ -3117,13 +3181,15 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "provisioningUpdate",
+                                                        "hidden": true,
                                                         "ignoreExport": true,
                                                         "text": "P Update"
                                                     },
                                                     "configAlternates": {
                                                         "dataIndex": "datafield",
                                                         "text": "string",
-                                                        "ignoreExport": "boolean"
+                                                        "ignoreExport": "boolean",
+                                                        "hidden": "boolean"
                                                     },
                                                     "name": "MyColumn50",
                                                     "designerId": "65339d9e-00d9-482e-999d-b65c133bc160"
@@ -3137,13 +3203,15 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "provisioningDeactivate",
+                                                        "hidden": true,
                                                         "ignoreExport": true,
                                                         "text": "P Deactivate"
                                                     },
                                                     "configAlternates": {
                                                         "dataIndex": "datafield",
                                                         "text": "string",
-                                                        "ignoreExport": "boolean"
+                                                        "ignoreExport": "boolean",
+                                                        "hidden": "boolean"
                                                     },
                                                     "name": "MyColumn51",
                                                     "designerId": "40294483-2f93-4375-afac-1b0677192f79"
@@ -3157,13 +3225,15 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "provisioningSyncPassword",
+                                                        "hidden": true,
                                                         "ignoreExport": true,
                                                         "text": "P SyncPassword"
                                                     },
                                                     "configAlternates": {
                                                         "dataIndex": "datafield",
                                                         "text": "string",
-                                                        "ignoreExport": "boolean"
+                                                        "ignoreExport": "boolean",
+                                                        "hidden": "boolean"
                                                     },
                                                     "name": "MyColumn52",
                                                     "designerId": "eef3bee5-e448-48b8-a857-a6a2d9a75fcf"
@@ -3177,13 +3247,15 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "SupportLevel",
+                                                        "hidden": true,
                                                         "ignoreExport": true,
                                                         "text": "Support Level"
                                                     },
                                                     "configAlternates": {
                                                         "dataIndex": "datafield",
                                                         "text": "string",
-                                                        "ignoreExport": "boolean"
+                                                        "ignoreExport": "boolean",
+                                                        "hidden": "boolean"
                                                     },
                                                     "name": "MyColumn77",
                                                     "designerId": "b7ed4a5c-2a3d-475e-8d45-c5ccb074c8eb"
@@ -3197,13 +3269,15 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "productLifecycleManagement",
+                                                        "hidden": true,
                                                         "ignoreExport": true,
                                                         "text": "Prod LCM"
                                                     },
                                                     "configAlternates": {
                                                         "dataIndex": "datafield",
                                                         "text": "string",
-                                                        "ignoreExport": "boolean"
+                                                        "ignoreExport": "boolean",
+                                                        "hidden": "boolean"
                                                     },
                                                     "name": "MyColumn54",
                                                     "designerId": "9268435e-4179-4660-8123-d265ce3ae313"
@@ -3217,13 +3291,15 @@
                                                     "codeClass": null,
                                                     "userConfig": {
                                                         "dataIndex": "productSingleSignOn",
+                                                        "hidden": true,
                                                         "ignoreExport": true,
                                                         "text": "Prod SSO"
                                                     },
                                                     "configAlternates": {
                                                         "dataIndex": "datafield",
                                                         "text": "string",
-                                                        "ignoreExport": "boolean"
+                                                        "ignoreExport": "boolean",
+                                                        "hidden": "boolean"
                                                     },
                                                     "name": "MyColumn64",
                                                     "designerId": "5e2b96c6-9330-4864-8e61-86130126e80e"

@@ -54,3 +54,7 @@ a.x-tab.tab-with-border.x-tab-active {
 
 	border-style: solid solid none solid !important;
 }
+
+.link-cursor {
+	cursor: pointer;
+}

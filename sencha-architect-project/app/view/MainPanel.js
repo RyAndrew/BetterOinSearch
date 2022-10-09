@@ -304,13 +304,13 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 														{
 															xtype: 'gridcolumn',
 															renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-																if(record.data['SAML_2_0'] ===  1 || record.data['SAML_1_1'] === 1){
+																if(value === 1){
 																	return String.fromCodePoint(0x2705);
 																}
 															},
 															userCls: 'rotate-grid-headers',
 															width: 50,
-															dataIndex: 'SAML_2_0',
+															dataIndex: 'productSingleSignOn',
 															exportRenderer: true,
 															text: 'Single Sign-On'
 														},
@@ -349,6 +349,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 																}
 																return '';
 															},
+															hidden: true,
 															userCls: 'rotate-grid-headers',
 															width: 50,
 															dataIndex: 'accessWSFederation',
@@ -561,7 +562,8 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 															xtype: 'gridcolumn',
 															renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
 																if(value===1){
-																	return '<a href="#" class="workflowlink">'+String.fromCodePoint(0x2705)+'</a>';
+																	metaData.tdCls = 'link-cursor';
+																	return '<a class="link-cursor">'+String.fromCodePoint(0x2705)+'</a>';
 																}
 																return '';
 															},
@@ -580,7 +582,8 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 															xtype: 'gridcolumn',
 															renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
 																if(value===1){
-																	return '<a href="#" class="workflowlink">'+String.fromCodePoint(0x2705)+'</a>';
+																	metaData.tdCls = 'link-cursor';
+																	return '<a class="link-cursor">'+String.fromCodePoint(0x2705)+'</a>';
 																}
 																return '';
 															},
@@ -619,216 +622,252 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 												},
 												{
 													xtype: 'gridcolumn',
+													width: 125,
 													dataIndex: 'AppCategoryLabel',
 													ignoreExport: true,
-													text: 'App Category Label'
+													text: 'Category'
 												},
 												{
 													xtype: 'gridcolumn',
+													hidden: true,
 													dataIndex: 'Custom',
 													ignoreExport: true,
 													text: 'Custom'
 												},
 												{
 													xtype: 'gridcolumn',
+													hidden: true,
 													dataIndex: 'SecurePasswordStore',
 													ignoreExport: true,
 													text: 'Secure Password Store'
 												},
 												{
 													xtype: 'gridcolumn',
+													hidden: true,
 													dataIndex: 'SAML_2_0',
 													ignoreExport: true,
 													text: 'Saml 2 0'
 												},
 												{
 													xtype: 'gridcolumn',
+													hidden: true,
 													dataIndex: 'SAML_1_1',
 													ignoreExport: true,
 													text: 'Saml 1 1'
 												},
 												{
 													xtype: 'gridcolumn',
+													hidden: true,
 													dataIndex: 'BookMark',
 													ignoreExport: true,
 													text: 'Book Mark'
 												},
 												{
 													xtype: 'gridcolumn',
+													hidden: true,
 													dataIndex: 'BrowserPlugin',
 													ignoreExport: true,
 													text: 'Browser Plugin'
 												},
 												{
 													xtype: 'gridcolumn',
+													hidden: true,
 													dataIndex: 'BasicAuth',
 													ignoreExport: true,
 													text: 'Basic Auth'
 												},
 												{
 													xtype: 'gridcolumn',
+													hidden: true,
 													dataIndex: 'PushProfileUpdates',
 													ignoreExport: true,
 													text: 'Push Profile Updates'
 												},
 												{
 													xtype: 'gridcolumn',
+													hidden: true,
 													dataIndex: 'Ranking',
 													ignoreExport: true,
 													text: 'Ranking'
 												},
 												{
 													xtype: 'gridcolumn',
+													hidden: true,
 													dataIndex: 'OMM',
 													ignoreExport: true,
 													text: 'Omm'
 												},
 												{
 													xtype: 'gridcolumn',
+													hidden: true,
 													dataIndex: 'Name',
 													ignoreExport: true,
 													text: 'Name'
 												},
 												{
 													xtype: 'gridcolumn',
+													hidden: true,
 													dataIndex: 'Website',
 													ignoreExport: true,
 													text: 'Website'
 												},
 												{
 													xtype: 'gridcolumn',
+													hidden: true,
 													dataIndex: 'Version',
 													ignoreExport: true,
 													text: 'Version'
 												},
 												{
 													xtype: 'gridcolumn',
+													hidden: true,
 													dataIndex: 'VerificationStatus',
 													ignoreExport: true,
 													text: 'Verification Status'
 												},
 												{
 													xtype: 'gridcolumn',
+													hidden: true,
 													dataIndex: 'GroupPush',
 													ignoreExport: true,
 													text: 'Group Push'
 												},
 												{
 													xtype: 'gridcolumn',
+													hidden: true,
 													dataIndex: 'GroupSync',
 													ignoreExport: true,
 													text: 'Group Sync'
 												},
 												{
 													xtype: 'gridcolumn',
+													hidden: true,
 													dataIndex: 'ImportUserSchema',
 													ignoreExport: true,
 													text: 'Import User Schema'
 												},
 												{
 													xtype: 'gridcolumn',
+													hidden: true,
 													dataIndex: 'ProfileMastering',
 													ignoreExport: true,
 													text: 'Profile Mastering'
 												},
 												{
 													xtype: 'gridcolumn',
+													hidden: true,
 													dataIndex: 'SCIM',
 													ignoreExport: true,
 													text: 'Scim'
 												},
 												{
 													xtype: 'gridcolumn',
+													hidden: true,
 													dataIndex: 'IntegrationApp',
 													ignoreExport: true,
 													text: 'Integration App'
 												},
 												{
 													xtype: 'gridcolumn',
+													hidden: true,
 													dataIndex: 'AppLinksJSON',
 													ignoreExport: true,
 													text: 'App Links Json'
 												},
 												{
 													xtype: 'gridcolumn',
+													hidden: true,
 													dataIndex: 'VersionCreatedDate',
 													ignoreExport: true,
 													text: 'Version Created Date'
 												},
 												{
 													xtype: 'gridcolumn',
+													hidden: true,
 													dataIndex: 'DeepLinkUrl',
 													ignoreExport: true,
 													text: 'Deep Link Url'
 												},
 												{
 													xtype: 'gridcolumn',
+													hidden: true,
 													dataIndex: 'AppCatalogDiscoverable',
 													ignoreExport: true,
 													text: 'App Catalog Discoverable'
 												},
 												{
 													xtype: 'gridcolumn',
+													hidden: true,
 													dataIndex: 'accessSAML',
 													ignoreExport: true,
 													text: 'A SAML'
 												},
 												{
 													xtype: 'gridcolumn',
+													hidden: true,
 													dataIndex: 'accessSWA',
 													ignoreExport: true,
 													text: 'A SWA'
 												},
 												{
 													xtype: 'gridcolumn',
+													hidden: true,
 													dataIndex: 'accessProvisioning',
 													ignoreExport: true,
 													text: 'A Provisioning'
 												},
 												{
 													xtype: 'gridcolumn',
+													hidden: true,
 													dataIndex: 'accessWSFederation',
 													ignoreExport: true,
 													text: 'A WSFederation'
 												},
 												{
 													xtype: 'gridcolumn',
+													hidden: true,
 													dataIndex: 'provisioningCreate',
 													ignoreExport: true,
 													text: 'P Create'
 												},
 												{
 													xtype: 'gridcolumn',
+													hidden: true,
 													dataIndex: 'provisioningUpdate',
 													ignoreExport: true,
 													text: 'P Update'
 												},
 												{
 													xtype: 'gridcolumn',
+													hidden: true,
 													dataIndex: 'provisioningDeactivate',
 													ignoreExport: true,
 													text: 'P Deactivate'
 												},
 												{
 													xtype: 'gridcolumn',
+													hidden: true,
 													dataIndex: 'provisioningSyncPassword',
 													ignoreExport: true,
 													text: 'P SyncPassword'
 												},
 												{
 													xtype: 'gridcolumn',
+													hidden: true,
 													dataIndex: 'SupportLevel',
 													ignoreExport: true,
 													text: 'Support Level'
 												},
 												{
 													xtype: 'gridcolumn',
+													hidden: true,
 													dataIndex: 'productLifecycleManagement',
 													ignoreExport: true,
 													text: 'Prod LCM'
 												},
 												{
 													xtype: 'gridcolumn',
+													hidden: true,
 													dataIndex: 'productSingleSignOn',
 													ignoreExport: true,
 													text: 'Prod SSO'
