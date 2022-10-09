@@ -3872,6 +3872,66 @@
                                                     },
                                                     "codeClass": null,
                                                     "userConfig": {
+                                                        "dataIndex": "productSingleSignOn",
+                                                        "exportRenderer": true,
+                                                        "text": "Single Sign-On",
+                                                        "userCls": [
+                                                            "rotate-grid-headers"
+                                                        ],
+                                                        "width": 50
+                                                    },
+                                                    "configAlternates": {
+                                                        "text": "string",
+                                                        "dataIndex": "datafield",
+                                                        "width": "auto",
+                                                        "userCls": "typedarray",
+                                                        "exportRenderer": "boolean"
+                                                    },
+                                                    "name": "MyColumn78",
+                                                    "designerId": "67f64084-236d-443a-bdda-1707d4c7f73c",
+                                                    "cn": [
+                                                        {
+                                                            "type": "fixedfunction",
+                                                            "reference": {
+                                                                "name": "items",
+                                                                "type": "array"
+                                                            },
+                                                            "codeClass": null,
+                                                            "userConfig": {
+                                                                "designer|params": [
+                                                                    "value",
+                                                                    "metaData",
+                                                                    "record",
+                                                                    "rowIndex",
+                                                                    "colIndex",
+                                                                    "store",
+                                                                    "view"
+                                                                ],
+                                                                "fn": "renderer",
+                                                                "implHandler": [
+                                                                    "if(value === 1){",
+                                                                    "\treturn String.fromCodePoint(0x2705);",
+                                                                    "}"
+                                                                ]
+                                                            },
+                                                            "configAlternates": {
+                                                                "designer|params": "typedarray",
+                                                                "fn": "string",
+                                                                "implHandler": "code"
+                                                            },
+                                                            "name": "renderer",
+                                                            "designerId": "526c7142-357f-4101-b647-968059a1cc34"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "type": "Ext.grid.column.Column",
+                                                    "reference": {
+                                                        "name": "columns",
+                                                        "type": "array"
+                                                    },
+                                                    "codeClass": null,
+                                                    "userConfig": {
                                                         "dataIndex": "SAML_2_0",
                                                         "exportRenderer": true,
                                                         "text": "SAML",

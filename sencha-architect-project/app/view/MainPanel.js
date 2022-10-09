@@ -1015,6 +1015,19 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 												{
 													xtype: 'gridcolumn',
 													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+														if(value === 1){
+															return String.fromCodePoint(0x2705);
+														}
+													},
+													userCls: 'rotate-grid-headers',
+													width: 50,
+													dataIndex: 'productSingleSignOn',
+													exportRenderer: true,
+													text: 'Single Sign-On'
+												},
+												{
+													xtype: 'gridcolumn',
+													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
 														if(record.data['SAML_2_0'] === 1 || record.data['SAML_1_1'] === 1){
 															return String.fromCodePoint(0x2705);
 														}
