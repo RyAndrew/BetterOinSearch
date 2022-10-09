@@ -1,7 +1,7 @@
 "use strict";
 
 let config = {
-	httpPort: 8080,
+	httpPort: 3000,
 	webRoot: './webroot/',
 	timeZone: 'America/Los_Angeles'
 }
