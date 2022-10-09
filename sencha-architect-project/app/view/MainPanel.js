@@ -304,7 +304,20 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 														{
 															xtype: 'gridcolumn',
 															renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-																if(record.data['SAML_2_0'] === 'YES' || record.data['SAML_1_1'] === 'YES'){
+																if(record.data['SAML_2_0'] ===  1 || record.data['SAML_1_1'] === 1){
+																	return String.fromCodePoint(0x2705);
+																}
+															},
+															userCls: 'rotate-grid-headers',
+															width: 50,
+															dataIndex: 'SAML_2_0',
+															exportRenderer: true,
+															text: 'Single Sign-On'
+														},
+														{
+															xtype: 'gridcolumn',
+															renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+																if(record.data['SAML_2_0'] ===  1 || record.data['SAML_1_1'] === 1){
 																	return String.fromCodePoint(0x2705);
 																}
 															},
@@ -317,7 +330,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 														{
 															xtype: 'gridcolumn',
 															renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-																if(value==='YES'){
+																if(value===1){
 																	return String.fromCodePoint(0x2705);
 																}
 																return '';
@@ -331,21 +344,21 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 														{
 															xtype: 'gridcolumn',
 															renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-																if(value==='YES'){
+																if(value===1){
 																	return String.fromCodePoint(0x2705);
 																}
 																return '';
 															},
 															userCls: 'rotate-grid-headers',
 															width: 50,
-															dataIndex: 'WSFED',
+															dataIndex: 'accessWSFederation',
 															exportRenderer: true,
 															text: 'WS Fed'
 														},
 														{
 															xtype: 'gridcolumn',
 															renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-																if(record.data['AutoLogin'] === 'YES' || record.data['BrowserPlugin'] === 'YES'){
+																if(record.data['AutoLogin'] === 1 || record.data['BrowserPlugin'] === 1){
 																	return String.fromCodePoint(0x2705);
 																	//return '&#x2705;';
 																	//return '<img src="/inc/img/silk_icons/tick.png">';
@@ -367,7 +380,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 														{
 															xtype: 'gridcolumn',
 															renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-																if(value==='YES'){
+																if(value===1){
 																	return String.fromCodePoint(0x2705);
 																}
 																return '';
@@ -381,7 +394,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 														{
 															xtype: 'gridcolumn',
 															renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-																if(value==='YES'){
+																if(value===1){
 																	return String.fromCodePoint(0x2705);
 																}
 																return '';
@@ -395,7 +408,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 														{
 															xtype: 'gridcolumn',
 															renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-																if(value==='YES'){
+																if(value===1){
 																	return String.fromCodePoint(0x2705);
 																}
 																return '';
@@ -485,7 +498,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 														{
 															xtype: 'gridcolumn',
 															renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-																if(value==='YES'){
+																if(value===1){
 																	return String.fromCodePoint(0x2705);
 																}
 																return '';
@@ -499,7 +512,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 														{
 															xtype: 'gridcolumn',
 															renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-																if(value==='YES'){
+																if(value===1){
 																	return String.fromCodePoint(0x2705);
 																}
 																return '';
@@ -513,7 +526,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 														{
 															xtype: 'gridcolumn',
 															renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-																if(value==='YES'){
+																if(value===1){
 																	return String.fromCodePoint(0x2705);
 																}
 																return '';
@@ -527,7 +540,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 														{
 															xtype: 'gridcolumn',
 															renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-																if(value==='YES'){
+																if(value===1){
 																	return String.fromCodePoint(0x2705);
 																}
 																return '';
@@ -567,6 +580,12 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 															xtype: 'gridcolumn',
 															renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
 																if(value===1){
+																	return '<a href="#" class="workflowlink">'+String.fromCodePoint(0x2705)+'</a>';
+																}
+																return '';
+															},
+															exportRenderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+																if(value===1){
 																	return String.fromCodePoint(0x2705);
 																}
 																return '';
@@ -574,7 +593,6 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 															userCls: 'rotate-grid-headers',
 															width: 50,
 															dataIndex: 'accessWorkflowsTemplates',
-															exportRenderer: true,
 															text: 'Templates'
 														}
 													]
@@ -589,6 +607,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 												{
 													xtype: 'gridcolumn',
 													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+														console.log(record.data);
 														return '<a href="https://www.okta.com'+value+'/#capabilities" target="_blank">OIN</a>';
 													},
 													exportRenderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
@@ -957,7 +976,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 												{
 													xtype: 'gridcolumn',
 													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-														if(record.data['SAML_2_0'] === 'YES' || record.data['SAML_1_1'] === 'YES'){
+														if(record.data['SAML_2_0'] === 1 || record.data['SAML_1_1'] === 1){
 															return String.fromCodePoint(0x2705);
 														}
 													},
@@ -970,7 +989,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 												{
 													xtype: 'gridcolumn',
 													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-														if(value==='YES'){
+														if(value===1){
 															return String.fromCodePoint(0x2705);
 														}
 														return '';
@@ -984,7 +1003,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 												{
 													xtype: 'gridcolumn',
 													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-														if(value==='YES'){
+														if(value===1){
 															return String.fromCodePoint(0x2705);
 														}
 														return '';
@@ -998,7 +1017,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 												{
 													xtype: 'gridcolumn',
 													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-														if(record.data['AutoLogin'] === 'YES' || record.data['BrowserPlugin'] === 'YES'){
+														if(record.data['AutoLogin'] === 1 || record.data['BrowserPlugin'] === 1){
 															return String.fromCodePoint(0x2705);
 															//return '&#x2705;';
 															//return '<img src="/inc/img/silk_icons/tick.png">';
@@ -1020,7 +1039,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 												{
 													xtype: 'gridcolumn',
 													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-														if(value==='YES'){
+														if(value===1){
 															return String.fromCodePoint(0x2705);
 														}
 														return '';
@@ -1034,7 +1053,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 												{
 													xtype: 'gridcolumn',
 													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-														if(value==='YES'){
+														if(value===1){
 															return String.fromCodePoint(0x2705);
 														}
 														return '';
@@ -1048,7 +1067,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 												{
 													xtype: 'gridcolumn',
 													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-														if(value==='YES'){
+														if(value===1){
 															return String.fromCodePoint(0x2705);
 														}
 														return '';
@@ -1138,7 +1157,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 												{
 													xtype: 'gridcolumn',
 													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-														if(value==='YES'){
+														if(value===1){
 															return String.fromCodePoint(0x2705);
 														}
 														return '';
@@ -1152,7 +1171,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 												{
 													xtype: 'gridcolumn',
 													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-														if(value==='YES'){
+														if(value===1){
 															return String.fromCodePoint(0x2705);
 														}
 														return '';
@@ -1166,7 +1185,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 												{
 													xtype: 'gridcolumn',
 													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-														if(value==='YES'){
+														if(value===1){
 															return String.fromCodePoint(0x2705);
 														}
 														return '';
@@ -1180,7 +1199,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 												{
 													xtype: 'gridcolumn',
 													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-														if(value==='YES'){
+														if(value===1){
 															return String.fromCodePoint(0x2705);
 														}
 														return '';
@@ -1241,8 +1260,8 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 											exportRenderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
 												return 'https://www.okta.com'+value;
 											},
-											dataIndex: 'path',
 											width: 55,
+											dataIndex: 'path',
 											text: 'OIN'
 										}
 									],
@@ -1479,9 +1498,9 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 	},
 
 	onTableCellClick: function(tableview, td, cellIndex, record, tr, rowIndex, e, eOpts) {
-		//workflow col?
-		//class = workflowlink
-		if(cellIndex === 18){
+		const cellText = e.position.column.text;
+
+		if(cellText === 'Connectors' || cellText === 'Templates'){
 			let details = this.queryById('workflowDetails');
 
 			//details.update(record.data.DisplayName+' Workflows');
@@ -1541,12 +1560,9 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 	},
 
 	onMyAppsGridCellClick: function(tableview, td, cellIndex, record, tr, rowIndex, e, eOpts) {
-		//workflow col?
 		//class = workflowlink
 		if(cellIndex === 18){
 			let details = this.queryById('workflowDetailsMyApps');
-
-			//details.update(record.data.DisplayName+' Workflows');
 			details.expand();
 		}
 	},

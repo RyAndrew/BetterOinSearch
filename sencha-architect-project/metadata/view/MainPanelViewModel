@@ -109,8 +109,8 @@
             "userConfig": {
                 "data": [
                     "[",
-                    "['SSO - SAML','SAML_2_0'],",
-                    "['SSO - OIDC','OIDC'],",
+                    "['SSO - SAML','accessSAML'],",
+                    "['SSO - OIDC','accessOIDC'],",
                     "//['Single Sign-On','productSingleSignOn'], - every app is on this list? why?",
                     "//['SSO - WS-Federation','WSFED'],",
                     "['Workflows Connector','accessWorkflowsConnectors'],",

@@ -95,12 +95,6 @@ Ext.define('BetterOinSearch.model.OinModel', {
 			name: 'Ranking'
 		},
 		{
-			name: 'OMM'
-		},
-		{
-			name: 'Version'
-		},
-		{
 			name: 'Creatable'
 		},
 		{
@@ -108,9 +102,6 @@ Ext.define('BetterOinSearch.model.OinModel', {
 		},
 		{
 			name: 'OIDC'
-		},
-		{
-			name: 'VerificationStatus'
 		},
 		{
 			name: 'GroupPush'
@@ -129,18 +120,6 @@ Ext.define('BetterOinSearch.model.OinModel', {
 		},
 		{
 			name: 'IntegrationApp'
-		},
-		{
-			name: 'AppLinksJSON'
-		},
-		{
-			name: 'VersionCreatedDate'
-		},
-		{
-			name: 'DeepLinkUrl'
-		},
-		{
-			name: 'AppCatalogDiscoverable'
 		},
 		{
 			name: 'SupportLevel'

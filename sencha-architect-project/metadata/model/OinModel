@@ -406,38 +406,6 @@
             },
             "codeClass": null,
             "userConfig": {
-                "name": "OMM"
-            },
-            "configAlternates": {
-                "name": "string"
-            },
-            "name": "MyField108",
-            "designerId": "b0f5fcd8-bcd3-4c1e-89d8-3fff944c2929"
-        },
-        {
-            "type": "Ext.data.field.Field",
-            "reference": {
-                "name": "fields",
-                "type": "array"
-            },
-            "codeClass": null,
-            "userConfig": {
-                "name": "Version"
-            },
-            "configAlternates": {
-                "name": "string"
-            },
-            "name": "MyField109",
-            "designerId": "8679c0e0-a2e8-4596-8171-38d5f1966404"
-        },
-        {
-            "type": "Ext.data.field.Field",
-            "reference": {
-                "name": "fields",
-                "type": "array"
-            },
-            "codeClass": null,
-            "userConfig": {
                 "name": "Creatable"
             },
             "configAlternates": {
@@ -477,22 +445,6 @@
             },
             "name": "MyField111",
             "designerId": "0d9e3d60-6ff2-429a-b5aa-9f96ff3dc0fe"
-        },
-        {
-            "type": "Ext.data.field.Field",
-            "reference": {
-                "name": "fields",
-                "type": "array"
-            },
-            "codeClass": null,
-            "userConfig": {
-                "name": "VerificationStatus"
-            },
-            "configAlternates": {
-                "name": "string"
-            },
-            "name": "MyField112",
-            "designerId": "64e73394-ca98-48f6-b5ea-456be0173ae8"
         },
         {
             "type": "Ext.data.field.Field",
@@ -589,70 +541,6 @@
             },
             "name": "MyField118",
             "designerId": "555098dc-95b9-4c68-8d7e-67c1ae013e52"
-        },
-        {
-            "type": "Ext.data.field.Field",
-            "reference": {
-                "name": "fields",
-                "type": "array"
-            },
-            "codeClass": null,
-            "userConfig": {
-                "name": "AppLinksJSON"
-            },
-            "configAlternates": {
-                "name": "string"
-            },
-            "name": "MyField119",
-            "designerId": "200561cb-c853-4f1d-b671-85fa8f7bc8dc"
-        },
-        {
-            "type": "Ext.data.field.Field",
-            "reference": {
-                "name": "fields",
-                "type": "array"
-            },
-            "codeClass": null,
-            "userConfig": {
-                "name": "VersionCreatedDate"
-            },
-            "configAlternates": {
-                "name": "string"
-            },
-            "name": "MyField120",
-            "designerId": "6b1888e7-852b-4925-8706-2ed57c842700"
-        },
-        {
-            "type": "Ext.data.field.Field",
-            "reference": {
-                "name": "fields",
-                "type": "array"
-            },
-            "codeClass": null,
-            "userConfig": {
-                "name": "DeepLinkUrl"
-            },
-            "configAlternates": {
-                "name": "string"
-            },
-            "name": "MyField121",
-            "designerId": "e8dbffdc-5825-42fb-905e-5fc2e341a699"
-        },
-        {
-            "type": "Ext.data.field.Field",
-            "reference": {
-                "name": "fields",
-                "type": "array"
-            },
-            "codeClass": null,
-            "userConfig": {
-                "name": "AppCatalogDiscoverable"
-            },
-            "configAlternates": {
-                "name": "string"
-            },
-            "name": "MyField122",
-            "designerId": "edafd82e-f8a1-46c2-adfe-b88633e9dce6"
         },
         {
             "type": "Ext.data.field.Field",

@@ -4,10 +4,12 @@ import {
 	createReadStream
 } from 'fs'
 import {
-	writeFile
+	writeFile,
+	readFile
 } from 'fs/promises'
 
 import csv from 'csv-parser'
+import data1ExpectedColumns from './data1ExpectedColumns.js'
 
 export default class ApiCsvToJson {
 	static tempCsv1 = 'temp1.csv'
@@ -53,12 +55,13 @@ export default class ApiCsvToJson {
 		this.createBlankCapabilitiesObject()
 
 		await this.fetchApiDataPart1()
-
 		let dataPart1 = await this.parsePart1Csv()
-
 		let dataPart2 = await this.fetchApiDataPart2()
-
 		this.mergeData2IntoData1(dataPart1, dataPart2)
+
+		await writeFile(this.config.webRoot + 'oin-json.json', JSON.stringify(dataPart1,null,'  ')).catch(error => {
+			console.log('error writing file', error)
+		})
 
 		let allDataArray = this.convertObjectToArray(dataPart1)
 
@@ -79,8 +82,8 @@ export default class ApiCsvToJson {
 		return output
 	}
 	static mergeData2IntoData1(data1, data2){
-		//let found = []
-		//let missing = []
+		let found = []
+		let missing = []
 		for (const item in data1) {
 			let name = data1[item].DisplayName.trim()
 
@@ -88,38 +91,47 @@ export default class ApiCsvToJson {
 			if(data2[name]){
 				data1[item] = Object.assign(data1[item], data2[name].capabilities)
 				data1[item].path = data2[name].path
-				//found.push(data1[item])
+				found.push(data1[item])
 			}else{
 				data1[item] = Object.assign(data1[item], this.blankCapabilitiesObject)
 				data1[item].path = ''
-				//missing.push(data1[item])
+				missing.push(data1[item])
 			}
 		}
-		//console.log(`found=${found.length} missing=${missing.length}`)
+		console.log(`found=${found.length} missing=${missing.length}`)
 	}
 	static async fetchApiDataPart1() {
 
-		const options = {
-			headers: {
-				'Authorization': 'SSWS ' + this.config.part1ApiKey
+		if(process.env.USE_CACHED_DATA){
+			console.log('using cached data '+this.tempCsv1)
+		}else{
+			const options = {
+				headers: {
+					'Authorization': 'SSWS ' + this.config.part1ApiKey
+				}
 			}
+			const csvString = await this.asyncHttp(this.config.part1ApiUrl, options)
+	
+			await writeFile(this.tempCsv1, csvString).catch(error => {
+				console.log('error writing file', error)
+			})
 		}
-		let csvString = await this.asyncHttp(this.config.part1ApiUrl, options)
 
-		await writeFile(this.tempCsv1, csvString).catch(error => {
-			console.log('error writing file', error)
-		})
-
-		return csvString
 	}
 
 	static async fetchApiDataPart2() {
+		let apiDataJsonString
 
-		let apiDataJsonString = await this.asyncHttp(this.part2ApiUrl, {})
-
-		await writeFile(this.tempCsv2, apiDataJsonString).catch(error => {
-			console.log('error writing file', error)
-		})
+		if(process.env.USE_CACHED_DATA){
+			console.log('using cached data '+this.tempCsv2)
+			apiDataJsonString = await readFile(this.tempCsv2)
+		}else{
+			apiDataJsonString = await this.asyncHttp(this.part2ApiUrl, {})
+	
+			await writeFile(this.tempCsv2, apiDataJsonString).catch(error => {
+				console.log('error writing file', error)
+			})
+		}
 
 		let apiData
 		try {
@@ -147,7 +159,6 @@ export default class ApiCsvToJson {
 	}
 	static processCapabilitiesCommaSeparate(app){
 
-		/////////////
 		// 1. process access property
 		let appaccess = app.access+'';
 		let access = appaccess.split(",").map(element => {
@@ -162,7 +173,6 @@ export default class ApiCsvToJson {
 			accessHash[access[i]] = true
 		}
 
-		/////////////
 		// 2. process provisioning property
 		let appprovisioning = app.provisioning+'';
 		let provisioning = appprovisioning.split(",").map(element => {
@@ -176,7 +186,6 @@ export default class ApiCsvToJson {
 			provisioningHash[provisioning[i]] = true
 		}
 
-		/////////////
 		// 3. process product property
 		let appproduct = app.product+'';
 		let product = appproduct.split(",").map(element => {
@@ -190,7 +199,6 @@ export default class ApiCsvToJson {
 			productHash[product[i]] = true
 		}
 
-		/////////////
 		// 4. combine results
 		let allCapabilities = {}
 		this.accessColumns.forEach(attr => {
@@ -206,17 +214,43 @@ export default class ApiCsvToJson {
 
 		return allCapabilities
 	}
-	static async parsePart1Csv() {
+	static parsePart1Csv() {
 
 		return new Promise((resolve, reject) => {
-
 			let csvRows = {}
 			createReadStream(this.tempCsv1)
 				.pipe(csv())
 				.on('data', (data) => {
-					csvRows[data.DisplayName.trim()] = data
+					let output = {}
+					//loop expected columns
+					for(let exCol in data1ExpectedColumns){
+						let columnFound = false
+						let expectCol = data1ExpectedColumns[exCol]
+						//loop data, ensuring expected columns exist
+						for(let col in data){
+
+							//if correct column exists, grab that data - only grabbing expected data
+							if(expectCol.name === col){
+								columnFound = true
+								data1ExpectedColumns[exCol].columnFound = true
+								if(expectCol.yesvalue === true){
+									if(data[col]==='YES'){
+										output[col] = 1
+									}else{
+										output[col] = 0
+									}
+								}else{
+									output[col] = data[col]
+								}
+							}
+						}
+						if(columnFound===false){
+							throw 'missing expected column '+expectCol.name
+						}
+					}
+					csvRows[data.DisplayName.trim()] = output
 				})
-				.on('end', async () => {
+				.on('end', () => {
 					resolve(csvRows)
 				})
 		})

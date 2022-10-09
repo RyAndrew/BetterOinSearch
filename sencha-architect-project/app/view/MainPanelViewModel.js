@@ -48,11 +48,11 @@ Ext.define('BetterOinSearch.view.MainPanelViewModel', {
 			data: [
 				[
 					'SSO - SAML',
-					'SAML_2_0'
+					'accessSAML'
 				],
 				[
 					'SSO - OIDC',
-					'OIDC'
+					'accessOIDC'
 				],
 				//['Single Sign-On','productSingleSignOn'], - every app is on this list? why?
 				//['SSO - WS-Federation','WSFED'],
