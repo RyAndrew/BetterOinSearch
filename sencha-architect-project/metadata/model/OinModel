@@ -550,22 +550,6 @@
             },
             "codeClass": null,
             "userConfig": {
-                "name": "SupportLevel"
-            },
-            "configAlternates": {
-                "name": "string"
-            },
-            "name": "MyField123",
-            "designerId": "0842edc4-7d80-45bb-8e90-ba2b1b4f3fec"
-        },
-        {
-            "type": "Ext.data.field.Field",
-            "reference": {
-                "name": "fields",
-                "type": "array"
-            },
-            "codeClass": null,
-            "userConfig": {
                 "name": "accessSAML"
             },
             "configAlternates": {

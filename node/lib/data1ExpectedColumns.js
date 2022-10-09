@@ -98,7 +98,7 @@ export default [
 },
 {
     'name':'Creatable',
-    'yesvalue':false
+    'yesvalue':true
 },
 {
     'name':'WSFED',
@@ -110,7 +110,7 @@ export default [
 },
 {
     'name':'GroupPush',
-    'yesvalue':false
+    'yesvalue':true
 },
 {
     'name':'GroupSync',
@@ -130,10 +130,6 @@ export default [
 },
 {
     'name':'IntegrationApp',
-    'yesvalue':false
-},
-{
-    'name':'SupportLevel',
     'yesvalue':false
 }
 ]

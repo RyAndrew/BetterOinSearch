@@ -122,9 +122,6 @@ Ext.define('BetterOinSearch.model.OinModel', {
 			name: 'IntegrationApp'
 		},
 		{
-			name: 'SupportLevel'
-		},
-		{
 			name: 'accessSAML'
 		},
 		{

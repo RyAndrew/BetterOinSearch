@@ -4054,6 +4054,7 @@
                                                     "userConfig": {
                                                         "dataIndex": "WSFED",
                                                         "exportRenderer": true,
+                                                        "hidden": true,
                                                         "text": "WS Fed",
                                                         "userCls": [
                                                             "rotate-grid-headers"
@@ -4065,7 +4066,8 @@
                                                         "width": "auto",
                                                         "userCls": "typedarray",
                                                         "dataIndex": "datafield",
-                                                        "exportRenderer": "boolean"
+                                                        "exportRenderer": "boolean",
+                                                        "hidden": "boolean"
                                                     },
                                                     "name": "MyColumn35",
                                                     "designerId": "70212483-38dd-4b1a-9e60-9661e13c6113",

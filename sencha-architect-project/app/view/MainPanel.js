@@ -1060,6 +1060,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 														}
 														return '';
 													},
+													hidden: true,
 													userCls: 'rotate-grid-headers',
 													width: 50,
 													dataIndex: 'WSFED',

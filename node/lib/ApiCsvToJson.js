@@ -248,7 +248,11 @@ export default class ApiCsvToJson {
 							throw 'missing expected column '+expectCol.name
 						}
 					}
-					csvRows[data.DisplayName.trim()] = output
+
+					//final filtering
+					if(data.AppCatalogDiscoverable==='YES' && data.SupportLevel==='PROD'){
+						csvRows[data.DisplayName.trim()] = output	
+					}
 				})
 				.on('end', () => {
 					resolve(csvRows)
