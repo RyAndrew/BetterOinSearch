@@ -610,7 +610,6 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 												{
 													xtype: 'gridcolumn',
 													renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-														console.log(record.data);
 														return '<a href="https://www.okta.com'+value+'/#capabilities" target="_blank">OIN</a>';
 													},
 													exportRenderer: function(value, metaData, record, rowIndex, colIndex, store, view) {

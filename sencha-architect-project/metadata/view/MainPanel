@@ -2467,7 +2467,6 @@
                                                                 ],
                                                                 "fn": "renderer",
                                                                 "implHandler": [
-                                                                    "console.log(record.data);",
                                                                     "return '<a href=\"https://www.okta.com'+value+'/#capabilities\" target=\"_blank\">OIN</a>';"
                                                                 ]
                                                             },
