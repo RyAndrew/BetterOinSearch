@@ -95,6 +95,9 @@ Ext.define('BetterOinSearch.model.OinModel', {
 			name: 'Ranking'
 		},
 		{
+			name: 'Version'
+		},
+		{
 			name: 'Creatable'
 		},
 		{

@@ -95,6 +95,9 @@ export default [
 {
     'name':'Ranking',
     'yesvalue':false
+},{
+    'name':'Version',
+    'yesvalue':false
 },
 {
     'name':'Creatable',

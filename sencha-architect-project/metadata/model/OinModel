@@ -406,6 +406,22 @@
             },
             "codeClass": null,
             "userConfig": {
+                "name": "Version"
+            },
+            "configAlternates": {
+                "name": "string"
+            },
+            "name": "MyField31",
+            "designerId": "31ee3c03-27e3-42d2-b9a5-c617de4010a4"
+        },
+        {
+            "type": "Ext.data.field.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
                 "name": "Creatable"
             },
             "configAlternates": {
