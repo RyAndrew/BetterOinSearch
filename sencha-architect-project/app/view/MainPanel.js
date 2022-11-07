@@ -1709,17 +1709,17 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		var fields = store.getModel().getFields();
 		Ext.each(fields,function(field){
 
-		    switch(field.name ){
-		        case 'Ranking':
-		            field.sortType = this.customZeroSort;
-		    }
+			switch(field.name ){
+				case 'Ranking':
+					field.sortType = this.customZeroSort;
+			}
 		}, this);
 
 		store.on('beforesort', function(store, sorters, eOpts){
 
-		    if(sorters && sorters[0] && sorters[0]._direction){
-		        appSortDir = sorters[0]._direction;
-		    }
+			if(sorters && sorters[0] && sorters[0]._direction){
+				appSortDir = sorters[0]._direction;
+			}
 		}, this);
 
 		store.on('load',this.oinAppsLoaded,this);
