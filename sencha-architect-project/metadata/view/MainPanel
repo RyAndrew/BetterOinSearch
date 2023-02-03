@@ -181,6 +181,11 @@
                                             "\t};",
                                             "}",
                                             "",
+                                            "gtag(\"event\", \"select_content\", {",
+                                            "  content_type: \"filter-category\",",
+                                            "  item_id: cat",
+                                            "});",
+                                            "",
                                             "this.updateFilters();"
                                         ],
                                         "name": "selectionchange",
@@ -293,6 +298,11 @@
                                             "\t\texactMatch:true",
                                             "\t});",
                                             "}, this);",
+                                            "",
+                                            "gtag(\"event\", \"select_content\", {",
+                                            "  content_type: \"filter-capability\",",
+                                            "  item_id: sel.data.filter",
+                                            "});",
                                             "",
                                             "this.updateFilters();"
                                         ],
@@ -864,8 +874,7 @@
                                                                             "\treturn;",
                                                                             "}",
                                                                             "",
-                                                                            "this.addAppToMyApps(sel[0]);",
-                                                                            ""
+                                                                            "this.addAppToMyApps(sel[0]);"
                                                                         ],
                                                                         "name": "click",
                                                                         "scope": "me"
@@ -3391,7 +3400,35 @@
                                             },
                                             "name": "workflowspanel",
                                             "designerId": "656efaf7-de87-442b-ad84-a01bb5a14e75",
-                                            "masterInstanceId": "54f01c45-1ce9-4dbd-ac19-bc778e17fca0"
+                                            "masterInstanceId": "54f01c45-1ce9-4dbd-ac19-bc778e17fca0",
+                                            "cn": [
+                                                {
+                                                    "type": "basiceventbinding",
+                                                    "reference": {
+                                                        "name": "listeners",
+                                                        "type": "array"
+                                                    },
+                                                    "codeClass": null,
+                                                    "userConfig": {
+                                                        "fn": "onPanelShow",
+                                                        "implHandler": [
+                                                            "gtag(\"event\", \"select_content\", {",
+                                                            "  content_type: \"workflows panel\"",
+                                                            "});"
+                                                        ],
+                                                        "name": "show",
+                                                        "scope": "me"
+                                                    },
+                                                    "configAlternates": {
+                                                        "fn": "string",
+                                                        "implHandler": "code",
+                                                        "name": "string",
+                                                        "scope": "string"
+                                                    },
+                                                    "name": "onPanelShow",
+                                                    "designerId": "846a4c92-9706-4c1e-a093-122996beb4db"
+                                                }
+                                            ]
                                         }
                                     ]
                                 }
@@ -5764,7 +5801,11 @@
                     "",
                     "store.add(rec);",
                     "",
-                    "store.sync();"
+                    "store.sync();",
+                    "",
+                    "gtag(\"event\", \"add_app_to_myapps\", {",
+                    "  content_type: record.get('DisplayName')",
+                    "});"
                 ]
             },
             "configAlternates": {
@@ -5835,6 +5876,10 @@
                     "\t\t}",
                     "\t};",
                     "}",
+                    "",
+                    "gtag(\"event\", \"search\", {",
+                    "  search_term: searchByNameList.join(',')",
+                    "});",
                     "",
                     "if(this.searchByNameFilter === null){",
                     "\tthis.queryById('clearButton').hide();",
@@ -5948,6 +5993,9 @@
                     "var searchQuery = Ext.Object.fromQueryString(window.location.search);",
                     "",
                     "if(searchQuery.list){",
+                    "\tgtag(\"event\", \"load_applist\", {",
+                    "\t  content_type: searchQuery.list",
+                    "\t});",
                     "\tAERP.Ajax.request({",
                     "\t\turl:'api/read',",
                     "\t\tmask:this,",

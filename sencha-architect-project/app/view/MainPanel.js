@@ -894,7 +894,10 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 										},
 										{
 											xtype: 'workflowspanel',
-											itemId: 'workflowDetails'
+											itemId: 'workflowDetails',
+											listeners: {
+												show: 'onPanelShow'
+											}
 										}
 									]
 								}
@@ -1458,6 +1461,11 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 			};
 		}
 
+		gtag("event", "select_content", {
+		  content_type: "filter-category",
+		  item_id: cat
+		});
+
 		this.updateFilters();
 	},
 
@@ -1481,6 +1489,11 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 				exactMatch:true
 			});
 		}, this);
+
+		gtag("event", "select_content", {
+		  content_type: "filter-capability",
+		  item_id: sel.data.filter
+		});
 
 		this.updateFilters();
 	},
@@ -1550,7 +1563,6 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		}
 
 		this.addAppToMyApps(sel[0]);
-
 	},
 
 	onButtonClick5: function(button, e, eOpts) {
@@ -1581,6 +1593,12 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		}
 
 		this.showWorkflowDetails(selected[0].data.Name,'workflowDetails');
+	},
+
+	onPanelShow: function(component, eOpts) {
+		gtag("event", "select_content", {
+		  content_type: "workflows panel"
+		});
 	},
 
 	onButtonClick2: function(button, e, eOpts) {
@@ -1748,6 +1766,10 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		store.add(rec);
 
 		store.sync();
+
+		gtag("event", "add_app_to_myapps", {
+		  content_type: record.get('DisplayName')
+		});
 	},
 
 	searchAppsByName: function() {
@@ -1801,6 +1823,10 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 				}
 			};
 		}
+
+		gtag("event", "search", {
+		  search_term: searchByNameList.join(',')
+		});
 
 		if(this.searchByNameFilter === null){
 			this.queryById('clearButton').hide();
@@ -1857,6 +1883,9 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 		var searchQuery = Ext.Object.fromQueryString(window.location.search);
 
 		if(searchQuery.list){
+			gtag("event", "load_applist", {
+			  content_type: searchQuery.list
+			});
 			AERP.Ajax.request({
 				url:'api/read',
 				mask:this,
