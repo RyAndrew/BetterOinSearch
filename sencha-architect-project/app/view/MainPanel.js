@@ -223,6 +223,7 @@ Ext.define('BetterOinSearch.view.MainPanel', {
 										},
 										{
 											xtype: 'button',
+											hidden: true,
 											itemId: 'updateButton',
 											margin: '0 10 0 10',
 											text: 'Refresh',
